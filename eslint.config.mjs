@@ -1,5 +1,6 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from 'eslint-plugin-storybook';
+import prettier from 'eslint-plugin-prettier';
 
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -24,6 +25,17 @@ const eslintConfig = [
     ],
   },
   ...storybook.configs['flat/recommended'],
+  // Prettierとの連携設定
+  {
+    plugins: {
+      prettier: prettier,
+    },
+    rules: {
+      'prettier/prettier': 'error', // Prettierのルールをエラーとして扱う
+      'arrow-body-style': 'off', // Prettierと競合する可能性のあるルールを無効化
+      'prefer-arrow-callback': 'off',
+    },
+  },
 ];
 
 export default eslintConfig;
