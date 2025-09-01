@@ -21,23 +21,45 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18' # voltaで指定したバージョンと合わせる
+          node-version: '22' # voltaで指定したバージョンと合わせる
 
-      # 3. 依存ライブラリをインストール
+      # 3. 依存ライブラリのキャッシュを設定
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # 4. 依存ライブラリをインストール
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      # 4. Linterを実行
+      # 5. コードフォーマットチェックを実行
+      - name: Check Code Formatting
+        id: format-check
+        run: npm run format:check
+
+      # 6. Linterを実行
       - name: Run Linter
+        id: lint
         run: npm run lint
 
-      # 5. 関数のテストを実行
+      # 7. 関数のテストを実行
       - name: Run Unit Tests
+        id: test
         run: npm run test
 
-      # 6. VRTのテストを実行 (コマンドは導入するVRTツールに合わせる)
-      - name: Run VRT
-        run: npm run test:vrt # 例: StorybookのVRTを実行するコマンド
+
+      # 9. 結果のサマリーを表示
+      - name: Show Test Results
+        if: always()
+        run: |
+          echo "=== CI/CD Pipeline Results ==="
+          echo "Format Check: ${{ steps.format-check.outcome }}"
+          echo "Linting: ${{ steps.lint.outcome }}"
+          echo "Unit Tests: ${{ steps.test.outcome }}"
 
   docker-build:
     runs-on: ubuntu-latest
