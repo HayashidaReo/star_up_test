@@ -38,3 +38,23 @@ jobs:
       # 6. VRTのテストを実行 (コマンドは導入するVRTツールに合わせる)
       - name: Run VRT
         run: npm run test:vrt # 例: StorybookのVRTを実行するコマンド
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Dockerのビルド環境をセットアップするための公式Action
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Dockerイメージをビルドする公式Action
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          # push: false にすることで、ビルドのみ実行し、どこにもプッシュしない
+          push: false 
+          tags: local/star_up_test:latest     
