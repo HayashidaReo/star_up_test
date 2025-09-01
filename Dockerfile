@@ -1,18 +1,19 @@
-# ベースとなるNode.jsイメージを選択
-FROM node:18-alpine
-
-# 作業ディレクトリを設定
+# 開発(dev)ステージ
+FROM node:22-alpine AS development
 WORKDIR /app
-
-# 依存関係をインストール
 COPY package*.json ./
 RUN npm install
-
-# アプリケーションのコードをコピー
 COPY . .
+# 開発サーバーを起動
+CMD ["npm", "run", "dev"]
 
-# Next.jsアプリをビルド
+# 本番(prod)ステージ
+FROM node:22-alpine AS production
+WORKDIR /app
+COPY package*.json ./
+# devDependenciesを除いてインストール
+RUN npm install --omit=dev
+COPY . .
 RUN npm run build
-
-# アプリケーションを実行
+# 本番サーバーを起動
 CMD ["npm", "start"]

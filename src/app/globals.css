@@ -1,26 +1,41 @@
-@import 'tailwindcss';
+/* 1. Tailwindの基本ディレクティブをインポート */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+/* 2. テーマ変数や基本スタイルを定義 */
+@layer base {
+  /* ライトモード（デフォルト）の変数 */
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 255 100% 100%; /* HSL形式: #ffffff */
+    --foreground: 0 0% 9%;      /* HSL形式: #171717 */
+
+    /* Shadcn/uiで使われる他の色変数の例 */
+    --primary: 222 47% 11%;
+    --primary-foreground: 210 40% 98%;
+  }
+
+  /* ダークモードの変数 */
+  .dark {
+    --background: 0 0% 4%;      /* HSL形式: #0a0a0a */
+    --foreground: 0 0% 93%;     /* HSL形式: #ededed */
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222 47% 11%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 3. bodyへの基本スタイル適用 */
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /*
+    フォントファミリーは`tailwind.config.ts`で設定するのが一般的です。
+    もしここで設定したい場合は、以下のようにします。
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    }
+  */
 }

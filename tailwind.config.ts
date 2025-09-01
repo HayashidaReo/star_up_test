@@ -9,24 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // カスタムカラーパレットをここで定義
-        primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-        },
-        // 旅行費用計算アプリに適した色
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        
+        // 以前設定した他のカスタムカラー
+        primary: 'hsl(var(--primary))',
+        'primary-foreground': 'hsl(var(--primary-foreground))',
         expense: {
-          positive: '#10b981', // 緑色（収入）
-          negative: '#ef4444', // 赤色（支出）
-          neutral: '#6b7280', // グレー（中立）
+          positive: 'hsl(var(--expense-positive))',
+          negative: 'hsl(var(--expense-negative))',
+          neutral: 'hsl(var(--expense-neutral))',
         },
       },
       fontFamily: {
@@ -51,11 +43,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'), // フォーム要素のスタイリング
-    require('@tailwindcss/typography'), // リッチテキストのスタイリング
-    require('@tailwindcss/aspect-ratio'), // アスペクト比の管理
-  ],
 };
 
 export default config;
