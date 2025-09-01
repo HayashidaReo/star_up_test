@@ -4,29 +4,22 @@
         "Shadcn"
     ],
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "vscode.typescript-language-features",
     "[typescript]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
     "[typescriptreact]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
-    "[javascript]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
-    "[javascriptreact]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
     "[json]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
     "[css]": {
-        "editor.defaultFormatter": "vscode.css-language-features"
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
     "[html]": {
-        "editor.defaultFormatter": "vscode.html-language-features"
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit"
-    }
+    },
 }
