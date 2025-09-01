@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22' # voltaで指定したバージョンと合わせる
+          node-version: '22'
 
       # 3. 依存ライブラリのキャッシュを設定
       - name: Cache dependencies
