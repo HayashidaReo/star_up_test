@@ -5,14 +5,5 @@
   "printWidth": 80,
   "tabWidth": 2,
   "useTabs": false,
-  "plugins": ["prettier-plugin-tailwindcss"],
-  "proseWrap": "never",
-  "overrides": [
-    {
-      "files": "*.md",
-      "options": {
-        "proseWrap": "never"
-      }
-    }
-  ]
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
