@@ -8,7 +8,7 @@
   /* ライトモード（デフォルト）の変数 */
   :root {
     --background: 255 100% 100%; /* HSL形式: #ffffff */
-    --foreground: 0 0% 9%;      /* HSL形式: #171717 */
+    --foreground: 0 0% 9%; /* HSL形式: #171717 */
 
     /* Shadcn/uiで使われる他の色変数の例 */
     --primary: 222 47% 11%;
@@ -17,8 +17,8 @@
 
   /* ダークモードの変数 */
   .dark {
-    --background: 0 0% 4%;      /* HSL形式: #0a0a0a */
-    --foreground: 0 0% 93%;     /* HSL形式: #ededed */
+    --background: 0 0% 4%; /* HSL形式: #0a0a0a */
+    --foreground: 0 0% 93%; /* HSL形式: #ededed */
 
     --primary: 210 40% 98%;
     --primary-foreground: 222 47% 11%;

@@ -2,5 +2,8 @@
     "cSpell.words": [
         "Buildx",
         "Shadcn"
-    ]
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    }
 }

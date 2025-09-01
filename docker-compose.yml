@@ -6,7 +6,7 @@ services:
       # Dockerfileの'development'ステージまでを実行
       target: development
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       # ホットリロードのためにソースコードを同期
       - .:/app
@@ -20,5 +20,5 @@ services:
       # Dockerfileの'production'ステージまでを実行
       target: production
     ports:
-      - "3000:3000"
+      - '3000:3000'
     # 本番ではホットリロードは不要なのでvolumesは設定しない
