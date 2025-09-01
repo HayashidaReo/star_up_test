@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "docker": "docker build -t star_up_test . && docker run -p 3000:3000 star_up_test",
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
     "lint": "eslint",
+    "docker": "docker build -t star_up_test . && docker run -p 3000:3000 star_up_test",
     "test": "vitest"
-
   },
   "dependencies": {
     "react": "19.1.0",
