@@ -1,0 +1,81 @@
+# .github/workflows/pr-checks.yml
+
+name: Pull Request Checks to Develop
+
+# ワークフローが実行されるタイミングを指定
+on:
+  pull_request:
+    branches: [develop] # developブランチへのプルリクエスト時に実行
+
+# 実行する処理内容
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest # 実行環境
+
+    steps:
+      # 1. リポジトリのコードをチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Node.jsの環境をセットアップ
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.19.0'
+
+      # 3. 依存ライブラリのキャッシュを設定
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # 4. 依存ライブラリをインストール
+      - name: Install dependencies
+        run: npm ci
+
+      # 5. コードフォーマットチェックを実行
+      - name: Check Code Formatting
+        id: format-check
+        run: npm run format:check
+
+      # 6. Linterを実行
+      - name: Run Linter
+        id: lint
+        run: npm run lint
+
+      # 7. 関数のテストを実行
+      - name: Run Unit Tests
+        id: test
+        run: npm run test
+
+      # 9. 結果のサマリーを表示
+      - name: Show Test Results
+        if: always()
+        run: |
+          echo "=== CI/CD Pipeline Results ==="
+          echo "Format Check: ${{ steps.format-check.outcome }}"
+          echo "Linting: ${{ steps.lint.outcome }}"
+          echo "Unit Tests: ${{ steps.test.outcome }}"
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Dockerのビルド環境をセットアップするための公式Action
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Dockerイメージをビルドする公式Action
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          # push: false にすることで、ビルドのみ実行し、どこにもプッシュしない
+          push: false
+          tags: local/star_up_test:latest
