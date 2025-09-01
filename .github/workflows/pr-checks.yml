@@ -1,0 +1,40 @@
+# .github/workflows/pr-checks.yml
+
+name: Pull Request Checks to Develop
+
+# ワークフローが実行されるタイミングを指定
+on:
+  pull_request:
+    branches: [ develop ] # developブランチへのプルリクエスト時に実行
+
+# 実行する処理内容
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest # 実行環境
+
+    steps:
+      # 1. リポジトリのコードをチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Node.jsの環境をセットアップ
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # voltaで指定したバージョンと合わせる
+
+      # 3. 依存ライブラリをインストール
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Linterを実行
+      - name: Run Linter
+        run: npm run lint
+
+      # 5. 関数のテストを実行
+      - name: Run Unit Tests
+        run: npm run test
+
+      # 6. VRTのテストを実行 (コマンドは導入するVRTツールに合わせる)
+      - name: Run VRT
+        run: npm run test:vrt # 例: StorybookのVRTを実行するコマンド
