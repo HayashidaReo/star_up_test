@@ -5,7 +5,7 @@ name: Pull Request Checks to Develop
 # ワークフローが実行されるタイミングを指定
 on:
   pull_request:
-    branches: [ develop ] # developブランチへのプルリクエスト時に実行
+    branches: [develop] # developブランチへのプルリクエスト時に実行
 
 # 実行する処理内容
 jobs:
@@ -56,5 +56,5 @@ jobs:
           context: .
           file: ./Dockerfile
           # push: false にすることで、ビルドのみ実行し、どこにもプッシュしない
-          push: false 
-          tags: local/star_up_test:latest     
+          push: false
+          tags: local/star_up_test:latest

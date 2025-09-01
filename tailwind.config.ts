@@ -26,7 +26,7 @@ const config: Config = {
         expense: {
           positive: '#10b981', // 緑色（収入）
           negative: '#ef4444', // 赤色（支出）
-          neutral: '#6b7280',  // グレー（中立）
+          neutral: '#6b7280', // グレー（中立）
         },
       },
       fontFamily: {
@@ -52,10 +52,10 @@ const config: Config = {
     },
   },
   plugins: [
-    require('@tailwindcss/forms'),      // フォーム要素のスタイリング
+    require('@tailwindcss/forms'), // フォーム要素のスタイリング
     require('@tailwindcss/typography'), // リッチテキストのスタイリング
     require('@tailwindcss/aspect-ratio'), // アスペクト比の管理
   ],
 };
 
-export default config; 
+export default config;
