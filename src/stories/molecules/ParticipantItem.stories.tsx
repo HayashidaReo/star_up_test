@@ -3,7 +3,7 @@ import { ParticipantItem } from '../../components/ParticipantItem';
 import { Participant } from '@/types';
 
 const meta: Meta<typeof ParticipantItem> = {
-  title: 'Components/ParticipantItem',
+  title: 'Molecules/ParticipantItem',
   component: ParticipantItem,
   parameters: {
     layout: 'centered',

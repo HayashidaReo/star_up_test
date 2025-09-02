@@ -3,7 +3,7 @@ import { ParticipantsSection } from '../../components/ParticipantsSection';
 import { useAppStore } from '@/store/useAppStore';
 
 const meta: Meta<typeof ParticipantsSection> = {
-  title: 'Components/ParticipantsSection',
+  title: 'Organisms/ParticipantsSection',
   component: ParticipantsSection,
   parameters: {
     layout: 'padded',

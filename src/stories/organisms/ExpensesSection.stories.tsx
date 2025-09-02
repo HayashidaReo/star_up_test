@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Home from '../../app/page';
+import { ExpensesSection } from '../../components/ExpensesSection';
 import { useAppStore } from '@/store/useAppStore';
 import { CURRENCIES } from '@/lib/constants';
 import { useEffect } from 'react';
 
-const meta: Meta<typeof Home> = {
-  title: 'App/Home',
-  component: Home,
+const meta: Meta<typeof ExpensesSection> = {
+  title: 'Organisms/ExpensesSection',
+  component: ExpensesSection,
   parameters: {
-    layout: 'fullscreen',
+    layout: 'padded',
   },
   tags: ['autodocs'],
 };
@@ -23,36 +23,25 @@ const withStore = (participantNames: string[] = [], expenseData: any[] = []) => 
       // ストアをリセット
       useAppStore.getState().resetAll();
       
-      // 参加者を追加（addParticipantを使って正しくIDを生成）
+      // 参加者を追加
       const addedParticipants: { [key: string]: string } = {};
       participantNames.forEach((name, index) => {
         useAppStore.getState().addParticipant(name);
-        // 参加者のIDをマッピング（順番で予測可能）
         const participants = useAppStore.getState().participants;
         if (participants[index]) {
           addedParticipants[`${index + 1}`] = participants[index].id;
         }
       });
       
-      console.log('Added participants:', useAppStore.getState().participants);
-      
-      // 費用を追加（正しいIDを使用）
+      // 費用を追加
       expenseData.forEach(expense => {
         const correctPayerId = addedParticipants[expense.payerId] || expense.payerId;
-        console.log(`Adding expense with payerId: ${correctPayerId}`, expense);
         useAppStore.getState().addExpense({
           description: expense.description,
           amount: expense.amount,
           payerId: correctPayerId,
           currency: expense.currency,
         });
-      });
-      
-      const finalState = useAppStore.getState();
-      console.log('Final state:', {
-        participants: finalState.participants,
-        expenses: finalState.expenses,
-        settlements: finalState.settlements
       });
     }, []);
 
@@ -66,7 +55,7 @@ export const Empty: Story = {
   decorators: [withStore()],
 };
 
-export const WithParticipants: Story = {
+export const WithParticipantsNoExpenses: Story = {
   decorators: [withStore(['Alice', 'Bob', 'Charlie'])],
 };
 
@@ -77,66 +66,64 @@ export const WithExpenses: Story = {
       {
         description: '夕食代',
         amount: 6000,
-        payerId: '1', // Alice
+        payerId: '1',
         currency: CURRENCIES.JPY,
       },
       {
         description: 'ガソリン代',
         amount: 3000,
-        payerId: '2', // Bob
-        currency: CURRENCIES.JPY,
-      },
-    ]
-  )],
-};
-
-export const CompleteExample: Story = {
-  decorators: [withStore(
-    ['Alice', 'Bob', 'Charlie', 'David'],
-    [
-      {
-        description: '夕食代',
-        amount: 8000,
-        payerId: '1', // Alice
-        currency: CURRENCIES.JPY,
-      },
-      {
-        description: 'ガソリン代',
-        amount: 4000,
-        payerId: '2', // Bob
+        payerId: '2',
         currency: CURRENCIES.JPY,
       },
       {
         description: 'ホテル代',
-        amount: 12000,
-        payerId: '3', // Charlie
-        currency: CURRENCIES.JPY,
-      },
-      {
-        description: 'お土産',
-        amount: 2000,
-        payerId: '4', // David
+        amount: 8000,
+        payerId: '3',
         currency: CURRENCIES.JPY,
       },
     ]
   )],
 };
 
-export const MixedCurrencies: Story = {
+export const ManyExpenses: Story = {
   decorators: [withStore(
-    ['Alice', 'Bob'],
+    ['Alice', 'Bob', 'Charlie', 'David'],
     [
       {
-        description: 'Dinner',
-        amount: 50,
-        payerId: '1', // Alice
-        currency: CURRENCIES.USD,
+        description: '朝食代',
+        amount: 2000,
+        payerId: '1',
+        currency: CURRENCIES.JPY,
       },
       {
-        description: 'Transport',
-        amount: 30,
-        payerId: '2', // Bob
-        currency: CURRENCIES.EUR,
+        description: 'ランチ代',
+        amount: 4500,
+        payerId: '2',
+        currency: CURRENCIES.JPY,
+      },
+      {
+        description: '夕食代',
+        amount: 8000,
+        payerId: '3',
+        currency: CURRENCIES.JPY,
+      },
+      {
+        description: 'ガソリン代',
+        amount: 5000,
+        payerId: '4',
+        currency: CURRENCIES.JPY,
+      },
+      {
+        description: 'お土産代',
+        amount: 3000,
+        payerId: '1',
+        currency: CURRENCIES.JPY,
+      },
+      {
+        description: '入場料',
+        amount: 2500,
+        payerId: '2',
+        currency: CURRENCIES.JPY,
       },
     ]
   )],

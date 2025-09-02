@@ -3,7 +3,7 @@ import { SettlementItem } from '../../components/SettlementItem';
 import { Settlement } from '@/types';
 
 const meta: Meta<typeof SettlementItem> = {
-  title: 'Components/SettlementItem',
+  title: 'Molecules/SettlementItem',
   component: SettlementItem,
   parameters: {
     layout: 'centered',

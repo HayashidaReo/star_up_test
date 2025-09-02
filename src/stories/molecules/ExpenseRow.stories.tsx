@@ -4,7 +4,7 @@ import { Participant, Expense } from '@/types';
 import { CURRENCIES } from '@/lib/constants';
 
 const meta: Meta<typeof ExpenseRow> = {
-  title: 'Components/ExpenseRow',
+  title: 'Molecules/ExpenseRow',
   component: ExpenseRow,
   parameters: {
     layout: 'centered',

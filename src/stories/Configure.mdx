@@ -1,50 +1,40 @@
 import { Meta } from '@storybook/addon-docs/blocks';
-import Image from 'next/image';
-
-import Github from './assets/github.svg';
-import Discord from './assets/discord.svg';
-import Youtube from './assets/youtube.svg';
-import Tutorials from './assets/tutorials.svg';
-import Styling from './assets/styling.png';
-import Context from './assets/context.png';
-import Assets from './assets/assets.png';
-import Docs from './assets/docs.png';
-import Share from './assets/share.png';
-import FigmaPlugin from './assets/figma-plugin.png';
-import Testing from './assets/testing.png';
-import Accessibility from './assets/accessibility.png';
-import Theming from './assets/theming.png';
-import AddonLibrary from './assets/addon-library.png';
-
-export const RightArrow = () => (
-  <svg
-    viewBox="0 0 14 14"
-    width="8px"
-    height="14px"
-    style={{
-      marginLeft: '4px',
-      display: 'inline-block',
-      shapeRendering: 'inherit',
-      verticalAlign: 'middle',
-      fill: 'currentColor',
-      'path fill': 'currentColor',
-    }}
-  >
-    <path d="m11.1 7.35-5.5 5.5a.5.5 0 0 1-.7-.7L10.04 7 4.9 1.85a.5.5 0 1 1 .7-.7l5.5 5.5c.2.2.2.5 0 .7Z" />
-  </svg>
-);
-
-import { Meta } from '@storybook/addon-docs/blocks';
 
 <Meta title="Introduction" />
 
 # Star Up Test - Storybook
 
-このStorybookでは、Star Up Testアプリケーションのコンポーネントをドキュメント化・テストしています。
+このStorybookでは、Star Up Testアプリケーションのコンポーネントを**Atomic Design**の原則に従って構成しています。
 
-## アーキテクチャ
+## Atomic Design について
 
-このプロジェクトは以下の技術スタックで構築されています：
+Atomic Designは、ユーザーインターフェースを5つの階層で構成する設計手法です：
+
+### ⚛️ Atoms (原子)
+最も基本的なUI要素。単体で機能する最小単位のコンポーネント
+- Button, Input, Badge, Avatar など
+- 他のコンポーネントに依存しない
+- 再利用性が非常に高い
+
+### 🧬 Molecules (分子)
+複数のAtomsを組み合わせた、特定の機能を持つコンポーネント
+- CurrencySelect, ParticipantItem, ExpenseRow など
+- 単一の責務を持つ
+- 特定のコンテキストで意味を持つ
+
+### 🦠 Organisms (有機体)
+MoleculesやAtomsを組み合わせた、複雑な機能を持つコンポーネント
+- ParticipantsSection, ExpensesSection, SettlementSection など
+- 複数の責務を持つことがある
+- ページの一部分を構成する
+
+### 📄 Pages (ページ)
+実際のページを表すコンポーネント
+- Home など
+- Organismsを組み合わせて完全なUIを構成
+- ルーティングやデータフェッチを含む
+
+## 技術スタック
 
 - **Next.js 14** (App Router)
 - **TypeScript** - 型安全性の確保
@@ -56,19 +46,9 @@ import { Meta } from '@storybook/addon-docs/blocks';
 ## 設計原則
 
 - **シンプルさと表現力**: 少ない記述量で直感的に扱えるコード
-- **型安全性の徹底**: 実行時エラーを未然に防ぐ型システム
+- **型安全性の徹底**: 実行時エラーを未然に防ぐ型システム  
 - **開発者体験と所有権**: UIコードをプロジェクト自身が所有し、自由にカスタマイズ
-
-## ストーリー構成
-
-### App
-アプリケーションの主要なページコンポーネント
-
-### Components
-ビジネスロジックを含む再利用可能なコンポーネント
-
-### Components/UI
-Shadcn/uiベースの基本的なUIコンポーネント
+- **コンポーネントの単一責任**: 各コンポーネントは1つの明確な責務のみを持つ
 
 ## 使い方
 
@@ -79,357 +59,3 @@ Shadcn/uiベースの基本的なUIコンポーネント
 - **インタラクションテスト**
 
 左のサイドバーからストーリーを選択して、コンポーネントの動作を確認できます。
-<div className="sb-container">
-  <div className='sb-section-title'>
-    # Do more with Storybook
-
-    Now that you know the basics, let's explore other parts of Storybook that will improve your experience. This list is just to get you started. You can customise Storybook in many ways to fit your needs.
-
-  </div>
-
-  <div className="sb-section">
-    <div className="sb-features-grid">
-      <div className="sb-grid-item">
-        <Image 
-          width={0}
-          height={0}
-          style={{ width: '100%', height: 'auto' }} 
-          src={Docs} 
-          alt="A screenshot showing the autodocs tag being set, pointing a docs page being generated" 
-        />
-        <h4 className="sb-section-item-heading">Autodocs</h4>
-        <p className="sb-section-item-paragraph">Auto-generate living,
-          interactive reference documentation from your components and stories.</p>
-        <a
-          href="https://storybook.js.org/docs/writing-docs/autodocs/?renderer=react&ref=configure"
-          target="_blank"
-        >Learn more<RightArrow /></a>
-      </div>
-      <div className="sb-grid-item">
-        <Image 
-          width={0}
-          height={0}
-          style={{ width: '100%', height: 'auto' }} 
-          src={Share} 
-          alt="A browser window showing a Storybook being published to a chromatic.com URL" 
-        />
-        <h4 className="sb-section-item-heading">Publish to Chromatic</h4>
-        <p className="sb-section-item-paragraph">Publish your Storybook to review and collaborate with your entire team.</p>
-        <a
-          href="https://storybook.js.org/docs/sharing/publish-storybook/?renderer=react&ref=configure#publish-storybook-with-chromatic"
-          target="_blank"
-        >Learn more<RightArrow /></a>
-      </div>
-      <div className="sb-grid-item">
-        <Image 
-          width={0}
-          height={0}
-          style={{ width: '100%', height: 'auto' }} 
-          src={FigmaPlugin} 
-          alt="Windows showing the Storybook plugin in Figma" 
-        />
-        <h4 className="sb-section-item-heading">Figma Plugin</h4>
-        <p className="sb-section-item-paragraph">Embed your stories into Figma to cross-reference the design and live
-          implementation in one place.</p>
-        <a
-          href="https://storybook.js.org/docs/sharing/design-integrations/?renderer=react&ref=configure#embed-storybook-in-figma-with-the-plugin"
-          target="_blank"
-        >Learn more<RightArrow /></a>
-      </div>
-      <div className="sb-grid-item">
-        <Image 
-          width={0}
-          height={0}
-          style={{ width: '100%', height: 'auto' }} 
-          src={Testing} 
-          alt="Screenshot of tests passing and failing" 
-        />
-        <h4 className="sb-section-item-heading">Testing</h4>
-        <p className="sb-section-item-paragraph">Use stories to test a component in all its variations, no matter how
-          complex.</p>
-        <a
-          href="https://storybook.js.org/docs/writing-tests/?renderer=react&ref=configure"
-          target="_blank"
-        >Learn more<RightArrow /></a>
-      </div>
-      <div className="sb-grid-item">
-        <Image 
-          width={0}
-          height={0}
-          style={{ width: '100%', height: 'auto' }} 
-          src={Accessibility} 
-          alt="Screenshot of accessibility tests passing and failing" 
-        />
-        <h4 className="sb-section-item-heading">Accessibility</h4>
-        <p className="sb-section-item-paragraph">Automatically test your components for a11y issues as you develop.</p>
-        <a
-          href="https://storybook.js.org/docs/writing-tests/accessibility-testing/?renderer=react&ref=configure"
-          target="_blank"
-        >Learn more<RightArrow /></a>
-      </div>
-      <div className="sb-grid-item">
-        <Image 
-          width={0}
-          height={0}
-          style={{ width: '100%', height: 'auto' }} 
-          src={Theming} 
-          alt="Screenshot of Storybook in light and dark mode" 
-        />
-        <h4 className="sb-section-item-heading">Theming</h4>
-        <p className="sb-section-item-paragraph">Theme Storybook's UI to personalize it to your project.</p>
-        <a
-          href="https://storybook.js.org/docs/configure/theming/?renderer=react&ref=configure"
-          target="_blank"
-        >Learn more<RightArrow /></a>
-      </div>
-    </div>
-  </div>
-</div>
-<div className='sb-addon'>
-  <div className='sb-addon-text'>
-    <h4>Addons</h4>
-    <p className="sb-section-item-paragraph">Integrate your tools with Storybook to connect workflows.</p>
-    <a
-        href="https://storybook.js.org/addons/?ref=configure"
-        target="_blank"
-      >Discover all addons<RightArrow /></a>
-  </div>
-  <div className='sb-addon-img'>
-    <Image 
-      width={650}
-      height={347}
-      src={AddonLibrary} 
-      alt="Integrate your tools with Storybook to connect workflows." 
-    />
-  </div>
-</div>
-
-<div className="sb-section sb-socials">
-    <div className="sb-section-item">
-      <Image 
-        width={32}
-        height={32}
-        layout="fixed"
-        src={Github} 
-        alt="Github logo" 
-        className="sb-explore-image"
-      />
-      Join our contributors building the future of UI development.
-
-      <a
-        href="https://github.com/storybookjs/storybook"
-        target="_blank"
-      >Star on GitHub<RightArrow /></a>
-    </div>
-    <div className="sb-section-item">
-      <Image
-        width={33}
-        height={32}
-        layout="fixed"
-        src={Discord}
-        alt="Discord logo"
-        className="sb-explore-image"
-      />
-      <div>
-        Get support and chat with frontend developers.
-
-        <a
-          href="https://discord.gg/storybook"
-          target="_blank"
-        >Join Discord server<RightArrow /></a>
-      </div>
-    </div>
-    <div className="sb-section-item">
-      <Image
-        width={32}
-        height={32}
-        layout="fixed"
-        src={Youtube}
-        alt="Youtube logo"
-        className="sb-explore-image"
-      />
-      <div>
-        Watch tutorials, feature previews and interviews.
-
-        <a
-          href="https://www.youtube.com/@chromaticui"
-          target="_blank"
-        >Watch on YouTube<RightArrow /></a>
-      </div>
-    </div>
-    <div className="sb-section-item">
-      <Image
-        width={33}
-        height={32}
-        layout="fixed"
-        src={Tutorials}
-        alt="A book"
-        className="sb-explore-image"
-      />
-      <p>Follow guided walkthroughs on for key workflows.</p>
-
-      <a
-          href="https://storybook.js.org/tutorials/?ref=configure"
-          target="_blank"
-        >Discover tutorials<RightArrow /></a>
-    </div>
-
-</div>
-
-<style>
-  {`
-  .sb-container {
-    margin-bottom: 48px;
-  }
-
-  .sb-section {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-  }
-
-  img {
-    object-fit: cover;
-  }
-
-  .sb-section-title {
-    margin-bottom: 32px;
-  }
-
-  .sb-section a:not(h1 a, h2 a, h3 a) {
-    font-size: 14px;
-  }
-
-  .sb-section-item, .sb-grid-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .sb-section-item-heading {
-    padding-top: 20px !important;
-    padding-bottom: 5px !important;
-    margin: 0 !important;
-  }
-  .sb-section-item-paragraph {
-    margin: 0;
-    padding-bottom: 10px;
-  }
-
-  .sb-chevron {
-    margin-left: 5px;
-  }
-
-  .sb-features-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 32px 20px;
-  }
-
-  .sb-socials {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .sb-socials p {
-    margin-bottom: 10px;
-  }
-
-  .sb-explore-image {
-    max-height: 32px;
-    align-self: flex-start;
-  }
-
-  .sb-addon {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    position: relative;
-    background-color: #EEF3F8;
-    border-radius: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    background: #EEF3F8;
-    height: 180px;
-    margin-bottom: 48px;
-    overflow: hidden;
-  }
-
-  .sb-addon-text {
-    padding-left: 48px;
-    max-width: 240px;
-  }
-
-  .sb-addon-text h4 {
-    padding-top: 0px;
-  }
-
-  .sb-addon-img {
-    position: absolute;
-    left: 345px;
-    top: 0;
-    height: 100%;
-    width: 200%;
-    overflow: hidden;
-  }
-
-  .sb-addon-img img {
-    width: 650px;
-    transform: rotate(-15deg);
-    margin-left: 40px;
-    margin-top: -72px;
-    box-shadow: 0 0 1px rgba(255, 255, 255, 0);
-    backface-visibility: hidden;
-  }
-
-  @media screen and (max-width: 800px) {
-    .sb-addon-img {
-      left: 300px;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    .sb-section {
-      flex-direction: column;
-    }
-
-    .sb-features-grid {
-      grid-template-columns: repeat(1, 1fr);
-    }
-
-    .sb-socials {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .sb-addon {
-      height: 280px;
-      align-items: flex-start;
-      padding-top: 32px;
-      overflow: hidden;
-    }
-
-    .sb-addon-text {
-      padding-left: 24px;
-    }
-
-    .sb-addon-img {
-      right: 0;
-      left: 0;
-      top: 130px;
-      bottom: 0;
-      overflow: hidden;
-      height: auto;
-      width: 124%;
-    }
-
-    .sb-addon-img img {
-      width: 1200px;
-      transform: rotate(-12deg);
-      margin-left: 0;
-      margin-top: 48px;
-      margin-bottom: -40px;
-      margin-left: -24px;
-    }
-  }
-  `}
-</style>

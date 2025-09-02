@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CurrencySelect } from '../../../components/ui/CurrencySelect';
+import { CurrencySelect } from '../../components/ui/CurrencySelect';
 import { CURRENCIES } from '@/lib/constants';
 import { useState } from 'react';
 
 const meta: Meta<typeof CurrencySelect> = {
-  title: 'Components/UI/CurrencySelect',
+  title: 'Molecules/CurrencySelect',
   component: CurrencySelect,
   parameters: {
     layout: 'centered',

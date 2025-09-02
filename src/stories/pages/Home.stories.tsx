@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Home from './page';
+import Home from '../../app/page';
 import { useAppStore } from '@/store/useAppStore';
 import { CURRENCIES } from '@/lib/constants';
 import { useEffect } from 'react';

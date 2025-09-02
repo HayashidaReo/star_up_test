@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { EmptyState } from '../../../components/ui/EmptyState';
+import { EmptyState } from '../../components/ui/EmptyState';
 
 const meta: Meta<typeof EmptyState> = {
-  title: 'Components/UI/EmptyState',
+  title: 'Molecules/EmptyState',
   component: EmptyState,
   parameters: {
     layout: 'centered',
