@@ -30,12 +30,16 @@ describe('validateAmount', () => {
 
   it('should throw ValidationError for zero amount', () => {
     expect(() => validateAmount(0)).toThrow(ValidationError);
-    expect(() => validateAmount(0)).toThrow('金額は0より大きい値を入力してください');
+    expect(() => validateAmount(0)).toThrow(
+      '金額は0より大きい値を入力してください',
+    );
   });
 
   it('should throw ValidationError for negative amount', () => {
     expect(() => validateAmount(-100)).toThrow(ValidationError);
-    expect(() => validateAmount(-100)).toThrow('金額は0より大きい値を入力してください');
+    expect(() => validateAmount(-100)).toThrow(
+      '金額は0より大きい値を入力してください',
+    );
   });
 
   it('should throw ValidationError for invalid number', () => {
