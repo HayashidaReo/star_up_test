@@ -22,6 +22,33 @@ interface AppStore {
   resetAll: () => void;
 }
 
+// セレクター関数（パフォーマンス最適化用）
+export const participantsSelector = (state: AppStore) => state.participants;
+export const expensesSelector = (state: AppStore) => state.expenses;
+export const settlementsSelector = (state: AppStore) => state.settlements;
+
+// 計算済みセレクター（メモ化される）
+export const participantCountSelector = (state: AppStore) =>
+  state.participants.length;
+export const expenseCountSelector = (state: AppStore) => state.expenses.length;
+export const totalAmountSelector = (state: AppStore) =>
+  state.expenses.reduce((total, expense) => total + expense.amount, 0);
+
+// 参加者が存在するかチェックするセレクター
+export const hasParticipantsSelector = (state: AppStore) =>
+  state.participants.length > 0;
+export const hasExpensesSelector = (state: AppStore) =>
+  state.expenses.length > 0;
+
+// 特定の参加者を検索するセレクター関数ファクトリー
+export const createParticipantByIdSelector =
+  (id: string) => (state: AppStore) =>
+    state.participants.find((p) => p.id === id);
+
+// 特定の費用を検索するセレクター関数ファクトリー
+export const createExpenseByIdSelector = (id: string) => (state: AppStore) =>
+  state.expenses.find((e) => e.id === id);
+
 export const useAppStore = create<AppStore>((set) => ({
   // 初期状態
   participants: [],

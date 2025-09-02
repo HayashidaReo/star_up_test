@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import { Button } from '@/components/atoms/button';
 import { Input } from '@/components/atoms/input';
 import { EmptyState } from '@/components/molecules/EmptyState';
 import { ParticipantItem } from '@/components/molecules/ParticipantItem';
-import { useAppStore } from '@/store/useAppStore';
+import { useAppStore, participantsSelector } from '@/store/useAppStore';
 import { Plus } from 'lucide-react';
 import { PLACEHOLDERS, MESSAGES } from '@/lib/constants';
 import { validateParticipant } from '@/lib/schemas';
@@ -19,7 +19,17 @@ import { validateParticipant } from '@/lib/schemas';
 export function ParticipantsSection() {
   const [newParticipantName, setNewParticipantName] = useState('');
   const [validationError, setValidationError] = useState<string | null>(null);
-  const { participants, addParticipant, removeParticipant } = useAppStore();
+  const participants = useAppStore(participantsSelector);
+
+  // アクションをuseCallbackでメモ化して安定した参照を保証
+  const addParticipant = useCallback(
+    (name: string) => useAppStore.getState().addParticipant(name),
+    [],
+  );
+  const removeParticipant = useCallback(
+    (id: string) => useAppStore.getState().removeParticipant(id),
+    [],
+  );
 
   // 参加者を追加する関数
   const handleAddParticipant = () => {

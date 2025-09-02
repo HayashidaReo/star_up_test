@@ -9,7 +9,12 @@ import {
 } from '@/components/atoms/card';
 import { EmptyState } from '@/components/molecules/EmptyState';
 import { SettlementItem } from '@/components/molecules/SettlementItem';
-import { useAppStore } from '@/store/useAppStore';
+import {
+  useAppStore,
+  participantsSelector,
+  expensesSelector,
+  settlementsSelector,
+} from '@/store/useAppStore';
 import { MESSAGES } from '@/lib/constants';
 import {
   calculateTotalAmount,
@@ -18,7 +23,9 @@ import {
 import { formatAmount } from '@/lib/utils';
 
 export function SettlementSection() {
-  const { participants, expenses, settlements } = useAppStore();
+  const participants = useAppStore(participantsSelector);
+  const expenses = useAppStore(expensesSelector);
+  const settlements = useAppStore(settlementsSelector);
 
   // 合計金額を計算
   const totalAmount = calculateTotalAmount(expenses);

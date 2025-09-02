@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Card,
   CardContent,
@@ -25,10 +25,14 @@ import {
 import { EmptyState } from '@/components/molecules/EmptyState';
 import { ExpenseForm } from '@/components/molecules/ExpenseForm';
 import { ExpenseRow } from '@/components/molecules/ExpenseRow';
-import { useAppStore } from '@/store/useAppStore';
+import {
+  useAppStore,
+  participantsSelector,
+  expensesSelector,
+} from '@/store/useAppStore';
 import { Plus } from 'lucide-react';
 import { MESSAGES, DEFAULT_CURRENCY } from '@/lib/constants';
-import { ExpenseFormData, Currency } from '@/types';
+import { CreateExpense, Currency, ExpenseFormData } from '@/types';
 
 export function ExpensesSection() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -39,7 +43,18 @@ export function ExpensesSection() {
     currency: DEFAULT_CURRENCY,
   });
 
-  const { participants, expenses, addExpense, removeExpense } = useAppStore();
+  const participants = useAppStore(participantsSelector);
+  const expenses = useAppStore(expensesSelector);
+
+  // アクションをuseCallbackでメモ化して安定した参照を保証
+  const addExpense = useCallback(
+    (expense: CreateExpense) => useAppStore.getState().addExpense(expense),
+    [],
+  );
+  const removeExpense = useCallback(
+    (id: string) => useAppStore.getState().removeExpense(id),
+    [],
+  );
 
   // 費用を追加する関数
   const handleAddExpense = (data: ExpenseFormData) => {

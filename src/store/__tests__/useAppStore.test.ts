@@ -200,8 +200,7 @@ describe('useAppStore', () => {
     });
 
     it('should calculate settlements manually', () => {
-      const { addParticipant, addExpense, calculateSettlements } =
-        useAppStore.getState();
+      const { addParticipant, addExpense } = useAppStore.getState();
 
       addParticipant('Alice');
       addParticipant('Bob');
@@ -215,9 +214,6 @@ describe('useAppStore', () => {
         payerId: aliceId,
         currency: CURRENCIES.JPY,
       });
-
-      // 手動で精算を計算
-      calculateSettlements();
 
       const state2 = useAppStore.getState();
       expect(state2.settlements).toHaveLength(1);
