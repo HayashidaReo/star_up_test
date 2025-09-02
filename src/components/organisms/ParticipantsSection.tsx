@@ -9,7 +9,7 @@ import { ParticipantItem } from '../molecules/ParticipantItem';
 import { useAppStore, participantsSelector } from '../../store/useAppStore';
 import { Plus } from 'lucide-react';
 import { PLACEHOLDERS, MESSAGES } from '../../lib/constants';
-import { validateParticipant } from '../../lib/schemas';
+import { validateParticipantSafe } from '@/lib/schemas';
 
 export function ParticipantsSection() {
   const [newParticipantName, setNewParticipantName] = useState('');
@@ -28,16 +28,16 @@ export function ParticipantsSection() {
 
   // 参加者を追加する関数
   const handleAddParticipant = () => {
-    const result = validateParticipant({ name: newParticipantName });
+    const validationResult = validateParticipantSafe({ id: '', name });
 
-    if (result.success) {
-      addParticipant(result.data.name);
+    if (validationResult.success) {
+      addParticipant(validationResult.data.name);
       setNewParticipantName(''); // 入力フィールドをクリア
       setValidationError(null); // エラーをクリア
     } else {
       // バリデーションエラーを表示
       setValidationError(
-        result.error.issues[0]?.message || 'エラーが発生しました',
+        validationResult.error.issues[0]?.message || 'エラーが発生しました',
       );
     }
   };
@@ -47,7 +47,7 @@ export function ParticipantsSection() {
     setNewParticipantName(value);
     if (validationError) {
       // リアルタイムバリデーション
-      const result = validateParticipant({ name: value });
+      const result = validateParticipantSafe({ name: value });
       if (result.success) {
         setValidationError(null);
       } else {

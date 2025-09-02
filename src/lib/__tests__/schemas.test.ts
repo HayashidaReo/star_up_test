@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
-  validateParticipant,
-  validateExpense,
+  validateParticipantSafe,
+  validateExpenseSafe,
   participantSchema,
   expenseSchema,
   isValidString,
@@ -143,12 +143,12 @@ describe('schemas', () => {
 
   describe('validateParticipant', () => {
     it('有効なデータでsafeparseを実行する', () => {
-      const result = validateParticipant({ name: '田中太郎' });
+      const result = validateParticipantSafe({ name: '田中太郎' });
       expect(result.success).toBe(true);
     });
 
     it('無効なデータでsafeparseを実行する', () => {
-      const result = validateParticipant({ name: '' });
+      const result = validateParticipantSafe({ name: '' });
       expect(result.success).toBe(false);
     });
   });
@@ -161,7 +161,7 @@ describe('schemas', () => {
         payerId: 'user123',
         currency: CURRENCIES.JPY,
       };
-      const result = validateExpense(validData);
+      const result = validateExpenseSafe(validData);
       expect(result.success).toBe(true);
     });
 
@@ -172,7 +172,7 @@ describe('schemas', () => {
         payerId: '',
         currency: 'INVALID',
       };
-      const result = validateExpense(invalidData);
+      const result = validateExpenseSafe(invalidData);
       expect(result.success).toBe(false);
     });
   });

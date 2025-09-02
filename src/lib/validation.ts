@@ -1,4 +1,3 @@
-import { expenseSchema, participantSchema } from './schemas';
 import { z } from 'zod';
 
 export class ValidationError extends Error {
@@ -10,34 +9,6 @@ export class ValidationError extends Error {
     this.name = 'ValidationError';
   }
 }
-
-export const validateParticipant = (participant: unknown): void => {
-  try {
-    participantSchema.parse(participant);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      throw new ValidationError(
-        error.issues[0]?.message || 'Invalid participant data',
-        error.issues[0]?.path[0]?.toString(),
-      );
-    }
-    throw error;
-  }
-};
-
-export const validateExpense = (expense: unknown): void => {
-  try {
-    expenseSchema.parse(expense);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      throw new ValidationError(
-        error.issues[0]?.message || 'Invalid expense data',
-        error.issues[0]?.path[0]?.toString(),
-      );
-    }
-    throw error;
-  }
-};
 
 export const validateAmount = (amount: number): void => {
   if (amount <= 0) {

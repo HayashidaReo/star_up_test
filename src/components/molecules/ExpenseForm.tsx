@@ -5,7 +5,7 @@ import { CurrencySelect } from '@/components/molecules/CurrencySelect';
 import { ParticipantSelect } from '@/components/molecules/ParticipantSelect';
 import { Participant, ExpenseFormData, Currency } from '@/types';
 import { PLACEHOLDERS, MESSAGES } from '@/lib/constants';
-import { validateExpense } from '@/lib/schemas';
+import { validateExpenseSafe } from '@/lib/schemas';
 
 interface ExpenseFormProps {
   onSubmit: (data: ExpenseFormData) => void;
@@ -30,7 +30,7 @@ export function ExpenseForm({
   >({});
 
   const handleSubmit = () => {
-    const result = validateExpense(formData);
+    const result = validateExpenseSafe(formData);
 
     if (result.success) {
       onSubmit(result.data);
@@ -52,7 +52,7 @@ export function ExpenseForm({
 
     // リアルタイムバリデーション（既にエラーがある場合のみ）
     if (validationErrors[field]) {
-      const result = validateExpense(updatedData);
+      const result = validateExpenseSafe(updatedData);
       if (result.success) {
         const newErrors = { ...validationErrors };
         delete newErrors[field];
@@ -62,7 +62,7 @@ export function ExpenseForm({
   };
 
   // フォームが有効かどうかをチェック
-  const isFormValid = validateExpense(formData).success;
+  const isFormValid = validateExpenseSafe(formData).success;
 
   return (
     <div className="grid gap-4 py-4">

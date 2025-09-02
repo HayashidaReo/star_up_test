@@ -49,12 +49,12 @@ export const expenseSchema = z.object({
 export type ParticipantFormData = z.infer<typeof participantSchema>;
 export type ExpenseFormData = z.infer<typeof expenseSchema>;
 
-// バリデーション関数
-export function validateParticipant(data: unknown) {
+// バリデーション関数（safeParse使用 - エラーハンドリングが柔軟）
+export function validateParticipantSafe(data: unknown) {
   return participantSchema.safeParse(data);
 }
 
-export function validateExpense(data: unknown) {
+export function validateExpenseSafe(data: unknown) {
   return expenseSchema.safeParse(data);
 }
 
