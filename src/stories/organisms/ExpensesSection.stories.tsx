@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { ExpensesSection } from '../../components/organisms/ExpensesSection';
 import { useAppStore } from '@/store/useAppStore';
 import { CURRENCIES } from '@/lib/constants';
 import { useEffect } from 'react';
+import type { Expense } from '@/types';
 
 const meta: Meta<typeof ExpensesSection> = {
   title: 'Organisms/ExpensesSection',
@@ -37,6 +39,7 @@ const withStore =
 
         // 費用を追加
         expenseData.forEach((expense) => {
+            if (expense.payerId === undefined || expense.amount === undefined || expense.currency === undefined || expense.description === undefined) return;
           const correctPayerId =
             addedParticipants[expense.payerId] || expense.payerId;
           useAppStore.getState().addExpense({

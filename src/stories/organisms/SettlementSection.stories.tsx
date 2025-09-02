@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { SettlementSection } from '../../components/organisms/SettlementSection';
 import { useAppStore } from '@/store/useAppStore';
 import { CURRENCIES } from '@/lib/constants';
 import { useEffect } from 'react';
+import type { Expense } from '@/types';
 
 const meta: Meta<typeof SettlementSection> = {
   title: 'Organisms/SettlementSection',
@@ -18,8 +20,8 @@ type Story = StoryObj<typeof meta>;
 
 // ストーリー用のデコレーター
 const withStore =
-  (participantNames: string[] = [], expenseData: any[] = []) =>
-  (Story: any) => {
+  (participantNames: string[] = [], expenseData: Partial<Expense>[] = []) =>
+  (Story: React.ComponentType) => {
     const StoryWithStore = () => {
       useEffect(() => {
         // ストアをリセット
@@ -37,6 +39,7 @@ const withStore =
 
         // 費用を追加
         expenseData.forEach((expense) => {
+            if (expense.payerId === undefined || expense.amount === undefined || expense.currency === undefined || expense.description === undefined) return;
           const correctPayerId =
             addedParticipants[expense.payerId] || expense.payerId;
           useAppStore.getState().addExpense({
