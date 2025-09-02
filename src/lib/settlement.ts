@@ -1,5 +1,8 @@
 import { Participant, Expense, Settlement } from '@/types';
 
+// 定数定義
+const MIN_SETTLEMENTS_FOR_ADJUSTMENT = 2; // 端数調整を行うために必要な最小精算数
+
 /**
  * 精算計算のロジック
  * 各参加者の支払い額と負担額を計算し、最適な精算リストを生成する
@@ -100,7 +103,7 @@ export function calculateSettlements(
 
   // === STEP 5: 端数調整 ===
   // 四捨五入による誤差を最後の精算額に反映して全体の整合性を保つ
-  if (settlements.length >= 2) {
+  if (settlements.length >= MIN_SETTLEMENTS_FOR_ADJUSTMENT) {
     const totalPayments = settlements.reduce((sum, s) => sum + s.amount, 0);
     const expectedTotal = Math.round(
       Array.from(balances.values()).reduce(
