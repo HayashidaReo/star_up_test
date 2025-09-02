@@ -1,7 +1,7 @@
 import React from 'react';
-import { ParticipantsSection } from '@/components/organisms/ParticipantsSection';
-import { ExpensesSection } from '@/components/organisms/ExpensesSection';
-import { SettlementSection } from '@/components/organisms/SettlementSection';
+import { ParticipantsSection } from '../components/organisms/ParticipantsSection';
+import { ExpensesSection } from '../components/organisms/ExpensesSection';
+import { SettlementSection } from '../components/organisms/SettlementSection';
 
 export default function Home() {
   return (

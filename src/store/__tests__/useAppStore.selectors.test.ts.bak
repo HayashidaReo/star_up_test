@@ -179,9 +179,7 @@ describe('useAppStore selectors', () => {
     it('expenseCountSelector は費用数を返す', () => {
       const store = useAppStore.getState();
       store.addParticipant('田中太郎');
-      // 参加者追加後の新しい状態を取得
-      const updatedStore = useAppStore.getState();
-      const participants = updatedStore.participants;
+      const participants = store.participants;
 
       store.addExpense({
         description: 'ランチ代',
@@ -197,9 +195,7 @@ describe('useAppStore selectors', () => {
     it('totalAmountSelector は合計金額を返す', () => {
       const store = useAppStore.getState();
       store.addParticipant('田中太郎');
-      // 参加者追加後の新しい状態を取得
-      const updatedStore = useAppStore.getState();
-      const participants = updatedStore.participants;
+      const participants = store.participants;
 
       store.addExpense({
         description: 'ランチ代',
@@ -237,9 +233,7 @@ describe('useAppStore selectors', () => {
       let hasExpenses = hasExpensesSelector(useAppStore.getState());
       expect(hasExpenses).toBe(false);
 
-      // 参加者追加後の新しい状態を取得
-      const updatedStore = useAppStore.getState();
-      const participants = updatedStore.participants;
+      const participants = store.participants;
       store.addExpense({
         description: 'ランチ代',
         amount: 1000,
@@ -258,9 +252,7 @@ describe('useAppStore selectors', () => {
       store.addParticipant('田中太郎');
       store.addParticipant('佐藤花子');
 
-      // 参加者追加後の新しい状態を取得
-      const updatedStore = useAppStore.getState();
-      const participants = updatedStore.participants;
+      const participants = store.participants;
       const targetId = participants[0].id;
 
       const participant = createParticipantByIdSelector(targetId)(
@@ -273,9 +265,7 @@ describe('useAppStore selectors', () => {
     it('createExpenseByIdSelector は特定IDの費用を返す', () => {
       const store = useAppStore.getState();
       store.addParticipant('田中太郎');
-      // 参加者追加後の新しい状態を取得
-      const updatedStore = useAppStore.getState();
-      const participants = updatedStore.participants;
+      const participants = store.participants;
 
       store.addExpense({
         description: 'ランチ代',
@@ -284,9 +274,7 @@ describe('useAppStore selectors', () => {
         currency: CURRENCIES.JPY,
       });
 
-      // 費用追加後の新しい状態を取得
-      const finalStore = useAppStore.getState();
-      const expenses = finalStore.expenses;
+      const expenses = store.expenses;
       const targetId = expenses[0].id;
 
       const expense = createExpenseByIdSelector(targetId)(

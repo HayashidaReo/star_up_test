@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { Participant, Expense, Settlement, CreateExpense } from '@/types';
-import { generateId } from '@/lib/utils';
-import { calculateSettlements } from '@/lib/settlement';
+import { Participant, Expense, Settlement, CreateExpense } from '../types';
+import { generateId } from '../lib/utils';
+import { calculateSettlements } from '../lib/settlement';
 
 // アプリケーションの状態管理ストア
 interface AppStore {

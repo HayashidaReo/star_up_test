@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useAppStore } from '../useAppStore';
-import { CURRENCIES } from '@/lib/constants';
+import { CURRENCIES } from '../../lib/constants';
 
 describe('useAppStore', () => {
   beforeEach(() => {

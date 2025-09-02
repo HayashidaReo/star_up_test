@@ -6,15 +6,15 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from '@/components/atoms/card';
-import { Button } from '@/components/atoms/button';
-import { Input } from '@/components/atoms/input';
-import { EmptyState } from '@/components/molecules/EmptyState';
-import { ParticipantItem } from '@/components/molecules/ParticipantItem';
-import { useAppStore, participantsSelector } from '@/store/useAppStore';
+} from '../atoms/card';
+import { Button } from '../atoms/button';
+import { Input } from '../atoms/input';
+import { EmptyState } from '../molecules/EmptyState';
+import { ParticipantItem } from '../molecules/ParticipantItem';
+import { useAppStore, participantsSelector } from '../../store/useAppStore';
 import { Plus } from 'lucide-react';
-import { PLACEHOLDERS, MESSAGES } from '@/lib/constants';
-import { validateParticipant } from '@/lib/schemas';
+import { PLACEHOLDERS, MESSAGES } from '../../lib/constants';
+import { validateParticipant } from '../../lib/schemas';
 
 export function ParticipantsSection() {
   const [newParticipantName, setNewParticipantName] = useState('');

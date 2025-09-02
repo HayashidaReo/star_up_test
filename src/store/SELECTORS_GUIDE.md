@@ -25,18 +25,11 @@ const settlements = useAppStore(settlementsSelector);
 
 ### アクションセレクター
 ```typescript
-// ❌ 推奨されない: アクションセレクター（オブジェクトを返すため無限ループの原因）
+// 参加者関連のアクションのみを取得
 const { addParticipant, removeParticipant } = useAppStore(participantActionsSelector);
 
-// ✅ 推奨: useCallbackでメモ化したアクション
-const addParticipant = useCallback(
-  (name: string) => useAppStore.getState().addParticipant(name),
-  []
-);
-const removeParticipant = useCallback(
-  (id: string) => useAppStore.getState().removeParticipant(id),
-  []
-);
+// 費用関連のアクションのみを取得
+const { addExpense, removeExpense } = useAppStore(expenseActionsSelector);
 ```
 
 ## コンポーネント用セレクター
@@ -45,16 +38,7 @@ const removeParticipant = useCallback(
 ```typescript
 // 個別にセレクターを使用（推奨）
 const participants = useAppStore(participantsSelector);
-
-// アクションはuseCallbackでメモ化
-const addParticipant = useCallback(
-  (name: string) => useAppStore.getState().addParticipant(name),
-  []
-);
-const removeParticipant = useCallback(
-  (id: string) => useAppStore.getState().removeParticipant(id),
-  []
-);
+const { addParticipant, removeParticipant } = useAppStore(participantActionsSelector);
 ```
 
 ### ExpensesSection用
@@ -62,16 +46,7 @@ const removeParticipant = useCallback(
 // 個別にセレクターを使用（推奨）
 const participants = useAppStore(participantsSelector);
 const expenses = useAppStore(expensesSelector);
-
-// アクションはuseCallbackでメモ化
-const addExpense = useCallback(
-  (expense: CreateExpense) => useAppStore.getState().addExpense(expense),
-  []
-);
-const removeExpense = useCallback(
-  (id: string) => useAppStore.getState().removeExpense(id),
-  []
-);
+const { addExpense, removeExpense } = useAppStore(expenseActionsSelector);
 ```
 
 ### SettlementSection用
@@ -136,16 +111,7 @@ const removeParticipant = useAppStore(participantActionsSelector).removeParticip
 ### ✅ アクションをまとめて取得
 ```typescript
 const participants = useAppStore(participantsSelector);
-
-// useCallbackでメモ化してアクションを安定化
-const addParticipant = useCallback(
-  (name: string) => useAppStore.getState().addParticipant(name),
-  []
-);
-const removeParticipant = useCallback(
-  (id: string) => useAppStore.getState().removeParticipant(id),
-  []
-);
+const { addParticipant, removeParticipant } = useAppStore(participantActionsSelector);
 ```
 
 ## 重要: 無限ループの回避

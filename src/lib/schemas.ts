@@ -7,7 +7,10 @@ export const participantSchema = z.object({
     .string()
     .min(1, '参加者名を入力してください')
     .max(50, '参加者名は50文字以内で入力してください')
-    .trim(),
+    .trim()
+    .refine((val) => val.length > 0, {
+      message: '参加者名を入力してください'
+    }),
 });
 
 // 費用スキーマ
@@ -58,7 +61,9 @@ export function validateExpense(data: unknown) {
 // 個別のバリデーション関数（後方互換性のため）
 export function isValidString(value: string): boolean {
   try {
-    z.string().min(1).trim().parse(value);
+    // 空白のみの文字列は拒否する
+    const trimmed = value.trim();
+    z.string().min(1).parse(trimmed);
     return true;
   } catch {
     return false;
@@ -74,7 +79,26 @@ export function isValidNumber(value: string | number): boolean {
         if (isNaN(num)) throw new Error();
         return num;
       })
-      .refine((val) => val > 0);
+      .refine((val) => val > 0); // ゼロより大きい値のみ受け入れる（費用用）
+
+    schema.parse(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// 一般的な数値検証（ゼロを含む）
+export function isValidNumberIncludingZero(value: string | number): boolean {
+  try {
+    const schema = z
+      .union([z.string(), z.number()])
+      .transform((val) => {
+        const num = typeof val === 'string' ? parseFloat(val) : val;
+        if (isNaN(num)) throw new Error();
+        return num;
+      })
+      .refine((val) => val >= 0); // ゼロ以上の値を受け入れる
 
     schema.parse(value);
     return true;

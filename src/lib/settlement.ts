@@ -56,21 +56,38 @@ export function calculateSettlements(
     const creditorName =
       participants.find((p) => p.id === creditor.id)?.name || '';
 
-    const amount = Math.min(-debtor.balance, creditor.balance);
+    const exactAmount = Math.min(-debtor.balance, creditor.balance);
+    let roundedAmount = Math.round(exactAmount);
 
-    if (amount > 0.01) {
+    if (roundedAmount > 0) {
       settlements.push({
         from: debtorName,
         to: creditorName,
-        amount: Math.round(amount),
+        amount: roundedAmount,
       });
     }
 
-    debtor.balance += amount;
-    creditor.balance -= amount;
+    debtor.balance += exactAmount;
+    creditor.balance -= exactAmount;
 
     if (Math.abs(debtor.balance) < 0.01) i++;
     if (Math.abs(creditor.balance) < 0.01) j--;
+  }
+
+  // 端数調整: 四捨五入による誤差を最後の精算額に反映
+  if (settlements.length >= 2) {
+    const totalPayments = settlements.reduce((sum, s) => sum + s.amount, 0);
+    const expectedTotal = Math.round(Math.abs(Array.from(balances.values()).find(v => v > 0) || 0));
+    const difference = expectedTotal - totalPayments;
+    
+    if (Math.abs(difference) === 1) {
+      // 新しいオブジェクトで最後の精算額を調整
+      const lastIndex = settlements.length - 1;
+      settlements[lastIndex] = {
+        ...settlements[lastIndex],
+        amount: settlements[lastIndex].amount + difference,
+      };
+    }
   }
 
   return settlements;

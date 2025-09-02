@@ -46,8 +46,9 @@ export function formatAmount(
   currency: string = CURRENCIES.JPY,
 ): string {
   const symbol = getCurrencySymbol(currency);
-  return `${symbol}${amount.toLocaleString()}`;
+  const roundedAmount = Math.round(amount);
+  return `${symbol}${roundedAmount.toLocaleString()}`;
 }
 
 // バリデーション関数は schemas.ts から再エクスポート
-export { isValidString, isValidNumber } from './schemas';
+export { isValidString, isValidNumberIncludingZero as isValidNumber } from './schemas';
