@@ -10,8 +10,6 @@ services:
     volumes:
       # ホットリロードのためにソースコードを同期
       - .:/app
-      # node_modulesは同期しない（パフォーマンスのため）
-      - /app/node_modules
 
   # 本番用サービス
   prod:

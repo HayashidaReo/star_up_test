@@ -34,6 +34,10 @@ const eslintConfig = [
       'prettier/prettier': 'error', // Prettierのルールをエラーとして扱う
       'arrow-body-style': 'off', // Prettierと競合する可能性のあるルールを無効化
       'prefer-arrow-callback': 'off',
+      // Storybookのルールを調整
+      'storybook/no-renderer-packages': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'react/display-name': 'off',
     },
   },
 ];
