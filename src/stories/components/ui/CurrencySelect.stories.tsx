@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CurrencySelect } from './CurrencySelect';
+import { CurrencySelect } from '../../../components/ui/CurrencySelect';
 import { CURRENCIES } from '@/lib/constants';
 import { useState } from 'react';
 
 const meta: Meta<typeof CurrencySelect> = {
-  title: 'UI/CurrencySelect',
+  title: 'Components/UI/CurrencySelect',
   component: CurrencySelect,
   parameters: {
     layout: 'centered',
@@ -50,30 +50,27 @@ export const Default: Story = {
   render: InteractiveCurrencySelect,
   args: {
     value: CURRENCIES.JPY,
-    placeholder: '通貨を選択',
   },
 };
 
-export const WithUSD: Story = {
+export const USD: Story = {
   render: InteractiveCurrencySelect,
   args: {
     value: CURRENCIES.USD,
-    placeholder: 'Select currency',
   },
 };
 
-export const WithEUR: Story = {
+export const EUR: Story = {
   render: InteractiveCurrencySelect,
   args: {
     value: CURRENCIES.EUR,
-    placeholder: 'Währung wählen',
   },
 };
 
-export const CustomPlaceholder: Story = {
+export const WithPlaceholder: Story = {
   render: InteractiveCurrencySelect,
   args: {
     value: CURRENCIES.JPY,
-    placeholder: 'カスタムプレースホルダー',
+    placeholder: 'Please select currency',
   },
 };

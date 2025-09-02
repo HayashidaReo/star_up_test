@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ParticipantItem } from './ParticipantItem';
+import { ParticipantItem } from '../../components/ParticipantItem';
 import { Participant } from '@/types';
 
 const meta: Meta<typeof ParticipantItem> = {

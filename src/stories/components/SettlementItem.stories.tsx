@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SettlementItem } from './SettlementItem';
+import { SettlementItem } from '../../components/SettlementItem';
 import { Settlement } from '@/types';
 
 const meta: Meta<typeof SettlementItem> = {

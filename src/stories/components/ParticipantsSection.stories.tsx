@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ParticipantsSection } from './ParticipantsSection';
+import { ParticipantsSection } from '../../components/ParticipantsSection';
 import { useAppStore } from '@/store/useAppStore';
 
 const meta: Meta<typeof ParticipantsSection> = {

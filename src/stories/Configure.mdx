@@ -34,67 +34,51 @@ export const RightArrow = () => (
   </svg>
 );
 
-<Meta title="Configure your project" />
+import { Meta } from '@storybook/addon-docs/blocks';
 
-<div className="sb-container">
-  <div className='sb-section-title'>
-    # Configure your project
+<Meta title="Introduction" />
 
-    Because Storybook works separately from your app, you'll need to configure it for your specific stack and setup. Below, explore guides for configuring Storybook with popular frameworks and tools. If you get stuck, learn how you can ask for help from our community.
+# Star Up Test - Storybook
 
-  </div>
-  <div className="sb-section">
-    <div className="sb-section-item">
-      <Image
-        src={Styling}
-        alt="A wall of logos representing different styling technologies"
-        width={0}
-        height={0}
-        style={{ width: '100%', height: 'auto' }}
-      />
-      <h4 className="sb-section-item-heading">Add styling and CSS</h4>
-      <p className="sb-section-item-paragraph">Like with web applications, there are many ways to include CSS within Storybook. Learn more about setting up styling within Storybook.</p>
-      <a
-        href="https://storybook.js.org/docs/configure/styling-and-css/?renderer=react&ref=configure"
-        target="_blank"
-      >Learn more<RightArrow /></a>
-    </div>
-    <div className="sb-section-item">
-      <Image 
-        width={0}
-        height={0}
-        style={{ width: '100%', height: 'auto' }}
-        src={Context}
-        alt="An abstraction representing the composition of data for a component"
-      />
-      <h4 className="sb-section-item-heading">Provide context and mocking</h4>
-      <p className="sb-section-item-paragraph">Often when a story doesn't render, it's because your component is expecting a specific environment or context (like a theme provider) to be available.</p>
-      <a
-        href="https://storybook.js.org/docs/writing-stories/decorators/?renderer=react&ref=configure#context-for-mocking"
-        target="_blank"
-      >Learn more<RightArrow /></a>
-    </div>
-    <div className="sb-section-item">
-      <Image 
-        width={0}
-        height={0}
-        style={{ width: '100%', height: 'auto' }} 
-        src={Assets} 
-        alt="A representation of typography and image assets" 
-      />
-      <div>
-        <h4 className="sb-section-item-heading">Load assets and resources</h4>
-        <p className="sb-section-item-paragraph">To link static files (like fonts) to your projects and stories, use the
-        `staticDirs` configuration option to specify folders to load when
-        starting Storybook.</p>
-        <a
-          href="https://storybook.js.org/docs/configure/images-and-assets/?renderer=react&ref=configure"
-          target="_blank"
-        >Learn more<RightArrow /></a>
-      </div>
-    </div>
-  </div>
-</div>
+このStorybookでは、Star Up Testアプリケーションのコンポーネントをドキュメント化・テストしています。
+
+## アーキテクチャ
+
+このプロジェクトは以下の技術スタックで構築されています：
+
+- **Next.js 14** (App Router)
+- **TypeScript** - 型安全性の確保
+- **Tailwind CSS** - ユーティリティファーストのスタイリング
+- **Shadcn/ui** - 再利用可能なUIコンポーネント
+- **Zustand** - シンプルな状態管理
+- **Zod** - スキーマバリデーション
+
+## 設計原則
+
+- **シンプルさと表現力**: 少ない記述量で直感的に扱えるコード
+- **型安全性の徹底**: 実行時エラーを未然に防ぐ型システム
+- **開発者体験と所有権**: UIコードをプロジェクト自身が所有し、自由にカスタマイズ
+
+## ストーリー構成
+
+### App
+アプリケーションの主要なページコンポーネント
+
+### Components
+ビジネスロジックを含む再利用可能なコンポーネント
+
+### Components/UI
+Shadcn/uiベースの基本的なUIコンポーネント
+
+## 使い方
+
+各ストーリーは以下の情報を含んでいます：
+- **コンポーネントのプロパティ**
+- **使用例とバリエーション**
+- **アクセシビリティ対応状況**
+- **インタラクションテスト**
+
+左のサイドバーからストーリーを選択して、コンポーネントの動作を確認できます。
 <div className="sb-container">
   <div className='sb-section-title'>
     # Do more with Storybook
