@@ -58,16 +58,16 @@ export const mockSettlements = [
 // ストアにテストデータを設定するヘルパー関数
 export const setupTestStore = () => {
   const store = useAppStore.getState();
-  
+
   // ストアをリセット
   store.resetAll();
-  
+
   // テストデータを追加
-  mockParticipants.forEach(participant => {
+  mockParticipants.forEach((participant) => {
     store.addParticipant(participant.name);
   });
-  
-  mockExpenses.forEach(expense => {
+
+  mockExpenses.forEach((expense) => {
     store.addExpense({
       description: expense.description,
       amount: expense.amount,
@@ -75,7 +75,7 @@ export const setupTestStore = () => {
       currency: expense.currency,
     });
   });
-  
+
   return store;
 };
 

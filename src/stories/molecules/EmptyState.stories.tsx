@@ -44,6 +44,7 @@ export const WithCustomClassName: Story = {
 
 export const LongMessage: Story = {
   args: {
-    message: 'これは非常に長いメッセージの例です。複数行にわたって表示される可能性があります。',
+    message:
+      'これは非常に長いメッセージの例です。複数行にわたって表示される可能性があります。',
   },
 };

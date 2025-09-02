@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@/test-utils';
-import { CurrencySelect } from '../CurrencySelect';
+import { CurrencySelect } from '../molecules/CurrencySelect';
 import { CURRENCIES } from '@/lib/constants';
 
 describe('CurrencySelect', () => {
@@ -15,9 +15,9 @@ describe('CurrencySelect', () => {
       <CurrencySelect
         value={CURRENCIES.JPY}
         onValueChange={mockOnValueChange}
-      />
+      />,
     );
-    
+
     expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 
@@ -28,9 +28,9 @@ describe('CurrencySelect', () => {
         value={CURRENCIES.JPY}
         onValueChange={mockOnValueChange}
         placeholder={customPlaceholder}
-      />
+      />,
     );
-    
+
     expect(screen.getByText(customPlaceholder)).toBeInTheDocument();
   });
 
@@ -39,12 +39,12 @@ describe('CurrencySelect', () => {
       <CurrencySelect
         value={CURRENCIES.JPY}
         onValueChange={mockOnValueChange}
-      />
+      />,
     );
-    
+
     const trigger = screen.getByRole('combobox');
     fireEvent.click(trigger);
-    
+
     // オプションが表示されるまで待機
     await screen.findByText('JPY (¥)');
     expect(screen.getByText('JPY (¥)')).toBeInTheDocument();
@@ -57,15 +57,15 @@ describe('CurrencySelect', () => {
       <CurrencySelect
         value={CURRENCIES.JPY}
         onValueChange={mockOnValueChange}
-      />
+      />,
     );
-    
+
     const trigger = screen.getByRole('combobox');
     fireEvent.click(trigger);
-    
+
     const usdOption = await screen.findByText('USD ($)');
     fireEvent.click(usdOption);
-    
+
     expect(mockOnValueChange).toHaveBeenCalledWith(CURRENCIES.USD);
   });
 });

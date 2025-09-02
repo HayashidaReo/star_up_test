@@ -1,7 +1,12 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/atoms/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/atoms/card';
 import { EmptyState } from '@/components/molecules/EmptyState';
 import { SettlementItem } from '@/components/molecules/SettlementItem';
 import { useAppStore } from '@/store/useAppStore';

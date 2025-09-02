@@ -33,7 +33,7 @@ type Story = StoryObj<typeof meta>;
 // インタラクティブなストーリー用のコンポーネント
 const InteractiveCurrencySelect = (args: any) => {
   const [value, setValue] = useState(args.value || CURRENCIES.JPY);
-  
+
   return (
     <CurrencySelect
       {...args}

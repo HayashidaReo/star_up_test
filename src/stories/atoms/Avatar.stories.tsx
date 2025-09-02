@@ -1,5 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Avatar, AvatarFallback, AvatarImage } from '../../components/atoms/avatar';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '../../components/atoms/avatar';
 
 const meta: Meta<typeof Avatar> = {
   title: 'Atoms/Avatar',
@@ -72,7 +76,9 @@ export const Multiple: Story = {
         <AvatarFallback>U3</AvatarFallback>
       </Avatar>
       <Avatar>
-        <AvatarFallback className="bg-green-100 text-green-800">田</AvatarFallback>
+        <AvatarFallback className="bg-green-100 text-green-800">
+          田
+        </AvatarFallback>
       </Avatar>
     </div>
   ),

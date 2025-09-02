@@ -95,7 +95,8 @@ export const LongDescription: Story = {
   args: {
     expense: {
       id: '5',
-      description: 'これは非常に長い説明文の例です。複数行にわたって表示される可能性があります。',
+      description:
+        'これは非常に長い説明文の例です。複数行にわたって表示される可能性があります。',
       amount: 5000,
       payerId: '2',
       currency: CURRENCIES.JPY,

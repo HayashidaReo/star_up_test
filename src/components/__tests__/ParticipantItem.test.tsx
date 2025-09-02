@@ -17,37 +17,28 @@ describe('ParticipantItem', () => {
 
   it('should render participant name', () => {
     render(
-      <ParticipantItem
-        participant={mockParticipant}
-        onRemove={mockOnRemove}
-      />
+      <ParticipantItem participant={mockParticipant} onRemove={mockOnRemove} />,
     );
-    
+
     expect(screen.getByText('John Doe')).toBeInTheDocument();
   });
 
   it('should render participant initials in avatar', () => {
     render(
-      <ParticipantItem
-        participant={mockParticipant}
-        onRemove={mockOnRemove}
-      />
+      <ParticipantItem participant={mockParticipant} onRemove={mockOnRemove} />,
     );
-    
+
     expect(screen.getByText('JD')).toBeInTheDocument();
   });
 
   it('should call onRemove when remove button is clicked', () => {
     render(
-      <ParticipantItem
-        participant={mockParticipant}
-        onRemove={mockOnRemove}
-      />
+      <ParticipantItem participant={mockParticipant} onRemove={mockOnRemove} />,
     );
-    
+
     const removeButton = screen.getByRole('button');
     fireEvent.click(removeButton);
-    
+
     expect(mockOnRemove).toHaveBeenCalledWith('1');
   });
 
@@ -61,9 +52,9 @@ describe('ParticipantItem', () => {
       <ParticipantItem
         participant={singleNameParticipant}
         onRemove={mockOnRemove}
-      />
+      />,
     );
-    
+
     expect(screen.getByText('A')).toBeInTheDocument();
   });
 
@@ -77,9 +68,9 @@ describe('ParticipantItem', () => {
       <ParticipantItem
         participant={multiWordParticipant}
         onRemove={mockOnRemove}
-      />
+      />,
     );
-    
+
     expect(screen.getByText('JM')).toBeInTheDocument();
   });
 });

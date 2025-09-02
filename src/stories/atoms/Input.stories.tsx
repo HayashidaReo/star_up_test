@@ -70,7 +70,7 @@ export const Disabled: Story = {
 export const WithValue: Story = {
   args: {
     value: 'Pre-filled value',
-    placeholder: 'This won\'t be shown',
+    placeholder: "This won't be shown",
   },
 };
 
@@ -96,6 +96,7 @@ export const WithButton: Story = {
 
 export const LongPlaceholder: Story = {
   args: {
-    placeholder: 'This is a very long placeholder text to test how the input handles overflow',
+    placeholder:
+      'This is a very long placeholder text to test how the input handles overflow',
   },
 };
