@@ -3,7 +3,6 @@ import Home from '../../app/page';
 import { useAppStore } from '@/store/useAppStore';
 import { CURRENCIES } from '@/lib/constants';
 import { useEffect } from 'react';
-import { AreaChart } from 'lucide-react';
 
 const meta: Meta<typeof Home> = {
   title: 'Pages/Home',

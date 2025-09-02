@@ -155,7 +155,6 @@ describe('ExpenseForm', () => {
   });
 
   it('should call onFormDataChange when description changes', async () => {
-    const user = userEvent.setup();
     renderExpenseForm();
 
     const descriptionInput = screen.getByPlaceholderText(/例: 夕食代/);
@@ -172,7 +171,6 @@ describe('ExpenseForm', () => {
   });
 
   it('should call onFormDataChange when amount changes', async () => {
-    const user = userEvent.setup();
     renderExpenseForm();
 
     const amountInput = screen.getByPlaceholderText(/例: 8000/);
@@ -266,7 +264,6 @@ describe('ExpenseForm', () => {
   });
 
   it('should handle currency change', async () => {
-    const user = userEvent.setup();
     renderExpenseForm();
 
     // CurrencySelectコンポーネントのテストは別途行う前提で、

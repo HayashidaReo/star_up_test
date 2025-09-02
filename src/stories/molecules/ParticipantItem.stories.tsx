@@ -51,7 +51,7 @@ export const MultipleWords: Story = {
       id: '3',
       name: 'John Michael Smith',
     },
-    onRemove: (id: string) => {},
+    onRemove: () => {}, // No-op function for Storybook
   },
 };
 

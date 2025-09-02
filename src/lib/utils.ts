@@ -19,27 +19,15 @@ export function generateId(): string {
     return crypto.randomUUID();
   }
 
-  // フォールバック: crypto APIが利用できない場合
-  // Node.js環境での処理
-  if (typeof require !== 'undefined') {
-    try {
-      const { randomUUID } = require('crypto');
-      return randomUUID();
-    } catch {
-      // requireが失敗した場合は次のフォールバックへ
-    }
-  }
-
-  // 最後のフォールバック: Crypto APIを使った安全な文字列生成
+  // フォールバック: Crypto APIを使った安全な文字列生成
   if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
     const array = new Uint8Array(16);
     crypto.getRandomValues(array);
-    return Array.from(array, (byte) => byte.toString(16).padStart(2, '0')).join(
-      '',
-    );
+    return Array.from(array, (byte: number) => byte.toString(16).padStart(2, '0')).join('');
   }
 
   // 最終フォールバック（非推奨だが、エラーを避けるため）
+  console.warn('No secure random number generator available, using Math.random() as fallback');
   return Math.random().toString(36).substr(2, 9);
 }
 
