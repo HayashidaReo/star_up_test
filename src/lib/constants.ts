@@ -1,0 +1,43 @@
+/**
+ * アプリケーション全体で使用する定数
+ */
+
+// 通貨の種類
+export const CURRENCIES = {
+  JPY: 'JPY',
+  USD: 'USD',
+  EUR: 'EUR',
+} as const;
+
+// 通貨記号のマッピング
+export const CURRENCY_SYMBOLS = {
+  [CURRENCIES.JPY]: '¥',
+  [CURRENCIES.USD]: '$',
+  [CURRENCIES.EUR]: '€',
+} as const;
+
+// 最小金額（精算計算での丸め誤差対策）
+export const MIN_AMOUNT_THRESHOLD = 0.01;
+
+// デフォルト通貨
+export const DEFAULT_CURRENCY = CURRENCIES.JPY;
+
+// フォームのプレースホルダー
+export const PLACEHOLDERS = {
+  PARTICIPANT_NAME: '名前を入力...',
+  EXPENSE_DESCRIPTION: '例: 夕食代',
+  EXPENSE_AMOUNT: '例: 8000',
+} as const;
+
+// メッセージ
+export const MESSAGES = {
+  ADD_PARTICIPANT: '追加',
+  ADD_EXPENSE: '費用を追加',
+  SETTLE: '精算する',
+  CANCEL: 'キャンセル',
+  NO_PARTICIPANTS: '参加者を追加してください',
+  NO_EXPENSES: '費用を追加してください',
+  NO_PARTICIPANTS_FOR_EXPENSE: 'まず参加者を追加してください',
+  NO_EXPENSES_FOR_SETTLEMENT: '費用を追加してください',
+  CALCULATE_SETTLEMENT: '精算を計算してください',
+} as const;
