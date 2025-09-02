@@ -28,7 +28,7 @@ import { ExpenseRow } from '@/components/molecules/ExpenseRow';
 import { useAppStore } from '@/store/useAppStore';
 import { Plus } from 'lucide-react';
 import { MESSAGES, DEFAULT_CURRENCY } from '@/lib/constants';
-import { ExpenseFormData } from '@/types';
+import { ExpenseFormData, Currency } from '@/types';
 
 export function ExpensesSection() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -47,7 +47,7 @@ export function ExpensesSection() {
       description: data.description.trim(),
       amount: parseFloat(data.amount),
       payerId: data.payerId,
-      currency: data.currency,
+      currency: data.currency as Currency,
     });
 
     // フォームをリセット

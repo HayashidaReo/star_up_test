@@ -35,15 +35,5 @@ export interface AppState {
   readonly settlements: readonly Settlement[];
 }
 
-// フォームの状態の型定義
-export interface ExpenseFormData {
-  description: string;
-  amount: string;
-  payerId: string;
-  currency: Currency;
-}
-
-// 参加者フォームの状態の型定義
-export interface ParticipantFormData {
-  name: string;
-}
+// フォームの状態の型定義（Zodスキーマから推論）
+export type { ParticipantFormData, ExpenseFormData } from '@/lib/schemas';

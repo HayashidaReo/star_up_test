@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/atoms/button';
 import { Input } from '@/components/atoms/input';
 import { CurrencySelect } from '@/components/molecules/CurrencySelect';
 import { ParticipantSelect } from '@/components/molecules/ParticipantSelect';
 import { Participant, ExpenseFormData, Currency } from '@/types';
 import { PLACEHOLDERS, MESSAGES } from '@/lib/constants';
-import { isValidString, isValidNumber } from '@/lib/utils';
+import { validateExpense } from '@/lib/schemas';
 
 interface ExpenseFormProps {
   onSubmit: (data: ExpenseFormData) => void;
@@ -25,20 +25,44 @@ export function ExpenseForm({
   onFormDataChange,
   onClose,
 }: ExpenseFormProps) {
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string>
+  >({});
+
   const handleSubmit = () => {
-    if (
-      isValidString(formData.description) &&
-      isValidNumber(formData.amount) &&
-      isValidString(formData.payerId)
-    ) {
-      onSubmit(formData);
+    const result = validateExpense(formData);
+
+    if (result.success) {
+      onSubmit(result.data);
+      setValidationErrors({});
+    } else {
+      // バリデーションエラーをフィールドごとに整理
+      const errors: Record<string, string> = {};
+      result.error.issues.forEach((issue) => {
+        const field = issue.path[0] as string;
+        errors[field] = issue.message;
+      });
+      setValidationErrors(errors);
     }
   };
 
-  const isFormValid =
-    isValidString(formData.description) &&
-    isValidNumber(formData.amount) &&
-    isValidString(formData.payerId);
+  const handleInputChange = (field: keyof ExpenseFormData, value: string) => {
+    const updatedData = { ...formData, [field]: value };
+    onFormDataChange(updatedData);
+
+    // リアルタイムバリデーション（既にエラーがある場合のみ）
+    if (validationErrors[field]) {
+      const result = validateExpense(updatedData);
+      if (result.success) {
+        const newErrors = { ...validationErrors };
+        delete newErrors[field];
+        setValidationErrors(newErrors);
+      }
+    }
+  };
+
+  // フォームが有効かどうかをチェック
+  const isFormValid = validateExpense(formData).success;
 
   return (
     <div className="grid gap-4 py-4">
@@ -51,13 +75,12 @@ export function ExpenseForm({
           id="description"
           placeholder={PLACEHOLDERS.EXPENSE_DESCRIPTION}
           value={formData.description}
-          onChange={(e) =>
-            onFormDataChange({
-              ...formData,
-              description: e.target.value,
-            })
-          }
+          onChange={(e) => handleInputChange('description', e.target.value)}
+          className={validationErrors.description ? 'border-red-500' : ''}
         />
+        {validationErrors.description && (
+          <p className="text-sm text-red-500">{validationErrors.description}</p>
+        )}
       </div>
 
       {/* 支払額入力 */}
@@ -70,13 +93,12 @@ export function ExpenseForm({
           type="number"
           placeholder={PLACEHOLDERS.EXPENSE_AMOUNT}
           value={formData.amount}
-          onChange={(e) =>
-            onFormDataChange({
-              ...formData,
-              amount: e.target.value,
-            })
-          }
+          onChange={(e) => handleInputChange('amount', e.target.value)}
+          className={validationErrors.amount ? 'border-red-500' : ''}
         />
+        {validationErrors.amount && (
+          <p className="text-sm text-red-500">{validationErrors.amount}</p>
+        )}
       </div>
 
       {/* 支払者選択 */}
@@ -85,21 +107,25 @@ export function ExpenseForm({
         <ParticipantSelect
           participants={participants}
           value={formData.payerId}
-          onValueChange={(value) =>
-            onFormDataChange({ ...formData, payerId: value })
-          }
+          onValueChange={(value) => handleInputChange('payerId', value)}
         />
+        {validationErrors.payerId && (
+          <p className="text-sm text-red-500">{validationErrors.payerId}</p>
+        )}
       </div>
 
       {/* 通貨選択 */}
       <div className="grid gap-2">
         <label className="text-sm font-medium">通貨</label>
         <CurrencySelect
-          value={formData.currency}
+          value={formData.currency as Currency}
           onValueChange={(value: Currency) =>
-            onFormDataChange({ ...formData, currency: value })
+            handleInputChange('currency', value)
           }
         />
+        {validationErrors.currency && (
+          <p className="text-sm text-red-500">{validationErrors.currency}</p>
+        )}
       </div>
 
       <div className="flex justify-end gap-2">

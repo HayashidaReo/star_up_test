@@ -49,17 +49,5 @@ export function formatAmount(
   return `${symbol}${amount.toLocaleString()}`;
 }
 
-/**
- * 文字列をトリムして空でないかチェックする
- */
-export function isValidString(value: string): boolean {
-  return value.trim().length > 0;
-}
-
-/**
- * 数値が有効かチェックする
- */
-export function isValidNumber(value: string | number): boolean {
-  const num = typeof value === 'string' ? parseFloat(value) : value;
-  return !isNaN(num) && num > 0;
-}
+// バリデーション関数は schemas.ts から再エクスポート
+export { isValidString, isValidNumber } from './schemas';

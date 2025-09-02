@@ -14,17 +14,42 @@ import { ParticipantItem } from '@/components/molecules/ParticipantItem';
 import { useAppStore } from '@/store/useAppStore';
 import { Plus } from 'lucide-react';
 import { PLACEHOLDERS, MESSAGES } from '@/lib/constants';
-import { isValidString } from '@/lib/utils';
+import { validateParticipant } from '@/lib/schemas';
 
 export function ParticipantsSection() {
   const [newParticipantName, setNewParticipantName] = useState('');
+  const [validationError, setValidationError] = useState<string | null>(null);
   const { participants, addParticipant, removeParticipant } = useAppStore();
 
   // 参加者を追加する関数
   const handleAddParticipant = () => {
-    if (isValidString(newParticipantName)) {
-      addParticipant(newParticipantName);
+    const result = validateParticipant({ name: newParticipantName });
+
+    if (result.success) {
+      addParticipant(result.data.name);
       setNewParticipantName(''); // 入力フィールドをクリア
+      setValidationError(null); // エラーをクリア
+    } else {
+      // バリデーションエラーを表示
+      setValidationError(
+        result.error.issues[0]?.message || 'エラーが発生しました',
+      );
+    }
+  };
+
+  // 入力値が変更された時のバリデーション
+  const handleInputChange = (value: string) => {
+    setNewParticipantName(value);
+    if (validationError) {
+      // リアルタイムバリデーション
+      const result = validateParticipant({ name: value });
+      if (result.success) {
+        setValidationError(null);
+      } else {
+        setValidationError(
+          result.error.issues[0]?.message || 'エラーが発生しました',
+        );
+      }
     }
   };
 
@@ -42,22 +67,28 @@ export function ParticipantsSection() {
       </CardHeader>
       <CardContent className="space-y-4">
         {/* 参加者追加フォーム */}
-        <div className="flex gap-2">
-          <Input
-            placeholder={PLACEHOLDERS.PARTICIPANT_NAME}
-            value={newParticipantName}
-            onChange={(e) => setNewParticipantName(e.target.value)}
-            onKeyPress={handleKeyPress}
-            className="flex-1"
-          />
-          <Button
-            onClick={handleAddParticipant}
-            disabled={!isValidString(newParticipantName)}
-            size="sm"
-          >
-            <Plus className="mr-1 h-4 w-4" />
-            {MESSAGES.ADD_PARTICIPANT}
-          </Button>
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            <Input
+              placeholder={PLACEHOLDERS.PARTICIPANT_NAME}
+              value={newParticipantName}
+              onChange={(e) => handleInputChange(e.target.value)}
+              onKeyPress={handleKeyPress}
+              className={`flex-1 ${validationError ? 'border-red-500' : ''}`}
+            />
+            <Button
+              onClick={handleAddParticipant}
+              disabled={!newParticipantName.trim()}
+              size="sm"
+            >
+              <Plus className="mr-1 h-4 w-4" />
+              {MESSAGES.ADD_PARTICIPANT}
+            </Button>
+          </div>
+          {/* バリデーションエラー表示 */}
+          {validationError && (
+            <p className="text-sm text-red-500">{validationError}</p>
+          )}
         </div>
 
         {/* 参加者リスト */}
