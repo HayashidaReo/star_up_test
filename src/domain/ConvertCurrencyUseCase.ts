@@ -31,20 +31,46 @@ export class ConvertCurrencyUseCase {
       };
     }
 
-    // 為替レートを取得（変換元通貨を基準とする）
-    const exchangeRates = await this.currencyRepository.getExchangeRates(
-      fromCurrency,
-      [toCurrency],
-    );
+    // USDベースのAPIなので、USD経由で変換を行う
+    const exchangeRates = await this.currencyRepository.getExchangeRates('USD');
 
-    const rate = exchangeRates.rates[toCurrency];
-    if (!rate) {
-      throw new Error(
-        `${fromCurrency}から${toCurrency}への為替レートが見つかりません`,
-      );
+    let convertedAmount: number;
+    let rate: number;
+
+    if (fromCurrency === 'USD') {
+      // USDから他通貨への変換
+      rate = exchangeRates.rates[toCurrency];
+      if (!rate) {
+        throw new Error(
+          `${fromCurrency}から${toCurrency}への為替レートが見つかりません`,
+        );
+      }
+      convertedAmount = amount * rate;
+    } else if (toCurrency === 'USD') {
+      // 他通貨からUSDへの変換
+      const fromRate = exchangeRates.rates[fromCurrency];
+      if (!fromRate) {
+        throw new Error(
+          `${fromCurrency}から${toCurrency}への為替レートが見つかりません`,
+        );
+      }
+      rate = 1 / fromRate;
+      convertedAmount = amount * rate;
+    } else {
+      // 他通貨から他通貨への変換（USD経由）
+      const fromRate = exchangeRates.rates[fromCurrency];
+      const toRate = exchangeRates.rates[toCurrency];
+
+      if (!fromRate || !toRate) {
+        throw new Error(
+          `${fromCurrency}から${toCurrency}への為替レートが見つかりません`,
+        );
+      }
+
+      // USD経由での変換: fromCurrency -> USD -> toCurrency
+      rate = toRate / fromRate;
+      convertedAmount = amount * rate;
     }
-
-    const convertedAmount = amount * rate;
 
     return {
       originalAmount: amount,
@@ -69,44 +95,46 @@ export class ConvertCurrencyUseCase {
       return [];
     }
 
-    // 異なる通貨の一覧を取得
-    const uniqueCurrencies = Array.from(
-      new Set(expenses.map((expense) => expense.currency)),
-    );
-
-    // 必要な為替レートを一括取得（効率化のため）
-    const exchangeRatesPromises = uniqueCurrencies.map((currency) => {
-      if (currency === targetCurrency) {
-        return Promise.resolve({
-          base: currency,
-          rates: { [targetCurrency]: 1 },
-          date: '',
-        });
-      }
-      return this.currencyRepository.getExchangeRates(currency, [
-        targetCurrency,
-      ]);
-    });
-
-    const exchangeRatesResults = await Promise.all(exchangeRatesPromises);
-
-    // 通貨コードと為替レートのマッピングを作成
-    const ratesMap = new Map<string, number>();
-    uniqueCurrencies.forEach((currency, index) => {
-      const rates = exchangeRatesResults[index];
-      const rate = rates.rates[targetCurrency] ?? 1;
-      ratesMap.set(currency, rate);
-    });
+    // USDベースの為替レートを一括取得
+    const exchangeRates = await this.currencyRepository.getExchangeRates('USD');
 
     // 各費用を変換
     return expenses.map((expense) => {
-      const rate = ratesMap.get(expense.currency) ?? 1;
-      const convertedAmount = Math.round(expense.amount * rate * 100) / 100;
+      let convertedAmount: number;
+      let rate: number;
+
+      // 同じ通貨の場合は変換不要
+      if (expense.currency === targetCurrency) {
+        return {
+          originalAmount: expense.amount,
+          originalCurrency: expense.currency,
+          convertedAmount: expense.amount,
+          targetCurrency,
+          rate: 1,
+        };
+      }
+
+      if (expense.currency === 'USD') {
+        // USDから他通貨への変換
+        rate = exchangeRates.rates[targetCurrency] ?? 1;
+        convertedAmount = expense.amount * rate;
+      } else if (targetCurrency === 'USD') {
+        // 他通貨からUSDへの変換
+        const fromRate = exchangeRates.rates[expense.currency] ?? 1;
+        rate = 1 / fromRate;
+        convertedAmount = expense.amount * rate;
+      } else {
+        // 他通貨から他通貨への変換（USD経由）
+        const fromRate = exchangeRates.rates[expense.currency] ?? 1;
+        const toRate = exchangeRates.rates[targetCurrency] ?? 1;
+        rate = toRate / fromRate;
+        convertedAmount = expense.amount * rate;
+      }
 
       return {
         originalAmount: expense.amount,
         originalCurrency: expense.currency,
-        convertedAmount,
+        convertedAmount: Math.round(convertedAmount * 100) / 100,
         targetCurrency,
         rate,
       };

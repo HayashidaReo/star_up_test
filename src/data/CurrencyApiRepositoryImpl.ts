@@ -2,18 +2,18 @@ import { CurrencyRepository } from '@/repository/CurrencyRepository';
 import { CurrencySymbol, ExchangeRate } from '@/types';
 
 /**
- * ExchangeRate.host APIからのレスポンス型定義
+ * Next.js APIルートからのレスポンス型定義
  */
-interface CurrencySymbolsResponse {
+interface CurrenciesApiResponse {
   success: boolean;
-  symbols: Record<string, string>;
+  currencies?: CurrencySymbol[];
+  error?: string;
 }
 
-interface ExchangeRatesResponse {
+interface ExchangeRatesApiResponse {
   success: boolean;
-  base: string;
-  date: string;
-  rates: Record<string, number>;
+  exchangeRate?: ExchangeRate;
+  error?: string;
 }
 
 /**
@@ -21,11 +21,10 @@ interface ExchangeRatesResponse {
  * APIエンドポイントを叩いて通貨情報を取得する具体的な処理を担当
  */
 export class CurrencyApiRepositoryImpl implements CurrencyRepository {
-  private readonly baseUrl = 'https://api.exchangerate.host';
   private readonly timeout = 10000; // 10秒タイムアウト
 
   /**
-   * HTTPリクエストを実行する共通メソッド
+   * HTTPリクエストを実行する共通メソッド（Next.js APIルート経由）
    * @param url - リクエストURL
    * @returns Promise<T> - パースされたJSONレスポンス
    */
@@ -65,24 +64,19 @@ export class CurrencyApiRepositoryImpl implements CurrencyRepository {
   }
 
   /**
-   * 利用可能な通貨のリストを取得する
+   * 利用可能な通貨のリストを取得する（Next.js APIルート経由）
    * @returns Promise<CurrencySymbol[]> - 通貨シンボルのリスト
    */
   async getCurrencySymbols(): Promise<CurrencySymbol[]> {
     try {
-      const response = await this.fetchWithTimeout<CurrencySymbolsResponse>(
-        `${this.baseUrl}/symbols`,
-      );
+      const response =
+        await this.fetchWithTimeout<CurrenciesApiResponse>('/api/currencies');
 
-      if (!response.success) {
-        throw new Error('通貨リストの取得に失敗しました');
+      if (!response.success || !response.currencies) {
+        throw new Error(response.error || '通貨リストの取得に失敗しました');
       }
 
-      // APIレスポンスをドメイン型にマッピング
-      return Object.entries(response.symbols).map(([code, description]) => ({
-        code,
-        description,
-      }));
+      return response.currencies;
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`通貨リスト取得エラー: ${error.message}`);
@@ -92,13 +86,13 @@ export class CurrencyApiRepositoryImpl implements CurrencyRepository {
   }
 
   /**
-   * 指定した基準通貨に対する最新の為替レートを取得する
-   * @param base - 基準通貨コード（デフォルト: 'EUR'）
+   * 指定した基準通貨に対する最新の為替レートを取得する（Next.js APIルート経由）
+   * @param base - 基準通貨コード（デフォルト: 'USD'）
    * @param symbols - 取得対象の通貨コードのリスト
    * @returns Promise<ExchangeRate> - 為替レート情報
    */
   async getExchangeRates(
-    base: string = 'EUR',
+    base: string = 'USD',
     symbols?: string[],
   ): Promise<ExchangeRate> {
     try {
@@ -110,20 +104,15 @@ export class CurrencyApiRepositoryImpl implements CurrencyRepository {
         params.set('symbols', symbols.join(','));
       }
 
-      const response = await this.fetchWithTimeout<ExchangeRatesResponse>(
-        `${this.baseUrl}/latest?${params.toString()}`,
+      const response = await this.fetchWithTimeout<ExchangeRatesApiResponse>(
+        `/api/exchange-rates?${params.toString()}`,
       );
 
-      if (!response.success) {
-        throw new Error('為替レートの取得に失敗しました');
+      if (!response.success || !response.exchangeRate) {
+        throw new Error(response.error || '為替レートの取得に失敗しました');
       }
 
-      // APIレスポンスをドメイン型にマッピング
-      return {
-        base: response.base,
-        date: response.date,
-        rates: response.rates,
-      };
+      return response.exchangeRate;
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`為替レート取得エラー: ${error.message}`);
