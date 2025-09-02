@@ -103,7 +103,10 @@ export function calculateSettlements(
   if (settlements.length >= 2) {
     const totalPayments = settlements.reduce((sum, s) => sum + s.amount, 0);
     const expectedTotal = Math.round(
-      Array.from(balances.values()).reduce((sum, v) => v > 0 ? sum + v : sum, 0),
+      Array.from(balances.values()).reduce(
+        (sum, v) => (v > 0 ? sum + v : sum),
+        0,
+      ),
     );
     const difference = expectedTotal - totalPayments;
 
