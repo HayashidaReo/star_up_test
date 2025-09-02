@@ -30,16 +30,16 @@
 ```typescript
 // 旅行参加者
 interface Participant {
-  id: string; // UUID or any unique string
+  id: string; // pk
   name: string;
 }
 
 // 支払い費用
 interface Expense {
-  id: string;
-  description: string; // 何に使ったか (e.g., "夕食")
+  id: string; // pk
+  description: string; // 何に使ったか (e.g., '夕食')
   amount: number; // 金額
   payerId: string; // 支払った人のParticipant ID
-  currency: 'JPY' | 'USD'; // 対応する通貨
+  currency: string; // 対応する通貨名 (e.g., ' JPY', 'USD')
 }
 ```
