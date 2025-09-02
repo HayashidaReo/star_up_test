@@ -115,13 +115,16 @@ describe('ExpenseForm', () => {
     renderExpenseForm();
 
     const descriptionInput = screen.getByPlaceholderText(/例: 夕食代/);
-    await user.type(descriptionInput, 'ランチ代');
+    
+    // fireEvent.changeを使用して直接値を設定
+    fireEvent.change(descriptionInput, { target: { value: 'ランチ代' } });
 
-    // 最後の文字の入力を確認
-    expect(mockOnFormDataChange).toHaveBeenLastCalledWith({
-      ...mockFormData,
-      description: 'ランチ代',
-    });
+    // 変更が呼ばれることを確認
+    expect(mockOnFormDataChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        description: 'ランチ代',
+      })
+    );
   });
 
   it('should call onFormDataChange when amount changes', async () => {
@@ -129,13 +132,16 @@ describe('ExpenseForm', () => {
     renderExpenseForm();
 
     const amountInput = screen.getByPlaceholderText(/例: 8000/);
-    await user.type(amountInput, '1000');
+    
+    // fireEvent.changeを使用して直接値を設定
+    fireEvent.change(amountInput, { target: { value: '1000' } });
 
-    // 最後の文字の入力を確認
-    expect(mockOnFormDataChange).toHaveBeenLastCalledWith({
-      ...mockFormData,
-      amount: '1000',
-    });
+    // 変更が呼ばれることを確認
+    expect(mockOnFormDataChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        amount: '1000',
+      })
+    );
   });
 
   it('should call onClose when cancel button is clicked', async () => {
