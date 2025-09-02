@@ -4,7 +4,6 @@ import { ExpensesSection } from '../../components/organisms/ExpensesSection';
 import { useAppStore } from '@/store/useAppStore';
 import { CURRENCIES } from '@/lib/constants';
 import { useEffect } from 'react';
-import type { Expense } from '@/types';
 
 const meta: Meta<typeof ExpensesSection> = {
   title: 'Organisms/ExpensesSection',

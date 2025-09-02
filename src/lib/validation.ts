@@ -1,5 +1,3 @@
-import { z } from 'zod';
-
 export class ValidationError extends Error {
   constructor(
     message: string,
