@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ParticipantsSection } from '../../components/organisms/ParticipantsSection';
 import { useAppStore } from '@/store/useAppStore';
+import { useEffect } from 'react';
 
 const meta: Meta<typeof ParticipantsSection> = {
   title: 'Organisms/ParticipantsSection',
@@ -17,16 +18,18 @@ type Story = StoryObj<typeof meta>;
 // ストーリー用のデコレーター
 const withStore =
   (participantNames: string[] = []) =>
-  (Story: any) => {
-    // ストアをリセット
-    useAppStore.getState().resetAll();
+  (Story: React.ComponentType) => {
+    useEffect(() => {
+      // ストアをリセット
+      useAppStore.getState().resetAll();
 
-    // テストデータを追加
-    participantNames.forEach((name) => {
-      useAppStore.getState().addParticipant(name);
-    });
+      // テストデータを追加
+      participantNames.forEach((name) => {
+        useAppStore.getState().addParticipant(name);
+      });
+    }, []);
 
-    return Story();
+    return <Story />;
   };
 
 export const Empty: Story = {
