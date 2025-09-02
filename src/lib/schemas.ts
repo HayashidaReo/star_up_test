@@ -40,9 +40,13 @@ export const expenseSchema = z.object({
   payerId: z.string().min(1, '支払者を選択してください'),
   currency: z
     .string()
-    .refine((val): val is string => (Object.values(CURRENCIES) as string[]).includes(val), {
-      message: '有効な通貨を選択してください',
-    }),
+    .refine(
+      (val): val is string =>
+        (Object.values(CURRENCIES) as string[]).includes(val),
+      {
+        message: '有効な通貨を選択してください',
+      },
+    ),
 });
 
 // フォームデータの型を推論

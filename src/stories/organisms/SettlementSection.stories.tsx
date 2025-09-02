@@ -39,7 +39,13 @@ const withStore =
 
         // 費用を追加
         expenseData.forEach((expense) => {
-            if (expense.payerId === undefined || expense.amount === undefined || expense.currency === undefined || expense.description === undefined) return;
+          if (
+            expense.payerId === undefined ||
+            expense.amount === undefined ||
+            expense.currency === undefined ||
+            expense.description === undefined
+          )
+            return;
           const correctPayerId =
             addedParticipants[expense.payerId] || expense.payerId;
           useAppStore.getState().addExpense({
