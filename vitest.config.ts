@@ -14,6 +14,12 @@ export default defineConfig({
     projects: [
       {
         // プロジェクト1: ユニット/コンポーネントテスト
+        plugins: [react()],
+        resolve: {
+          alias: {
+            '@': path.resolve(__dirname, './src'),
+          },
+        },
         test: {
           name: 'unit',
           globals: true,
