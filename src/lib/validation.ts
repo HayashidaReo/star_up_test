@@ -12,20 +12,20 @@ export class ValidationError extends Error {
 
 export const validateAmount = (amount: number): void => {
   if (amount <= 0) {
-    throw new ValidationError('Amount must be greater than 0', 'amount');
+    throw new ValidationError('金額は0より大きい値を入力してください', 'amount');
   }
   if (!Number.isFinite(amount)) {
-    throw new ValidationError('Amount must be a valid number', 'amount');
+    throw new ValidationError('金額は有効な数値を入力してください', 'amount');
   }
 };
 
 export const validateParticipantName = (name: string): void => {
   if (!name || name.trim().length === 0) {
-    throw new ValidationError('Participant name cannot be empty', 'name');
+    throw new ValidationError('参加者名を入力してください', 'name');
   }
   if (name.length > 50) {
     throw new ValidationError(
-      'Participant name must be 50 characters or less',
+      '参加者名は50文字以内で入力してください',
       'name',
     );
   }
@@ -34,13 +34,13 @@ export const validateParticipantName = (name: string): void => {
 export const validateExpenseDescription = (description: string): void => {
   if (!description || description.trim().length === 0) {
     throw new ValidationError(
-      'Expense description cannot be empty',
+      '支出の説明を入力してください',
       'description',
     );
   }
   if (description.length > 100) {
     throw new ValidationError(
-      'Expense description must be 100 characters or less',
+      '支出の説明は100文字以内で入力してください',
       'description',
     );
   }
