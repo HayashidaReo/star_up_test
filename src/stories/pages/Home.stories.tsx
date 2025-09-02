@@ -41,7 +41,7 @@ const withStore =
         expenseData.forEach((expense) => {
           const correctPayerId =
             addedParticipants[expense.payerId] || expense.payerId;
-          
+
           useAppStore.getState().addExpense({
             description: expense.description,
             amount: expense.amount,

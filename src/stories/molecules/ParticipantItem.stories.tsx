@@ -84,4 +84,3 @@ export const JapaneseName: Story = {
     onRemove: () => {}, // No-op function for Storybook
   },
 };
-

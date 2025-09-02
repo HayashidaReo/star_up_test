@@ -18,7 +18,7 @@ export function generateId(): string {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) {
     return crypto.randomUUID();
   }
-  
+
   // フォールバック: crypto APIが利用できない場合
   // Node.js環境での処理
   if (typeof require !== 'undefined') {
@@ -29,14 +29,16 @@ export function generateId(): string {
       // requireが失敗した場合は次のフォールバックへ
     }
   }
-  
+
   // 最後のフォールバック: Crypto APIを使った安全な文字列生成
   if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
     const array = new Uint8Array(16);
     crypto.getRandomValues(array);
-    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+    return Array.from(array, (byte) => byte.toString(16).padStart(2, '0')).join(
+      '',
+    );
   }
-  
+
   // 最終フォールバック（非推奨だが、エラーを避けるため）
   return Math.random().toString(36).substr(2, 9);
 }

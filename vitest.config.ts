@@ -31,9 +31,7 @@ export default defineConfig({
       },
       {
         // プロジェクト2: Storybookのブラウザテスト
-        plugins: [
-          storybookTest(),
-        ],
+        plugins: [storybookTest()],
         test: {
           name: 'storybook',
           browser: {

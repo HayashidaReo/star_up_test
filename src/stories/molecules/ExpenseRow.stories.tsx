@@ -59,7 +59,7 @@ export const USDExpense: Story = {
       currency: CURRENCIES.USD,
     },
     participants: mockParticipants,
-    onRemove: (id: string) => {}  ,
+    onRemove: (id: string) => {},
   },
 };
 
