@@ -23,11 +23,15 @@ export function generateId(): string {
   if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
     const array = new Uint8Array(16);
     crypto.getRandomValues(array);
-    return Array.from(array, (byte: number) => byte.toString(16).padStart(2, '0')).join('');
+    return Array.from(array, (byte: number) =>
+      byte.toString(16).padStart(2, '0'),
+    ).join('');
   }
 
   // 最終フォールバック（非推奨だが、エラーを避けるため）
-  console.warn('No secure random number generator available, using Math.random() as fallback');
+  console.warn(
+    'No secure random number generator available, using Math.random() as fallback',
+  );
   return Math.random().toString(36).substr(2, 9);
 }
 
