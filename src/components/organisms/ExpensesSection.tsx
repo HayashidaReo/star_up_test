@@ -1,25 +1,25 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/atoms/card';
+import { Button } from '@/components/atoms/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/components/atoms/dialog';
 import {
   Table,
   TableBody,
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { EmptyState } from '@/components/ui/EmptyState';
-import { ExpenseForm } from '@/components/ExpenseForm';
-import { ExpenseRow } from '@/components/ExpenseRow';
+} from '@/components/atoms/table';
+import { EmptyState } from '@/components/molecules/EmptyState';
+import { ExpenseForm } from '@/components/molecules/ExpenseForm';
+import { ExpenseRow } from '@/components/molecules/ExpenseRow';
 import { useAppStore } from '@/store/useAppStore';
 import { Plus } from 'lucide-react';
 import { MESSAGES, DEFAULT_CURRENCY } from '@/lib/constants';

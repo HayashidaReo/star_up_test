@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { EmptyState } from '@/components/ui/EmptyState';
-import { ParticipantItem } from '@/components/ParticipantItem';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/atoms/card';
+import { Button } from '@/components/atoms/button';
+import { Input } from '@/components/atoms/input';
+import { EmptyState } from '@/components/molecules/EmptyState';
+import { ParticipantItem } from '@/components/molecules/ParticipantItem';
 import { useAppStore } from '@/store/useAppStore';
 import { Plus } from 'lucide-react';
 import { PLACEHOLDERS, MESSAGES } from '@/lib/constants';

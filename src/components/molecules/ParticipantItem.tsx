@@ -1,6 +1,6 @@
 import React from 'react';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback } from '@/components/atoms/avatar';
+import { Button } from '@/components/atoms/button';
 import { X } from 'lucide-react';
 import { Participant } from '@/types';
 import { getInitials } from '@/lib/utils';

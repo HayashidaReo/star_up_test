@@ -5,7 +5,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from './select';
+} from '../atoms/select';
 import { Participant } from '@/types';
 
 interface ParticipantSelectProps {

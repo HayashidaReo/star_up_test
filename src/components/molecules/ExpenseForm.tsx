@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { CurrencySelect } from '@/components/ui/CurrencySelect';
-import { ParticipantSelect } from '@/components/ui/ParticipantSelect';
+import { Button } from '@/components/atoms/button';
+import { Input } from '@/components/atoms/input';
+import { CurrencySelect } from '@/components/molecules/CurrencySelect';
+import { ParticipantSelect } from '@/components/molecules/ParticipantSelect';
 import { Participant, ExpenseFormData, Currency } from '@/types';
 import { PLACEHOLDERS, MESSAGES } from '@/lib/constants';
 import { isValidString, isValidNumber } from '@/lib/utils';

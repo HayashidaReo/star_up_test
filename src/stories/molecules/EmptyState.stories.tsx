@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { EmptyState } from '../../components/ui/EmptyState';
+import { EmptyState } from '../../components/molecules/EmptyState';
 
 const meta: Meta<typeof EmptyState> = {
   title: 'Molecules/EmptyState',

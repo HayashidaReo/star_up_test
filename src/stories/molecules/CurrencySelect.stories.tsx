@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CurrencySelect } from '../../components/ui/CurrencySelect';
+import { CurrencySelect } from '../../components/molecules/CurrencySelect';
 import { CURRENCIES } from '@/lib/constants';
 import { useState } from 'react';
 

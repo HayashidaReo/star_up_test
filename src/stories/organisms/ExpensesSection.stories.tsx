@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ExpensesSection } from '../../components/ExpensesSection';
+import { ExpensesSection } from '../../components/organisms/ExpensesSection';
 import { useAppStore } from '@/store/useAppStore';
 import { CURRENCIES } from '@/lib/constants';
 import { useEffect } from 'react';

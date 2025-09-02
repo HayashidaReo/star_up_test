@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ExpenseRow } from '../../components/ExpenseRow';
+import { ExpenseRow } from '../../components/molecules/ExpenseRow';
 import { Participant, Expense } from '@/types';
 import { CURRENCIES } from '@/lib/constants';
 

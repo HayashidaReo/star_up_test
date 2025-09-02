@@ -1,6 +1,6 @@
 import React from 'react';
-import { TableCell, TableRow } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
+import { TableCell, TableRow } from '@/components/atoms/table';
+import { Button } from '@/components/atoms/button';
 import { X } from 'lucide-react';
 import { Expense, Participant } from '@/types';
 import { formatAmount } from '@/lib/utils';

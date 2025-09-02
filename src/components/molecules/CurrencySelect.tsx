@@ -5,7 +5,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from './select';
+} from '../atoms/select';
 import { CURRENCIES, CURRENCY_SYMBOLS } from '@/lib/constants';
 import { Currency } from '@/types';
 
