@@ -3,6 +3,7 @@ import Home from '../../app/page';
 import { useAppStore } from '@/store/useAppStore';
 import { CURRENCIES } from '@/lib/constants';
 import { useEffect } from 'react';
+import { AreaChart } from 'lucide-react';
 
 const meta: Meta<typeof Home> = {
   title: 'Pages/Home',
@@ -36,29 +37,17 @@ const withStore =
           }
         });
 
-        console.log('Added participants:', useAppStore.getState().participants);
-
         // 費用を追加（正しいIDを使用）
         expenseData.forEach((expense) => {
           const correctPayerId =
             addedParticipants[expense.payerId] || expense.payerId;
-          console.log(
-            `Adding expense with payerId: ${correctPayerId}`,
-            expense,
-          );
+          
           useAppStore.getState().addExpense({
             description: expense.description,
             amount: expense.amount,
             payerId: correctPayerId,
             currency: expense.currency,
           });
-        });
-
-        const finalState = useAppStore.getState();
-        console.log('Final state:', {
-          participants: finalState.participants,
-          expenses: finalState.expenses,
-          settlements: finalState.settlements,
         });
       }, []);
 

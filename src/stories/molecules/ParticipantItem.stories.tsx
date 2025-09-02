@@ -31,7 +31,7 @@ const mockParticipant: Participant = {
 export const Default: Story = {
   args: {
     participant: mockParticipant,
-    onRemove: (id: string) => console.log('Remove participant:', id),
+    onRemove: () => {}, // No-op function for Storybook
   },
 };
 
@@ -41,7 +41,7 @@ export const SingleName: Story = {
       id: '2',
       name: 'Alice',
     },
-    onRemove: (id: string) => console.log('Remove participant:', id),
+    onRemove: () => {}, // No-op function for Storybook
   },
 };
 
@@ -51,17 +51,27 @@ export const MultipleWords: Story = {
       id: '3',
       name: 'John Michael Smith',
     },
-    onRemove: (id: string) => console.log('Remove participant:', id),
+    onRemove: (id: string) => {},
   },
 };
 
 export const LongName: Story = {
   args: {
     participant: {
-      id: '4',
-      name: 'Christopher Alexander Johnson',
+      id: '3',
+      name: 'Christopher Alexander Anderson',
     },
-    onRemove: (id: string) => console.log('Remove participant:', id),
+    onRemove: () => {}, // No-op function for Storybook
+  },
+};
+
+export const ShortName: Story = {
+  args: {
+    participant: {
+      id: '4',
+      name: 'Li',
+    },
+    onRemove: () => {}, // No-op function for Storybook
   },
 };
 
@@ -71,6 +81,7 @@ export const JapaneseName: Story = {
       id: '5',
       name: '田中太郎',
     },
-    onRemove: (id: string) => console.log('Remove participant:', id),
+    onRemove: () => {}, // No-op function for Storybook
   },
 };
+

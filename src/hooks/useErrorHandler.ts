@@ -4,11 +4,20 @@ export interface ErrorHandler {
   handleError: (error: Error | string) => void;
 }
 
+/**
+ * エラーハンドリングフック
+ */
 export function useErrorHandler(): ErrorHandler {
   const handleError = useCallback((error: Error | string) => {
     const message = typeof error === 'string' ? error : error.message;
-    console.error('Error:', message);
-    // ここで実際のエラーハンドリング（ログ送信、通知表示など）を実装できます
+    
+    // ユーザーに対してvisualなフィードバックを提供
+    alert(`エラーが発生しました: ${message}`);
+    
+    // 開発環境でのみコンソールにログを出力
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error:', message);
+    }
   }, []);
 
   return { handleError };

@@ -45,7 +45,7 @@ export const Default: Story = {
   args: {
     expense: mockExpense,
     participants: mockParticipants,
-    onRemove: (id: string) => console.log('Remove expense:', id),
+    onRemove: (id: string) => {},
   },
 };
 
@@ -59,7 +59,7 @@ export const USDExpense: Story = {
       currency: CURRENCIES.USD,
     },
     participants: mockParticipants,
-    onRemove: (id: string) => console.log('Remove expense:', id),
+    onRemove: (id: string) => {}  ,
   },
 };
 
@@ -73,7 +73,7 @@ export const EURExpense: Story = {
       currency: CURRENCIES.EUR,
     },
     participants: mockParticipants,
-    onRemove: (id: string) => console.log('Remove expense:', id),
+    onRemove: (id: string) => {},
   },
 };
 
@@ -87,7 +87,7 @@ export const LargeAmount: Story = {
       currency: CURRENCIES.JPY,
     },
     participants: mockParticipants,
-    onRemove: (id: string) => console.log('Remove expense:', id),
+    onRemove: (id: string) => {},
   },
 };
 
@@ -102,6 +102,6 @@ export const LongDescription: Story = {
       currency: CURRENCIES.JPY,
     },
     participants: mockParticipants,
-    onRemove: (id: string) => console.log('Remove expense:', id),
+    onRemove: (id: string) => {},
   },
 };
