@@ -18,9 +18,6 @@ interface AppStore {
   addExpense: (expense: CreateExpense) => void;
   removeExpense: (id: string) => void;
 
-  // 精算計算
-  calculateSettlements: () => void;
-
   // リセット
   resetAll: () => void;
 }
@@ -112,13 +109,6 @@ export const useAppStore = create<AppStore>((set) => ({
         settlements: newSettlements,
       };
     });
-  },
-
-  // 精算を計算（手動実行用）
-  calculateSettlements: () => {
-    set((state) => ({
-      settlements: calculateSettlements(state.participants, state.expenses),
-    }));
   },
 
   // すべてをリセット

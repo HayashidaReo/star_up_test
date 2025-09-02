@@ -2,11 +2,9 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { SettlementItem } from '@/components/SettlementItem';
 import { useAppStore } from '@/store/useAppStore';
-import { Calculator } from 'lucide-react';
 import { MESSAGES } from '@/lib/constants';
 import {
   calculateTotalAmount,
@@ -15,8 +13,7 @@ import {
 import { formatAmount } from '@/lib/utils';
 
 export function SettlementSection() {
-  const { participants, expenses, settlements, calculateSettlements } =
-    useAppStore();
+  const { participants, expenses, settlements } = useAppStore();
 
   // 合計金額を計算
   const totalAmount = calculateTotalAmount(expenses);
@@ -26,11 +23,6 @@ export function SettlementSection() {
     totalAmount,
     participants.length,
   );
-
-  // 精算を実行する関数
-  const handleSettle = () => {
-    calculateSettlements();
-  };
 
   // 空の状態のメッセージを取得
   const getEmptyMessage = () => {
@@ -76,18 +68,6 @@ export function SettlementSection() {
         ) : (
           <EmptyState message={getEmptyMessage()} />
         )}
-
-        {/* 精算ボタン */}
-        <div className="flex justify-center">
-          <Button
-            onClick={handleSettle}
-            disabled={participants.length === 0 || expenses.length === 0}
-            className="px-8"
-          >
-            <Calculator className="mr-2 h-4 w-4" />
-            {MESSAGES.SETTLE}
-          </Button>
-        </div>
       </CardContent>
     </Card>
   );
