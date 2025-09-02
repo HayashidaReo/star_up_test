@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.19.0'
+          node-version: "22.19.0"
 
       # 3. 依存ライブラリのキャッシュを設定
       - name: Cache dependencies
@@ -32,35 +32,44 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      # 4. Playwrightのブラウザをインストール
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
-      # 5. 依存ライブラリをインストール
+      # 4. 依存ライブラリをインストール
       - name: Install dependencies
         run: npm ci
 
-      # 6. コードフォーマットチェックを実行
+      # 5. Playwrightのブラウザをキャッシュ
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+
+      # 6. キャッシュが存在しない場合のみPlaywrightをインストール
+      - name: Install Playwright browsers if not cached
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+
+      # 7. コードフォーマットチェックを実行
       - name: Check Code Formatting
         id: format-check
         run: npm run format:check
 
-      # 7. Linterを実行
+      # 8. Linterを実行
       - name: Run Linter
         id: lint
         run: npm run lint
 
-      # 8. 関数のテストを実行
+      # 9. 関数のテストを実行
       - name: Run Unit Tests
         id: test
         run: npm run test
 
-      # 9. storybookテストを実行
+      # 10. storybookテストを実行
       - name: Run Storybook Tests
         id: storybook-test
         run: npm run test:storybook
 
-      # 10. 結果のサマリーを表示
+      # 11. 結果のサマリーを表示
       - name: Show Test Results
         if: always()
         run: |
