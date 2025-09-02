@@ -11,10 +11,9 @@ export class ValidationError extends Error {
   }
 }
 
-export const validateParticipant = (participant: unknown): boolean => {
+export const validateParticipant = (participant: unknown): void => {
   try {
     participantSchema.parse(participant);
-    return true;
   } catch (error) {
     if (error instanceof z.ZodError) {
       throw new ValidationError(
@@ -26,10 +25,9 @@ export const validateParticipant = (participant: unknown): boolean => {
   }
 };
 
-export const validateExpense = (expense: unknown): boolean => {
+export const validateExpense = (expense: unknown): void => {
   try {
     expenseSchema.parse(expense);
-    return true;
   } catch (error) {
     if (error instanceof z.ZodError) {
       throw new ValidationError(
@@ -41,17 +39,16 @@ export const validateExpense = (expense: unknown): boolean => {
   }
 };
 
-export const validateAmount = (amount: number): boolean => {
+export const validateAmount = (amount: number): void => {
   if (amount <= 0) {
     throw new ValidationError('Amount must be greater than 0', 'amount');
   }
   if (!Number.isFinite(amount)) {
     throw new ValidationError('Amount must be a valid number', 'amount');
   }
-  return true;
 };
 
-export const validateParticipantName = (name: string): boolean => {
+export const validateParticipantName = (name: string): void => {
   if (!name || name.trim().length === 0) {
     throw new ValidationError('Participant name cannot be empty', 'name');
   }
@@ -61,10 +58,9 @@ export const validateParticipantName = (name: string): boolean => {
       'name',
     );
   }
-  return true;
 };
 
-export const validateExpenseDescription = (description: string): boolean => {
+export const validateExpenseDescription = (description: string): void => {
   if (!description || description.trim().length === 0) {
     throw new ValidationError(
       'Expense description cannot be empty',
@@ -77,5 +73,4 @@ export const validateExpenseDescription = (description: string): boolean => {
       'description',
     );
   }
-  return true;
 };
