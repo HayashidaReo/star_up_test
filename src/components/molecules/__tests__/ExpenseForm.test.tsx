@@ -5,9 +5,37 @@ import userEvent from '@testing-library/user-event';
 import { ExpenseForm } from '../ExpenseForm';
 import { Participant, ExpenseFormData } from '@/types';
 
+// 型定義: モックコンポーネントのプロパティ
+interface MockButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+  [key: string]: unknown;
+}
+
+interface MockInputProps {
+  placeholder?: string;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  [key: string]: unknown;
+}
+
+interface MockCurrencySelectProps {
+  value?: string;
+  onChange?: (value: string) => void;
+  [key: string]: unknown;
+}
+
+interface MockParticipantSelectProps {
+  participants?: Participant[];
+  value?: string;
+  onChange?: (value: string) => void;
+  [key: string]: unknown;
+}
+
 // Mock components to avoid dependency issues
 vi.mock('@/components/atoms/button', () => ({
-  Button: ({ children, onClick, disabled, ...props }: any) => (
+  Button: ({ children, onClick, disabled, ...props }: MockButtonProps) => (
     <button onClick={onClick} disabled={disabled} {...props}>
       {children}
     </button>
@@ -15,7 +43,7 @@ vi.mock('@/components/atoms/button', () => ({
 }));
 
 vi.mock('@/components/atoms/input', () => ({
-  Input: ({ placeholder, value, onChange, ...props }: any) => (
+  Input: ({ placeholder, value, onChange, ...props }: MockInputProps) => (
     <input
       placeholder={placeholder}
       value={value}
@@ -26,7 +54,7 @@ vi.mock('@/components/atoms/input', () => ({
 }));
 
 vi.mock('@/components/molecules/CurrencySelect', () => ({
-  CurrencySelect: ({ value, onChange, ...props }: any) => (
+  CurrencySelect: ({ value, onChange, ...props }: MockCurrencySelectProps) => (
     <select
       value={value}
       onChange={(e) => onChange?.(e.target.value)}
@@ -40,7 +68,12 @@ vi.mock('@/components/molecules/CurrencySelect', () => ({
 }));
 
 vi.mock('@/components/molecules/ParticipantSelect', () => ({
-  ParticipantSelect: ({ participants, value, onChange, ...props }: any) => (
+  ParticipantSelect: ({
+    participants,
+    value,
+    onChange,
+    ...props
+  }: MockParticipantSelectProps) => (
     <div>
       <div>支払者を選択</div>
       <select
@@ -49,9 +82,9 @@ vi.mock('@/components/molecules/ParticipantSelect', () => ({
         {...props}
       >
         <option value="">選択してください</option>
-        {participants?.map((p: any) => (
-          <option key={p.id} value={p.id}>
-            {p.name}
+        {participants?.map((participant: Participant) => (
+          <option key={participant.id} value={participant.id}>
+            {participant.name}
           </option>
         ))}
       </select>
@@ -81,7 +114,16 @@ describe('ExpenseForm', () => {
     vi.clearAllMocks();
   });
 
-  const renderExpenseForm = (props = {}) => {
+  // 型定義: renderExpenseFormのpropsの型
+  interface RenderExpenseFormProps {
+    onSubmit?: typeof mockOnSubmit;
+    participants?: Participant[];
+    formData?: ExpenseFormData;
+    onFormDataChange?: typeof mockOnFormDataChange;
+    onClose?: typeof mockOnClose;
+  }
+
+  const renderExpenseForm = (props: RenderExpenseFormProps = {}) => {
     const defaultProps = {
       onSubmit: mockOnSubmit,
       participants: mockParticipants,
