@@ -77,9 +77,11 @@ export function calculateSettlements(
   // 端数調整: 四捨五入による誤差を最後の精算額に反映
   if (settlements.length >= 2) {
     const totalPayments = settlements.reduce((sum, s) => sum + s.amount, 0);
-    const expectedTotal = Math.round(Math.abs(Array.from(balances.values()).find(v => v > 0) || 0));
+    const expectedTotal = Math.round(
+      Math.abs(Array.from(balances.values()).find((v) => v > 0) || 0),
+    );
     const difference = expectedTotal - totalPayments;
-    
+
     if (Math.abs(difference) === 1) {
       // 新しいオブジェクトで最後の精算額を調整
       const lastIndex = settlements.length - 1;

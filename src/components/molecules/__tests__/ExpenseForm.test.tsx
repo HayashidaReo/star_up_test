@@ -107,7 +107,9 @@ describe('ExpenseForm', () => {
     renderExpenseForm();
 
     expect(screen.getByRole('button', { name: /追加/ })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /キャンセル/ })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /キャンセル/ }),
+    ).toBeInTheDocument();
   });
 
   it('should call onFormDataChange when description changes', async () => {
@@ -115,7 +117,7 @@ describe('ExpenseForm', () => {
     renderExpenseForm();
 
     const descriptionInput = screen.getByPlaceholderText(/例: 夕食代/);
-    
+
     // fireEvent.changeを使用して直接値を設定
     fireEvent.change(descriptionInput, { target: { value: 'ランチ代' } });
 
@@ -123,7 +125,7 @@ describe('ExpenseForm', () => {
     expect(mockOnFormDataChange).toHaveBeenCalledWith(
       expect.objectContaining({
         description: 'ランチ代',
-      })
+      }),
     );
   });
 
@@ -132,7 +134,7 @@ describe('ExpenseForm', () => {
     renderExpenseForm();
 
     const amountInput = screen.getByPlaceholderText(/例: 8000/);
-    
+
     // fireEvent.changeを使用して直接値を設定
     fireEvent.change(amountInput, { target: { value: '1000' } });
 
@@ -140,7 +142,7 @@ describe('ExpenseForm', () => {
     expect(mockOnFormDataChange).toHaveBeenCalledWith(
       expect.objectContaining({
         amount: '1000',
-      })
+      }),
     );
   });
 

@@ -5,15 +5,21 @@ import Home from './page'; // テスト対象のコンポーネント
 
 // コンポーネントをモック
 vi.mock('../components/organisms/ParticipantsSection', () => ({
-  ParticipantsSection: () => <div data-testid="participants-section">Participants Section</div>
+  ParticipantsSection: () => (
+    <div data-testid="participants-section">Participants Section</div>
+  ),
 }));
 
 vi.mock('../components/organisms/ExpensesSection', () => ({
-  ExpensesSection: () => <div data-testid="expenses-section">Expenses Section</div>
+  ExpensesSection: () => (
+    <div data-testid="expenses-section">Expenses Section</div>
+  ),
 }));
 
 vi.mock('../components/organisms/SettlementSection', () => ({
-  SettlementSection: () => <div data-testid="settlement-section">Settlement Section</div>
+  SettlementSection: () => (
+    <div data-testid="settlement-section">Settlement Section</div>
+  ),
 }));
 
 // テストの説明
@@ -26,7 +32,9 @@ test('Home page should render main content', () => {
   expect(title).toBeInTheDocument();
 
   // 3. 説明文が表示されることを確認
-  const description = screen.getByText('友人との旅行で発生した費用を簡単に精算');
+  const description = screen.getByText(
+    '友人との旅行で発生した費用を簡単に精算',
+  );
   expect(description).toBeInTheDocument();
 
   // 4. 各セクションが表示されることを確認

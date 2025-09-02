@@ -33,7 +33,7 @@ describe('useAppStore selectors', () => {
     it('expensesSelector は費用配列を返す', () => {
       const store = useAppStore.getState();
       store.addParticipant('田中太郎');
-      
+
       // 参加者追加後の新しい状態を取得
       const updatedStore = useAppStore.getState();
       const participants = updatedStore.participants;
@@ -147,7 +147,7 @@ describe('useAppStore selectors', () => {
       // 参加者追加後の新しい状態を取得
       const updatedStore = useAppStore.getState();
       const participants = updatedStore.participants;
-      
+
       store.addExpense({
         description: 'ランチ代',
         amount: 3000,

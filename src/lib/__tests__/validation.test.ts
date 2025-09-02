@@ -31,18 +31,24 @@ describe('validateParticipant', () => {
 
   it('should throw ValidationError for invalid participant', () => {
     const invalidParticipant = { name: '' };
-    expect(() => validateParticipant(invalidParticipant)).toThrow(ValidationError);
+    expect(() => validateParticipant(invalidParticipant)).toThrow(
+      ValidationError,
+    );
   });
 
   it('should throw ValidationError for participant with long name', () => {
     const longName = 'a'.repeat(51);
     const invalidParticipant = { name: longName };
-    expect(() => validateParticipant(invalidParticipant)).toThrow(ValidationError);
+    expect(() => validateParticipant(invalidParticipant)).toThrow(
+      ValidationError,
+    );
   });
 
   it('should throw ValidationError for missing name', () => {
     const invalidParticipant = {};
-    expect(() => validateParticipant(invalidParticipant)).toThrow(ValidationError);
+    expect(() => validateParticipant(invalidParticipant)).toThrow(
+      ValidationError,
+    );
   });
 });
 
@@ -108,7 +114,9 @@ describe('validateAmount', () => {
   it('should throw ValidationError for invalid number', () => {
     expect(() => validateAmount(Infinity)).toThrow(ValidationError);
     expect(() => validateAmount(NaN)).toThrow(ValidationError);
-    expect(() => validateAmount(Infinity)).toThrow('Amount must be a valid number');
+    expect(() => validateAmount(Infinity)).toThrow(
+      'Amount must be a valid number',
+    );
   });
 });
 
@@ -121,7 +129,9 @@ describe('validateParticipantName', () => {
 
   it('should throw ValidationError for empty name', () => {
     expect(() => validateParticipantName('')).toThrow(ValidationError);
-    expect(() => validateParticipantName('')).toThrow('Participant name cannot be empty');
+    expect(() => validateParticipantName('')).toThrow(
+      'Participant name cannot be empty',
+    );
   });
 
   it('should throw ValidationError for whitespace-only name', () => {
@@ -131,7 +141,9 @@ describe('validateParticipantName', () => {
   it('should throw ValidationError for too long name', () => {
     const longName = 'a'.repeat(51);
     expect(() => validateParticipantName(longName)).toThrow(ValidationError);
-    expect(() => validateParticipantName(longName)).toThrow('Participant name must be 50 characters or less');
+    expect(() => validateParticipantName(longName)).toThrow(
+      'Participant name must be 50 characters or less',
+    );
   });
 });
 
@@ -144,7 +156,9 @@ describe('validateExpenseDescription', () => {
 
   it('should throw ValidationError for empty description', () => {
     expect(() => validateExpenseDescription('')).toThrow(ValidationError);
-    expect(() => validateExpenseDescription('')).toThrow('Expense description cannot be empty');
+    expect(() => validateExpenseDescription('')).toThrow(
+      'Expense description cannot be empty',
+    );
   });
 
   it('should throw ValidationError for whitespace-only description', () => {
@@ -153,7 +167,11 @@ describe('validateExpenseDescription', () => {
 
   it('should throw ValidationError for too long description', () => {
     const longDescription = 'a'.repeat(101);
-    expect(() => validateExpenseDescription(longDescription)).toThrow(ValidationError);
-    expect(() => validateExpenseDescription(longDescription)).toThrow('Expense description must be 100 characters or less');
+    expect(() => validateExpenseDescription(longDescription)).toThrow(
+      ValidationError,
+    );
+    expect(() => validateExpenseDescription(longDescription)).toThrow(
+      'Expense description must be 100 characters or less',
+    );
   });
 });

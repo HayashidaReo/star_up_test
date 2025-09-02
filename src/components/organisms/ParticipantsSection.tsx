@@ -1,12 +1,7 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '../atoms/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../atoms/card';
 import { Button } from '../atoms/button';
 import { Input } from '../atoms/input';
 import { EmptyState } from '../molecules/EmptyState';

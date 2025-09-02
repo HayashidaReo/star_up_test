@@ -9,7 +9,7 @@ export const participantSchema = z.object({
     .max(50, '参加者名は50文字以内で入力してください')
     .trim()
     .refine((val) => val.length > 0, {
-      message: '参加者名を入力してください'
+      message: '参加者名を入力してください',
     }),
 });
 

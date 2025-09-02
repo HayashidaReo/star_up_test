@@ -34,7 +34,7 @@ export default defineConfig({
         plugins: [
           storybookTest({
             configDir: '.storybook',
-          })
+          }),
         ],
         test: {
           name: 'storybook',
