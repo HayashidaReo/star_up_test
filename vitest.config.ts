@@ -32,9 +32,7 @@ export default defineConfig({
       {
         // プロジェクト2: Storybookのブラウザテスト
         plugins: [
-          storybookTest({
-            configDir: '.storybook',
-          }),
+          storybookTest(),
         ],
         test: {
           name: 'storybook',
