@@ -58,7 +58,7 @@ export const Empty: Story = {
   decorators: [withStore()],
 };
 
-export const WithParticipantsNoExpenses: Story = {
+export const WithParticipantsOnly: Story = {
   decorators: [withStore(['Alice', 'Bob', 'Charlie'])],
 };
 

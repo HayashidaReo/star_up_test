@@ -54,15 +54,11 @@ const withStore =
     return <StoryWithStore />;
   };
 
-export const NoData: Story = {
+export const Empty: Story = {
   decorators: [withStore()],
 };
 
-export const NoParticipants: Story = {
-  decorators: [withStore([])],
-};
-
-export const NoExpenses: Story = {
+export const WithParticipantsOnly: Story = {
   decorators: [withStore(['Alice', 'Bob', 'Charlie'])],
 };
 

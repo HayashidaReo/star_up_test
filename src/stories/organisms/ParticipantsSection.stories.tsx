@@ -16,14 +16,14 @@ type Story = StoryObj<typeof meta>;
 
 // ストーリー用のデコレーター
 const withStore =
-  (participants: any[] = []) =>
+  (participantNames: string[] = []) =>
   (Story: any) => {
     // ストアをリセット
     useAppStore.getState().resetAll();
 
     // テストデータを追加
-    participants.forEach((participant) => {
-      useAppStore.getState().addParticipant(participant.name);
+    participantNames.forEach((name) => {
+      useAppStore.getState().addParticipant(name);
     });
 
     return Story();
@@ -34,24 +34,13 @@ export const Empty: Story = {
 };
 
 export const WithParticipants: Story = {
-  decorators: [
-    withStore([{ name: 'Alice' }, { name: 'Bob' }, { name: 'Charlie' }]),
-  ],
+  decorators: [withStore(['Alice', 'Bob', 'Charlie'])],
 };
 
 export const SingleParticipant: Story = {
-  decorators: [withStore([{ name: 'John Doe' }])],
+  decorators: [withStore(['John Doe'])],
 };
 
 export const ManyParticipants: Story = {
-  decorators: [
-    withStore([
-      { name: 'Alice' },
-      { name: 'Bob' },
-      { name: 'Charlie' },
-      { name: 'David' },
-      { name: 'Eve' },
-      { name: 'Frank' },
-    ]),
-  ],
+  decorators: [withStore(['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank'])],
 };
