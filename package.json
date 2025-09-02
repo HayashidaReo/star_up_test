@@ -17,7 +17,7 @@
     "dbuild": "docker compose build prod",
     "dprod": "docker compose up prod",
     "ddown": "docker compose down",
-    "test": "vitest --project=unit",
+    "test": "vitest",
     "test:unit": "vitest --project=unit",
     "test:storybook": "vitest --project=storybook",
     "storybook": "storybook dev -p 6006",
