@@ -33,7 +33,6 @@ import {
 import { Plus } from 'lucide-react';
 import { MESSAGES, DEFAULT_CURRENCY } from '@/lib/constants';
 import { CreateExpense, Currency, ExpenseFormData } from '@/types';
-import { expenseFormSchema } from '@/lib/validation';
 
 export function ExpensesSection() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
