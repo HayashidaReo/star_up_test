@@ -1,36 +1,206 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Star Up Test - 通貨換算機能付き割り勘アプリ
 
-## Getting Started
+Next.js 15とTypeScriptで構築された、リアルタイム通貨換算機能を備えた割り勘計算アプリケーションです。
 
-First, run the development server:
+## 🌟 機能
+
+- **参加者管理**: 割り勘参加者の追加・削除
+- **費用登録**: 項目別の費用管理
+- **通貨換算**: 200以上の通貨に対応したリアルタイム為替レート取得
+- **精算計算**: 通貨換算を考慮した精算金額の自動計算
+- **レスポンシブデザイン**: モバイル・デスクトップ対応
+
+## 🏗️ アーキテクチャ
+
+3層アーキテクチャを採用:
+- **Domain層**: ビジネスロジック（`src/domain/`）
+- **Repository層**: データアクセス抽象化（`src/repository/`）
+- **Data層**: API実装（`src/data/`）
+
+## 🛠️ 技術スタック
+
+- **フレームワーク**: Next.js 15 (App Router)
+- **言語**: TypeScript
+- **スタイリング**: Tailwind CSS
+- **UI コンポーネント**: shadcn/ui
+- **状態管理**: Zustand
+- **バリデーション**: Zod
+- **テスト**: Vitest + React Testing Library
+- **ストーリーブック**: Storybook
+- **API**: ExchangeRate.host
+- **コンテナ**: Docker + Docker Compose
+
+## 🚀 セットアップ手順
+
+### 1. 環境変数の設定
+
+プロジェクトルートに `.env` ファイルを作成し、以下の形式でAPIキーを設定してください：
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# .env
+EXCHANGERATE_API_KEY=your_api_key_here
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**APIキーの取得方法**:
+1. [ExchangeRate.host](https://exchangerate.host/) にアクセス
+2. 無料アカウントを作成
+3. APIキーを取得
+4. 上記の `your_api_key_here` を実際のAPIキーに置き換え
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 2. ローカル開発環境
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### Node.js環境での実行
 
-## Learn More
+```bash
+# 依存関係のインストール
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# 開発サーバーの起動
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+アプリケーションは http://localhost:3000 で起動します。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Docker環境での実行
 
-## Deploy on Vercel
+```bash
+# 開発用コンテナの起動
+docker compose up dev
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# または、デタッチモードで起動
+docker compose up -d dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+アプリケーションは http://localhost:3000 で起動します。
+
+### 3. 本番環境
+
+```bash
+# 本番用ビルドとコンテナ起動
+docker compose up prod
+
+# または、デタッチモードで起動
+docker compose up -d prod
+```
+
+## 📝 利用可能なスクリプト
+
+```bash
+# 開発サーバー起動
+npm run dev
+
+# 本番ビルド
+npm run build
+
+# 本番サーバー起動
+npm start
+
+# テスト実行
+npm test
+
+# テスト（ウォッチモード）
+npm run test:watch
+
+# Storybook起動
+npm run storybook
+
+# Storybookビルド
+npm run build-storybook
+
+# リンター実行
+npm run lint
+
+# コードフォーマット
+npm run format
+
+# 型チェック
+npm run type-check
+```
+
+## 🐳 Docker コマンド
+
+```bash
+# 開発環境
+docker compose up dev          # フォアグラウンド実行
+docker compose up -d dev       # バックグラウンド実行
+
+# 本番環境
+docker compose up prod         # フォアグラウンド実行
+docker compose up -d prod      # バックグラウンド実行
+
+# コンテナ停止
+docker compose down
+
+# イメージ再ビルド
+docker compose build dev       # 開発用
+docker compose build prod      # 本番用
+```
+
+## 📁 プロジェクト構造
+
+```
+src/
+├── app/                      # Next.js App Router
+│   ├── api/                  # APIルート
+│   ├── globals.css           # グローバルスタイル
+│   ├── layout.tsx           # ルートレイアウト
+│   └── page.tsx             # ホームページ
+├── components/              # UIコンポーネント
+│   ├── atoms/               # 基本コンポーネント
+│   ├── molecules/           # 複合コンポーネント
+│   ├── organisms/           # 複雑なコンポーネント
+│   └── templates/           # ページテンプレート
+├── domain/                  # ビジネスロジック
+├── repository/              # データアクセス抽象化
+├── data/                    # API実装
+├── hooks/                   # カスタムフック
+├── lib/                     # ユーティリティ
+├── store/                   # 状態管理
+├── types/                   # 型定義
+└── stories/                 # Storybook
+```
+
+## 🧪 テスト
+
+```bash
+# 全テスト実行
+npm test
+
+# 特定ファイルのテスト
+npm test -- ConvertCurrencyUseCase
+
+# カバレッジ付きテスト
+npm run test:coverage
+```
+
+## 📖 API仕様
+
+### 通貨リスト取得
+- **エンドポイント**: `/api/currencies`
+- **メソッド**: GET
+- **レスポンス**: 利用可能な通貨の一覧
+
+### 為替レート取得
+- **エンドポイント**: `/api/exchange-rates`
+- **メソッド**: GET
+- **パラメータ**: 
+  - `base`: 基準通貨（デフォルト: USD）
+  - `symbols`: 取得対象通貨（カンマ区切り）
+
+## 🤝 開発ガイド
+
+1. **ブランチ戦略**: feature/機能名 でブランチを作成
+2. **コミット**: Conventional Commits に従う
+3. **プルリクエスト**: テストとビルドが通ることを確認
+4. **コードスタイル**: Prettier + ESLint に従う
+
+## 📄 ライセンス
+
+このプロジェクトはMITライセンスの下で公開されています。
+
+## 🔗 関連リンク
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs)
+- [Tailwind CSS](https://tailwindcss.com)
+- [ExchangeRate.host API](https://exchangerate.host/)
