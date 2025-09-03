@@ -6,7 +6,7 @@ export const participantSchema = z.object({
   name: z
     .string()
     .min(1, '参加者名を入力してください')
-    .max(50, '参加者名は50文字以内で入力してください')
+    .max(20, '参加者名は20文字以内で入力してください')
     .trim()
     .refine((val) => val.length > 0, {
       message: '参加者名を入力してください',
@@ -18,7 +18,7 @@ export const expenseSchema = z.object({
   description: z
     .string()
     .min(1, '内容を入力してください')
-    .max(100, '内容は100文字以内で入力してください')
+    .max(20, '内容は20文字以内で入力してください')
     .trim(),
   amount: z
     .string()

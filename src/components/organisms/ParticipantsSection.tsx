@@ -28,7 +28,7 @@ export function ParticipantsSection() {
 
   // 参加者を追加する関数
   const handleAddParticipant = () => {
-    const validationResult = validateParticipantSafe({ id: '', name });
+    const validationResult = validateParticipantSafe({ name: newParticipantName });
 
     if (validationResult.success) {
       addParticipant(validationResult.data.name);
