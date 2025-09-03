@@ -47,7 +47,6 @@ export class CurrencyApiRepositoryImpl implements CurrencyRepository {
 
       return await response.json();
     } catch (error) {
-
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           throw new Error('リクエストがタイムアウトしました');

@@ -20,12 +20,15 @@ export function useErrorHandler(): ErrorHandler {
 
   const handleError = useCallback((error: Error | string) => {
     const message = typeof error === 'string' ? error : error.message;
-    setSnackbar({ message: `エラーが発生しました: ${message}`, isVisible: true });
+    setSnackbar({
+      message: `エラーが発生しました: ${message}`,
+      isVisible: true,
+    });
   }, []);
 
   const hideSnackbar = useCallback(() => {
     setSnackbar({ message: '', isVisible: false });
   }, []);
-  
+
   return { handleError, snackbar, hideSnackbar };
 }
