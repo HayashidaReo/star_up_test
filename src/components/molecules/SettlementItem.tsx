@@ -27,7 +27,7 @@ export function SettlementItem({ settlement, currency = 'JPY' }: SettlementItemP
         </Badge>
       </div>
       <div className="font-semibold text-gray-900">
-        {formatCurrencyAmount(settlement.amount, displayCurrency, { showDecimals: true })}
+        {formatCurrencyAmount(settlement.amount, displayCurrency)}
       </div>
     </div>
   );

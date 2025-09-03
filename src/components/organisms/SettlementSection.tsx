@@ -142,7 +142,7 @@ export function SettlementSection({
               合計金額
             </div>
             <div className="text-2xl font-bold text-blue-900">
-              {formatCurrencyAmount(totalAmount, settlementCurrency || 'JPY', { showDecimals: true })}
+              {formatCurrencyAmount(totalAmount, settlementCurrency || 'JPY')}
             </div>
           </div>
           <div className="rounded-lg bg-green-50 p-4">
@@ -150,7 +150,7 @@ export function SettlementSection({
               一人当たりの金額
             </div>
             <div className="text-2xl font-bold text-green-900">
-              {formatCurrencyAmount(perPersonAmount, settlementCurrency || 'JPY', { showDecimals: true })}
+              {formatCurrencyAmount(perPersonAmount, settlementCurrency || 'JPY')}
             </div>
           </div>
         </div>

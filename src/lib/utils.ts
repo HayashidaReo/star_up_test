@@ -91,8 +91,8 @@ export function formatCurrencyAmount(
   // デフォルトの小数点表示を通貨に応じて決定
   let { showDecimals } = options || {};
   if (showDecimals === undefined) {
-    // JPYとKRWは通常整数表示、その他は小数点2桁
-    showDecimals = !['JPY', 'KRW'].includes(currency);
+    // JPY、KRW、CNYは通常整数表示、その他は小数点2桁
+    showDecimals = !['JPY', 'KRW', 'CNY'].includes(currency);
   }
   
   // 数値の処理

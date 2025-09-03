@@ -71,6 +71,8 @@ describe('utils', () => {
     it('should format amount with major currencies', () => {
       expect(formatCurrencyAmount(1000, CURRENCIES.JPY)).toBe('¥1,000');
       expect(formatCurrencyAmount(1000000, CURRENCIES.JPY)).toBe('¥1,000,000');
+      expect(formatCurrencyAmount(1000, CURRENCIES.KRW)).toBe('₩1,000');
+      expect(formatCurrencyAmount(1000, CURRENCIES.CNY)).toBe('¥1,000');
       expect(formatCurrencyAmount(1000, CURRENCIES.USD)).toBe('$1,000.00');
       expect(formatCurrencyAmount(1000, CURRENCIES.EUR)).toBe('€1,000.00');
     });
@@ -82,16 +84,22 @@ describe('utils', () => {
 
     it('should handle zero amount', () => {
       expect(formatCurrencyAmount(0, CURRENCIES.JPY)).toBe('¥0');
+      expect(formatCurrencyAmount(0, CURRENCIES.KRW)).toBe('₩0');
+      expect(formatCurrencyAmount(0, CURRENCIES.CNY)).toBe('¥0');
       expect(formatCurrencyAmount(0, CURRENCIES.USD)).toBe('$0.00');
     });
 
     it('should handle decimal amounts correctly', () => {
       expect(formatCurrencyAmount(1234.56, CURRENCIES.JPY)).toBe('¥1,235'); // JPY rounds to integer
+      expect(formatCurrencyAmount(1234.56, CURRENCIES.KRW)).toBe('₩1,235'); // KRW rounds to integer
+      expect(formatCurrencyAmount(1234.56, CURRENCIES.CNY)).toBe('¥1,235'); // CNY rounds to integer
       expect(formatCurrencyAmount(1234.56, CURRENCIES.USD)).toBe('$1,234.56');
     });
 
     it('should support showDecimals option', () => {
       expect(formatCurrencyAmount(1000, CURRENCIES.JPY, { showDecimals: true })).toBe('¥1,000.00');
+      expect(formatCurrencyAmount(1000, CURRENCIES.KRW, { showDecimals: true })).toBe('₩1,000.00');
+      expect(formatCurrencyAmount(1000, CURRENCIES.CNY, { showDecimals: true })).toBe('¥1,000.00');
       expect(formatCurrencyAmount(1000, CURRENCIES.USD, { showDecimals: false })).toBe('$1,000');
     });
   });
