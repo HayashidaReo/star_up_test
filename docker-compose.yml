@@ -5,8 +5,8 @@ services:
       context: .
       # Dockerfileの'development'ステージまでを実行
       target: development
-      args:
-        EXCHANGERATE_API_KEY: ${EXCHANGERATE_API_KEY}
+      secrets:
+        - exchangerate_api_key
     ports:
       - '3000:3000'
     volumes:
@@ -14,6 +14,8 @@ services:
       - .:/app
     env_file:
       - .env
+    secrets:
+      - exchangerate_api_key
 
   # 本番用サービス
   prod:
@@ -21,10 +23,17 @@ services:
       context: .
       # Dockerfileの'production'ステージまでを実行
       target: production
-      args:
-        EXCHANGERATE_API_KEY: ${EXCHANGERATE_API_KEY}
+      secrets:
+        - exchangerate_api_key
     ports:
       - '3000:3000'
     env_file:
       - .env
+    secrets:
+      - exchangerate_api_key
     # 本番ではホットリロードは不要なのでvolumesは設定しない
+
+# Docker Secretsの定義
+secrets:
+  exchangerate_api_key:
+    file: ./secrets/exchangerate_api_key.txt
