@@ -109,7 +109,7 @@ export function formatCurrencyAmount(
     // 主要通貨: 記号 + 数値
     return compact
       ? `${symbol}${formattedAmount}`
-      : `${symbol}${formattedAmount}`;
+      : `${symbol} ${formattedAmount}`;
   } else {
     // その他通貨: コード + 数値
     return compact
