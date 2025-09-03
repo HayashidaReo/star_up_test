@@ -94,17 +94,37 @@ APIキーを設定せずに、モックデータを使用してアプリケー�
 
 #### モック環境での起動方法
 
+**方法1: 専用スクリプトを使用（最も簡単）**
+```bash
+# モック環境専用のスクリプトを実行
+npm run dev:mock
+```
+
+**方法2: コマンドラインで環境変数を指定**
 ```bash
 # 環境変数でモックを強制指定
 FORCE_MOCK_API=true npm run dev
 ```
-
-または、`.env` ファイルに以下を追加：
-
+**方法3: .envファイルで設定**
+プロジェクトルートの`.env`ファイルに以下を追加：
 ```bash
 # .env
 FORCE_MOCK_API=true
 ```
+
+**方法4: .env.localファイルで設定（推奨）**
+
+**方法3: .env.localファイルで設定（推奨）**
+プロジェクトルートに`.env.local`ファイルを作成：
+```bash
+# .env.local（gitignoreされるため安全）
+FORCE_MOCK_API=true
+```
+
+**注意**: 
+- コマンドライン指定（方法1）が最も確実です
+- `.env.local`ファイルは`.env`ファイルより優先されます
+- 環境変数が反映されない場合は、開発サーバーを再起動してください
 
 #### モック環境の特徴
 
@@ -147,6 +167,9 @@ docker compose up -d prod
 npm run dev
 
 # モック環境での開発サーバー起動
+npm run dev:mock
+
+# または環境変数で指定
 FORCE_MOCK_API=true npm run dev
 
 # 本番ビルド
@@ -188,9 +211,6 @@ docker compose up -d dev       # バックグラウンド実行
 docker compose up prod         # フォアグラウンド実行
 docker compose up -d prod      # バックグラウンド実行
 
-# モック環境での実行
-FORCE_MOCK_API=true docker compose up dev
-
 # コンテナ停止
 docker compose down
 
@@ -198,8 +218,6 @@ docker compose down
 docker compose build dev       # 開発用
 docker compose build prod      # 本番用
 ```
-
-**注意**: Dockerでモック環境を使用する場合は、`docker-compose.yml`の`args`セクションに`FORCE_MOCK_API=true`を追加するか、実行時に環境変数を指定してください。
 
 ## 📁 プロジェクト構造
 

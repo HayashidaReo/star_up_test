@@ -11,6 +11,7 @@ import {
 import { SettlementUseCase } from '@/domain/SettlementUseCase';
 
 // シングルトンインスタンスを作成（依存性注入パターンの簡素化版）
+console.log('🚀 useCurrency: Creating repository instance');
 const currencyRepository = CurrencyRepositoryFactory.create();
 const convertCurrencyUseCase = new ConvertCurrencyUseCase(currencyRepository);
 const settlementUseCase = new SettlementUseCase(convertCurrencyUseCase);

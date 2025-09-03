@@ -15,14 +15,17 @@ export class MockCurrencyRepository implements CurrencyRepository {
   private readonly shouldSimulateDelay: boolean;
   private readonly shouldSimulateErrors: boolean;
 
-  constructor(
-    options: {
-      simulateDelay?: boolean;
-      simulateErrors?: boolean;
-    } = {},
-  ) {
+  constructor(options: {
+    simulateDelay?: boolean;
+    simulateErrors?: boolean;
+  } = {}) {
     this.shouldSimulateDelay = options.simulateDelay ?? true;
     this.shouldSimulateErrors = options.simulateErrors ?? false;
+    
+    console.log('🎭 MockCurrencyRepository: インスタンス作成完了', {
+      simulateDelay: this.shouldSimulateDelay,
+      simulateErrors: this.shouldSimulateErrors
+    });
   }
 
   /**
