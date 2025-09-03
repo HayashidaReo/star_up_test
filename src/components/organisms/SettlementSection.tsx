@@ -108,7 +108,7 @@ export function SettlementSection({
               精算通貨
             </label>
             <div className="flex space-x-2">
-              <div className="flex-1">
+              <div className="min-w-0 flex-1">
                 <CurrencySelectApi
                   value={selectedCurrency}
                   onValueChange={setSelectedCurrency}
@@ -124,7 +124,7 @@ export function SettlementSection({
                   participants.length === 0 ||
                   expenses.length === 0
                 }
-                className="whitespace-nowrap"
+                className="flex-shrink-0 whitespace-nowrap"
               >
                 {isCalculating ? '計算中...' : '精算計算'}
               </Button>
