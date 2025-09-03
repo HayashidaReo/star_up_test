@@ -51,9 +51,7 @@ describe('ConvertCurrencyUseCase', () => {
         rate: 110.0,
       });
 
-      expect(mockRepository.getExchangeRates).toHaveBeenCalledWith('USD', [
-        'JPY',
-      ]);
+      expect(mockRepository.getExchangeRates).toHaveBeenCalledWith('USD');
     });
 
     it('為替レートが見つからない場合はエラーを投げる', async () => {
@@ -113,29 +111,11 @@ describe('ConvertCurrencyUseCase', () => {
 
     it('複数の費用を一括で変換する', async () => {
       // USD → JPY のモック
-      mockRepository.getExchangeRates.mockImplementation((base) => {
-        if (base === 'USD') {
-          return Promise.resolve({
-            base: 'USD',
-            date: '2024-01-01',
-            rates: { JPY: 110 },
-          });
-        }
-        if (base === 'EUR') {
-          return Promise.resolve({
-            base: 'EUR',
-            date: '2024-01-01',
-            rates: { JPY: 120 },
-          });
-        }
-        if (base === 'JPY') {
-          return Promise.resolve({
-            base: 'JPY',
-            date: '2024-01-01',
-            rates: { JPY: 1 },
-          });
-        }
-        throw new Error('Unexpected base currency');
+      // USDベースの為替レートを1回だけ取得するように修正
+      mockRepository.getExchangeRates.mockResolvedValue({
+        base: 'USD',
+        date: '2024-01-01',
+        rates: { JPY: 110, EUR: 0.85 }, // EUR to JPY via USD: 110/0.85 = 129.41...
       });
 
       const result = await useCase.convertExpenses(expenses, 'JPY');
@@ -151,9 +131,9 @@ describe('ConvertCurrencyUseCase', () => {
       expect(result[1]).toEqual({
         originalAmount: 200,
         originalCurrency: 'EUR',
-        convertedAmount: 24000, // 200 * 120
+        convertedAmount: 25882.35, // 200 * (110/0.85) = 200 * 129.41176... = 25882.35...
         targetCurrency: 'JPY',
-        rate: 120,
+        rate: 129.41176470588235, // 110/0.85
       });
       expect(result[2]).toEqual({
         originalAmount: 50,
@@ -189,24 +169,17 @@ describe('ConvertCurrencyUseCase', () => {
         },
       ];
 
-      mockRepository.getExchangeRates.mockImplementation((base) => {
-        return Promise.resolve({
-          base,
-          date: '2024-01-01',
-          rates: { JPY: base === 'USD' ? 110 : 120 },
-        });
+      mockRepository.getExchangeRates.mockResolvedValue({
+        base: 'USD',
+        date: '2024-01-01',
+        rates: { JPY: 110, EUR: 0.85 },
       });
 
       await useCase.convertExpenses(expensesWithDuplicateCurrency, 'JPY');
 
-      // USDとEURの2回だけ呼び出されるべき
-      expect(mockRepository.getExchangeRates).toHaveBeenCalledTimes(2);
-      expect(mockRepository.getExchangeRates).toHaveBeenCalledWith('USD', [
-        'JPY',
-      ]);
-      expect(mockRepository.getExchangeRates).toHaveBeenCalledWith('EUR', [
-        'JPY',
-      ]);
+      // USDベースで1回だけ呼び出される
+      expect(mockRepository.getExchangeRates).toHaveBeenCalledTimes(1);
+      expect(mockRepository.getExchangeRates).toHaveBeenCalledWith('USD');
     });
   });
 

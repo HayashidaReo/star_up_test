@@ -4,11 +4,17 @@ import { SettlementSection } from '../../components/organisms/SettlementSection'
 import { useAppStore } from '@/store/useAppStore';
 import { CURRENCIES } from '@/lib/constants';
 import { useEffect } from 'react';
+import { mockCurrencies } from '@/data/mockData';
 import type { Expense } from '@/types';
 
 const meta: Meta<typeof SettlementSection> = {
   title: 'Organisms/SettlementSection',
   component: SettlementSection,
+  args: {
+    currencies: mockCurrencies,
+    currenciesLoading: false,
+    currenciesError: null,
+  },
   parameters: {
     layout: 'padded',
     msw: {
