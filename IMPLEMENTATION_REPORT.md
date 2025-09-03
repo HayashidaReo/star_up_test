@@ -1,4 +1,4 @@
-# 通貨換算機能実装完了レポート
+# 通貨換算機能実装
 
 ## 🎯 実装概要
 
@@ -19,8 +19,8 @@ ARCHITECTURE.mdに従い、旅行費用割り勘精算アプリケーション�
 ## 🔧 実装した機能
 
 ### 1. 通貨情報取得
-- `https://api.exchangerate.host/symbols` から利用可能通貨リストを取得
-- `https://api.exchangerate.host/latest` から最新為替レートを取得
+- `https://api.exchangerate.host/list` から利用可能通貨リストを取得
+- `https://api.exchangerate.host/live` から最新為替レートを取得
 
 ### 2. 通貨変換
 - 異なる通貨間での金額変換
@@ -141,10 +141,10 @@ const result = await settlementUseCase.calculateSettlementsWithCurrency(
 
 ### UI層
 - `src/components/molecules/CurrencySelectApi.tsx`
-- `src/components/organisms/SettlementSection.tsx` (更新)
+- `src/components/organisms/SettlementSection.tsx`
 - `src/hooks/useCurrency.ts`
 
 ### 型定義
-- `src/types/index.ts` (拡張)
+- `src/types/index.ts`
 
 この実装により、プロジェクトの設計思想である「シンプルさと表現力」「型安全性の徹底」「開発者体験と所有権」を満たした、保守性と拡張性の高い通貨換算機能が完成しました。
