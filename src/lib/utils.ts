@@ -125,10 +125,12 @@ export function calculateBasicTotalAmount(
   return expenses.reduce((sum, expense) => sum + expense.amount, 0);
 }
 
-// ...existing code...
-
-// バリデーション関数は schemas.ts から再エクスポート
-export {
-  isValidString,
-  isValidNumberIncludingZero as isValidNumber,
-} from './schemas';
+/**
+ * 通貨選択肢の表示フォーマットを生成する関数
+ */
+export function formatCurrencyOption(
+  code: string,
+  description: string,
+): string {
+  return `${code} - ${description}`;
+}
