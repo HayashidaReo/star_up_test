@@ -50,12 +50,16 @@ export function CurrencySelectApi({
 
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger>
+      <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
         {currencies.map((currency) => (
-          <SelectItem key={currency.code} value={currency.code}>
+          <SelectItem 
+            key={currency.code} 
+            value={currency.code}
+            title={`${currency.code} - ${currency.description}`}
+          >
             {currency.code} - {currency.description}
           </SelectItem>
         ))}
