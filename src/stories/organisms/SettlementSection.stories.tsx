@@ -4,14 +4,39 @@ import { SettlementSection } from '../../components/organisms/SettlementSection'
 import { useAppStore } from '@/store/useAppStore';
 import { CURRENCIES } from '@/lib/constants';
 import { useEffect } from 'react';
+import { mockCurrencies } from '@/data/mockData';
 import type { Expense } from '@/types';
 
 const meta: Meta<typeof SettlementSection> = {
   title: 'Organisms/SettlementSection',
   component: SettlementSection,
+  args: {
+    currencies: mockCurrencies,
+    currenciesLoading: false,
+    currenciesError: null,
+  },
   parameters: {
     layout: 'padded',
+    msw: {
+      handlers: [],
+    },
   },
+  decorators: [
+    (Story) => {
+      // Storybookでモック環境を確実に設定
+      if (typeof process !== 'undefined') {
+        process.env.STORYBOOK = 'true';
+        process.env.FORCE_MOCK_API = 'true';
+      }
+      if (typeof window !== 'undefined') {
+        (window as any).process = (window as any).process || {};
+        (window as any).process.env = (window as any).process.env || {};
+        (window as any).process.env.STORYBOOK = 'true';
+        (window as any).process.env.FORCE_MOCK_API = 'true';
+      }
+      return <Story />;
+    },
+  ],
   tags: ['autodocs'],
 };
 

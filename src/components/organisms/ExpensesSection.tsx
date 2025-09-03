@@ -32,9 +32,24 @@ import {
 } from '@/store/useAppStore';
 import { Plus } from 'lucide-react';
 import { MESSAGES, DEFAULT_CURRENCY } from '@/lib/constants';
-import { CreateExpense, Currency, ExpenseFormData } from '@/types';
+import {
+  CreateExpense,
+  Currency,
+  ExpenseFormData,
+  CurrencySymbol,
+} from '@/types';
 
-export function ExpensesSection() {
+interface ExpensesSectionProps {
+  currencies: CurrencySymbol[];
+  currenciesLoading: boolean;
+  currenciesError: string | null;
+}
+
+export function ExpensesSection({
+  currencies,
+  currenciesLoading,
+  currenciesError,
+}: ExpensesSectionProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [formData, setFormData] = useState<ExpenseFormData>({
     description: '',
@@ -102,6 +117,9 @@ export function ExpensesSection() {
                 formData={formData}
                 onFormDataChange={handleFormDataChange}
                 onClose={() => setIsDialogOpen(false)}
+                currencies={currencies}
+                currenciesLoading={currenciesLoading}
+                currenciesError={currenciesError}
               />
             </DialogContent>
           </Dialog>

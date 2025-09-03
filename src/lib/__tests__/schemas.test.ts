@@ -37,14 +37,14 @@ describe('schemas', () => {
       expect(result.success).toBe(false);
     });
 
-    it('50文字を超える名前を拒否する', () => {
-      const longName = 'a'.repeat(51);
+    it('20文字を超える名前を拒否する', () => {
+      const longName = 'a'.repeat(21);
       const invalidData = { name: longName };
       const result = participantSchema.safeParse(invalidData);
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error.issues[0].message).toBe(
-          '参加者名は50文字以内で入力してください',
+          '参加者名は20文字以内で入力してください',
         );
       }
     });

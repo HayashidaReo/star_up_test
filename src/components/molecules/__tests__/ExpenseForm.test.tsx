@@ -133,7 +133,14 @@ describe('ExpenseForm', () => {
       ...props,
     };
 
-    return render(<ExpenseForm {...defaultProps} />);
+    return render(
+      <ExpenseForm
+        currencies={[]}
+        currenciesLoading={false}
+        currenciesError={null}
+        {...defaultProps}
+      />,
+    );
   };
 
   it('should render all form fields', () => {
@@ -244,11 +251,17 @@ describe('ExpenseForm', () => {
     expect(mockOnSubmit).not.toHaveBeenCalled();
   });
 
-  it('should disable submit button when no participants', () => {
+  it('should show validation when no participants and button is pressed', async () => {
+    const user = userEvent.setup();
     renderExpenseForm({ participants: [] });
 
     const submitButton = screen.getByRole('button', { name: /追加/ });
-    expect(submitButton).toBeDisabled();
+    expect(submitButton).not.toBeDisabled(); // ボタンは押せる
+    expect(submitButton).toHaveClass('opacity-60'); // ただし見た目は薄い
+
+    // ボタンを押すとバリデーションエラーが表示される
+    await user.click(submitButton);
+    expect(mockOnSubmit).not.toHaveBeenCalled();
   });
 
   it('should call onFormDataChange when form data changes', async () => {

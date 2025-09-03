@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import {
   generateId,
-  getCurrencySymbol,
   getInitials,
-  formatAmount,
+  formatCurrencyAmount,
+  getCurrencyDisplayFormat,
   isValidString,
   isValidNumber,
 } from '../utils';
@@ -22,15 +22,25 @@ describe('utils', () => {
     });
   });
 
-  describe('getCurrencySymbol', () => {
-    it('should return correct currency symbols', () => {
-      expect(getCurrencySymbol(CURRENCIES.JPY)).toBe('¥');
-      expect(getCurrencySymbol(CURRENCIES.USD)).toBe('$');
-      expect(getCurrencySymbol(CURRENCIES.EUR)).toBe('€');
+  describe('getCurrencyDisplayFormat', () => {
+    it('should return correct currency display formats', () => {
+      const jpy = getCurrencyDisplayFormat(CURRENCIES.JPY);
+      expect(jpy.symbol).toBe('¥');
+      expect(jpy.isMajor).toBe(true);
+
+      const usd = getCurrencyDisplayFormat(CURRENCIES.USD);
+      expect(usd.symbol).toBe('$');
+      expect(usd.isMajor).toBe(true);
+
+      const eur = getCurrencyDisplayFormat(CURRENCIES.EUR);
+      expect(eur.symbol).toBe('€');
+      expect(eur.isMajor).toBe(true);
     });
 
-    it('should return JPY symbol for unknown currency', () => {
-      expect(getCurrencySymbol('UNKNOWN')).toBe('¥');
+    it('should handle minor currencies', () => {
+      const unknown = getCurrencyDisplayFormat('THB');
+      expect(unknown.symbol).toBe('THB');
+      expect(unknown.isMajor).toBe(false);
     });
   });
 
@@ -57,23 +67,48 @@ describe('utils', () => {
     });
   });
 
-  describe('formatAmount', () => {
-    it('should format amount with JPY currency', () => {
-      expect(formatAmount(1000)).toBe('¥1,000');
-      expect(formatAmount(1000000)).toBe('¥1,000,000');
+  describe('formatCurrencyAmount', () => {
+    it('should format amount with major currencies', () => {
+      expect(formatCurrencyAmount(1000, CURRENCIES.JPY)).toBe('¥1,000');
+      expect(formatCurrencyAmount(1000000, CURRENCIES.JPY)).toBe('¥1,000,000');
+      expect(formatCurrencyAmount(1000, CURRENCIES.KRW)).toBe('₩1,000');
+      expect(formatCurrencyAmount(1000, CURRENCIES.CNY)).toBe('¥1,000');
+      expect(formatCurrencyAmount(1000, CURRENCIES.USD)).toBe('$1,000.00');
+      expect(formatCurrencyAmount(1000, CURRENCIES.EUR)).toBe('€1,000.00');
     });
 
-    it('should format amount with specified currency', () => {
-      expect(formatAmount(1000, CURRENCIES.USD)).toBe('$1,000');
-      expect(formatAmount(1000, CURRENCIES.EUR)).toBe('€1,000');
+    it('should format amount with minor currencies', () => {
+      expect(formatCurrencyAmount(1000, 'THB')).toBe('THB 1,000.00');
+      expect(formatCurrencyAmount(25000000, 'VND')).toBe('VND 25,000,000.00');
     });
 
     it('should handle zero amount', () => {
-      expect(formatAmount(0)).toBe('¥0');
+      expect(formatCurrencyAmount(0, CURRENCIES.JPY)).toBe('¥0');
+      expect(formatCurrencyAmount(0, CURRENCIES.KRW)).toBe('₩0');
+      expect(formatCurrencyAmount(0, CURRENCIES.CNY)).toBe('¥0');
+      expect(formatCurrencyAmount(0, CURRENCIES.USD)).toBe('$0.00');
     });
 
-    it('should handle decimal amounts', () => {
-      expect(formatAmount(1234.56)).toBe('¥1,235');
+    it('should handle decimal amounts correctly', () => {
+      expect(formatCurrencyAmount(1234.56, CURRENCIES.JPY)).toBe('¥1,235'); // JPY rounds to integer
+      expect(formatCurrencyAmount(1234.56, CURRENCIES.KRW)).toBe('₩1,235'); // KRW rounds to integer
+      expect(formatCurrencyAmount(1234.56, CURRENCIES.CNY)).toBe('¥1,235'); // CNY rounds to integer
+      expect(formatCurrencyAmount(1234.56, CURRENCIES.USD)).toBe('$1,234.56');
+    });
+
+    it('should support showDecimals option', () => {
+      expect(
+        formatCurrencyAmount(1000, CURRENCIES.JPY, { showDecimals: true }),
+      ).toBe('¥1,000.00');
+      expect(
+        formatCurrencyAmount(1000, CURRENCIES.KRW, { showDecimals: true }),
+      ).toBe('₩1,000.00');
+      expect(
+        formatCurrencyAmount(1000, CURRENCIES.CNY, { showDecimals: true }),
+      ).toBe('¥1,000.00');
+      expect(
+        formatCurrencyAmount(1000, CURRENCIES.USD, { showDecimals: false }),
+      ).toBe('$1,000');
     });
   });
 

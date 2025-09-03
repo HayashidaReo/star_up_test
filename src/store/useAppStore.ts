@@ -1,7 +1,10 @@
 import { create } from 'zustand';
 import { Participant, Expense, Settlement, CreateExpense } from '../types';
 import { generateId } from '../lib/utils';
-import { calculateSettlements } from '../lib/settlement';
+import { SettlementUseCase } from '../domain/SettlementUseCase';
+
+// 基本的な精算計算用のユースケースインスタンス（通貨変換なし）
+const basicSettlementUseCase = new SettlementUseCase();
 
 // アプリケーションの状態管理ストア
 interface AppStore {
@@ -68,7 +71,7 @@ export const useAppStore = create<AppStore>((set) => ({
       const newParticipants = [...state.participants, newParticipant];
 
       // 参加者が追加されたら精算を再計算
-      const newSettlements = calculateSettlements(
+      const newSettlements = basicSettlementUseCase.calculateBasicSettlements(
         newParticipants,
         state.expenses,
       );
@@ -87,7 +90,10 @@ export const useAppStore = create<AppStore>((set) => ({
       const newExpenses = state.expenses.filter((e) => e.payerId !== id);
 
       // 参加者や費用が削除されたら精算を再計算
-      const newSettlements = calculateSettlements(newParticipants, newExpenses);
+      const newSettlements = basicSettlementUseCase.calculateBasicSettlements(
+        newParticipants,
+        newExpenses,
+      );
 
       return {
         participants: newParticipants,
@@ -108,7 +114,7 @@ export const useAppStore = create<AppStore>((set) => ({
       const newExpenses = [...state.expenses, newExpense];
 
       // 費用が追加されたら精算を再計算
-      const newSettlements = calculateSettlements(
+      const newSettlements = basicSettlementUseCase.calculateBasicSettlements(
         state.participants,
         newExpenses,
       );
@@ -126,7 +132,7 @@ export const useAppStore = create<AppStore>((set) => ({
       const newExpenses = state.expenses.filter((e) => e.id !== id);
 
       // 費用が削除されたら精算を再計算
-      const newSettlements = calculateSettlements(
+      const newSettlements = basicSettlementUseCase.calculateBasicSettlements(
         state.participants,
         newExpenses,
       );

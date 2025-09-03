@@ -3,7 +3,7 @@ import { TableCell, TableRow } from '@/components/atoms/table';
 import { Button } from '@/components/atoms/button';
 import { X } from 'lucide-react';
 import { Expense, Participant } from '@/types';
-import { formatAmount } from '@/lib/utils';
+import { formatCurrencyAmount } from '@/lib/utils';
 
 interface ExpenseRowProps {
   expense: Expense;
@@ -25,7 +25,9 @@ export function ExpenseRow({
   return (
     <TableRow>
       <TableCell className="font-medium">{expense.description}</TableCell>
-      <TableCell>{formatAmount(expense.amount, expense.currency)}</TableCell>
+      <TableCell>
+        {formatCurrencyAmount(expense.amount, expense.currency)}
+      </TableCell>
       <TableCell>{payerName}</TableCell>
       <TableCell>{expense.currency}</TableCell>
       <TableCell>

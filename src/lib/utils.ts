@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { CURRENCY_SYMBOLS, CURRENCIES } from './constants';
+import { CURRENCY_SYMBOLS, CURRENCIES, MAJOR_CURRENCIES } from './constants';
 
 /**
  * クラス名をマージする関数
@@ -29,20 +29,33 @@ export function generateId(): string {
   }
 
   // 最終フォールバック（非推奨だが、エラーを避けるため）
-  console.warn(
-    'No secure random number generator available, using Math.random() as fallback',
-  );
   return Math.random().toString(36).slice(2, 11);
 }
 
 /**
- * 通貨記号を取得する関数
+ * 通貨が主要通貨かどうかを判定する関数
  */
-export function getCurrencySymbol(currency: string): string {
-  return (
-    CURRENCY_SYMBOLS[currency as keyof typeof CURRENCY_SYMBOLS] ||
-    CURRENCY_SYMBOLS[CURRENCIES.JPY]
-  );
+export function isMajorCurrency(currency: string): boolean {
+  return MAJOR_CURRENCIES.has(currency);
+}
+
+/**
+ * 通貨の表示形式を決定する関数
+ * 主要通貨は記号、その他はISO 4217コードを使用
+ */
+export function getCurrencyDisplayFormat(currency: string): {
+  symbol: string;
+  isMajor: boolean;
+} {
+  const isMajor = isMajorCurrency(currency);
+  const symbol = isMajor
+    ? CURRENCY_SYMBOLS[currency as keyof typeof CURRENCY_SYMBOLS]
+    : currency; // ISO 4217コード
+
+  return {
+    symbol: symbol || currency,
+    isMajor,
+  };
 }
 
 /**
@@ -58,16 +71,61 @@ export function getInitials(name: string): string {
 }
 
 /**
- * 金額をフォーマットする関数
+ * 通貨表示用のフォーマット関数（より柔軟）
+ * 精算結果や詳細表示で使用
  */
-export function formatAmount(
+export function formatCurrencyAmount(
   amount: number,
-  currency: string = CURRENCIES.JPY,
+  currency: string,
+  options?: {
+    showDecimals?: boolean;
+    compact?: boolean;
+  },
 ): string {
-  const symbol = getCurrencySymbol(currency);
-  const roundedAmount = Math.round(amount);
-  return `${symbol}${roundedAmount.toLocaleString()}`;
+  const { compact = false } = options || {};
+  const { symbol, isMajor } = getCurrencyDisplayFormat(currency);
+
+  // デフォルトの小数点表示を通貨に応じて決定
+  let { showDecimals } = options || {};
+  if (showDecimals === undefined) {
+    // JPY、KRW、CNYは通常整数表示、その他は小数点2桁
+    showDecimals = !['JPY', 'KRW', 'CNY'].includes(currency);
+  }
+
+  // 数値の処理
+  const processedAmount = showDecimals
+    ? Math.round(amount * 100) / 100
+    : Math.round(amount);
+
+  // フォーマット
+  const formattedAmount = showDecimals
+    ? processedAmount.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    : processedAmount.toLocaleString('en-US');
+
+  if (isMajor) {
+    // 主要通貨: 記号 + 数値（常にスペースなし）
+    return `${symbol}${formattedAmount}`;
+  } else {
+    // その他通貨: コード + 数値（compactに応じてスペース調整）
+    return compact
+      ? `${symbol}${formattedAmount}`
+      : `${symbol} ${formattedAmount}`;
+  }
 }
+
+/**
+ * Expense配列の金額合計を計算する
+ */
+export function calculateBasicTotalAmount(
+  expenses: Array<{ amount: number }>,
+): number {
+  return expenses.reduce((sum, expense) => sum + expense.amount, 0);
+}
+
+// ...existing code...
 
 // バリデーション関数は schemas.ts から再エクスポート
 export {
