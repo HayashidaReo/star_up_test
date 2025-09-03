@@ -19,16 +19,14 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      'flex h-9 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[placeholder]:text-muted-foreground overflow-hidden',
+      'flex h-9 w-full items-center justify-between overflow-hidden rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[placeholder]:text-muted-foreground',
       className,
     )}
     {...props}
   >
-    <div className="truncate flex-1 text-left">
-      {children}
-    </div>
+    <div className="flex-1 truncate text-left">{children}</div>
     <SelectPrimitive.Icon asChild>
-      <ChevronDown className="h-4 w-4 opacity-50 flex-shrink-0 ml-2" />
+      <ChevronDown className="ml-2 h-4 w-4 flex-shrink-0 opacity-50" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));
@@ -131,7 +129,7 @@ const SelectItem = React.forwardRef<
       </SelectPrimitive.ItemIndicator>
     </span>
     <SelectPrimitive.ItemText asChild>
-      <span className="block truncate overflow-hidden text-ellipsis whitespace-nowrap pr-2">
+      <span className="block overflow-hidden truncate text-ellipsis whitespace-nowrap pr-2">
         {children}
       </span>
     </SelectPrimitive.ItemText>

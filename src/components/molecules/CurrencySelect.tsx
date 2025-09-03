@@ -63,8 +63,8 @@ export function CurrencySelect({
       </SelectTrigger>
       <SelectContent>
         {availableCurrencies.map((currency) => (
-          <SelectItem 
-            key={currency.code} 
+          <SelectItem
+            key={currency.code}
             value={currency.code}
             title={`${currency.code} - ${currency.description}`}
           >

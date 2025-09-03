@@ -31,8 +31,8 @@ export function ParticipantSelect({
       </SelectTrigger>
       <SelectContent>
         {participants.map((participant) => (
-          <SelectItem 
-            key={participant.id} 
+          <SelectItem
+            key={participant.id}
             value={participant.id}
             title={participant.name}
           >
