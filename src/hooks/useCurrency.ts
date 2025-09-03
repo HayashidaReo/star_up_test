@@ -11,7 +11,6 @@ import {
 import { SettlementUseCase } from '@/domain/SettlementUseCase';
 
 // シングルトンインスタンスを作成（依存性注入パターンの簡素化版）
-console.log('🚀 useCurrency: Creating repository instance');
 const currencyRepository = CurrencyRepositoryFactory.create();
 const convertCurrencyUseCase = new ConvertCurrencyUseCase(currencyRepository);
 const settlementUseCase = new SettlementUseCase(convertCurrencyUseCase);
@@ -50,7 +49,6 @@ export function useCurrency(): UseCurrencyState & UseCurrencyActions {
       const errorMessage =
         err instanceof Error ? err.message : '通貨リストの取得に失敗しました';
       setError(errorMessage);
-      console.error('通貨リスト取得エラー:', err);
     } finally {
       setIsLoading(false);
     }
@@ -124,7 +122,6 @@ export function useSettlementWithCurrency(): UseSettlementWithCurrencyState &
         const errorMessage =
           err instanceof Error ? err.message : '精算計算に失敗しました';
         setError(errorMessage);
-        console.error('精算計算エラー:', err);
 
         // エラー時は空の結果をセット
         setSettlements([]);

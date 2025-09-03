@@ -21,11 +21,6 @@ export class MockCurrencyRepository implements CurrencyRepository {
   } = {}) {
     this.shouldSimulateDelay = options.simulateDelay ?? true;
     this.shouldSimulateErrors = options.simulateErrors ?? false;
-    
-    console.log('🎭 MockCurrencyRepository: インスタンス作成完了', {
-      simulateDelay: this.shouldSimulateDelay,
-      simulateErrors: this.shouldSimulateErrors
-    });
   }
 
   /**

@@ -29,9 +29,6 @@ export function generateId(): string {
   }
 
   // 最終フォールバック（非推奨だが、エラーを避けるため）
-  console.warn(
-    'No secure random number generator available, using Math.random() as fallback',
-  );
   return Math.random().toString(36).slice(2, 11);
 }
 

@@ -44,8 +44,6 @@ export async function GET() {
       currencies,
     });
   } catch (error) {
-    console.error('通貨リスト取得エラー:', error);
-
     const errorMessage =
       error instanceof Error ? error.message : '通貨リストの取得に失敗しました';
 

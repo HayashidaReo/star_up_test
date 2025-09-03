@@ -67,8 +67,6 @@ export async function GET(request: NextRequest) {
       exchangeRate,
     });
   } catch (error) {
-    console.error('為替レート取得エラー:', error);
-
     const errorMessage =
       error instanceof Error ? error.message : '為替レートの取得に失敗しました';
 
