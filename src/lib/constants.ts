@@ -50,7 +50,7 @@ export const MESSAGES = {
   ADD_EXPENSE: '費用を追加',
   SETTLE: '精算する',
   CANCEL: 'キャンセル',
-  NO_PARTICIPANTS: '参加者を追加してください',
+  NO_PARTICIPANTS: '支払いを追加してください',
   NO_EXPENSES: '費用を追加してください',
   NO_PARTICIPANTS_FOR_EXPENSE: 'まず参加者を追加してください',
   NO_EXPENSES_FOR_SETTLEMENT: '費用を追加してください',
