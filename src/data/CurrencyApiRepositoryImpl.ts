@@ -64,7 +64,7 @@ export class CurrencyApiRepositoryImpl implements CurrencyRepository {
   }
 
   /**
-   * 利用可能な通貨のリストを取得する（Next.js APIルート経由）
+   * 利用可能な通貨のリストを取得する（インターフェース準拠）
    * @returns Promise<CurrencySymbol[]> - 通貨シンボルのリスト
    */
   async getCurrencySymbols(): Promise<CurrencySymbol[]> {
@@ -73,15 +73,16 @@ export class CurrencyApiRepositoryImpl implements CurrencyRepository {
         await this.fetchWithTimeout<CurrenciesApiResponse>('/api/currencies');
 
       if (!response.success || !response.currencies) {
-        throw new Error(response.error || '通貨リストの取得に失敗しました');
+        throw new Error(response.error || '通貨データの取得に失敗しました');
       }
 
       return response.currencies;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`通貨リスト取得エラー: ${error.message}`);
-      }
-      throw new Error('通貨リストの取得に失敗しました');
+      throw new Error(
+        `通貨リストの取得に失敗しました: ${
+          error instanceof Error ? error.message : '不明なエラー'
+        }`,
+      );
     }
   }
 

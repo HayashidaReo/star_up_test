@@ -1,6 +1,21 @@
 import type { Preview } from '@storybook/nextjs-vite';
 import '../src/app/globals.css';
 
+// Storybookでモック環境を強制設定
+if (typeof window !== 'undefined') {
+  // ブラウザ環境での設定
+  (window as any).process = (window as any).process || {};
+  (window as any).process.env = (window as any).process.env || {};
+  (window as any).process.env.STORYBOOK = 'true';
+  (window as any).process.env.FORCE_MOCK_API = 'true';
+}
+
+// Node.js環境での設定
+if (typeof process !== 'undefined') {
+  process.env.STORYBOOK = 'true';
+  process.env.FORCE_MOCK_API = 'true';
+}
+
 const preview: Preview = {
   parameters: {
     controls: {

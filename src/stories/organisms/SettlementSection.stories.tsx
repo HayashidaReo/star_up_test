@@ -11,7 +11,26 @@ const meta: Meta<typeof SettlementSection> = {
   component: SettlementSection,
   parameters: {
     layout: 'padded',
+    msw: {
+      handlers: [],
+    },
   },
+  decorators: [
+    (Story) => {
+      // Storybookでモック環境を確実に設定
+      if (typeof process !== 'undefined') {
+        process.env.STORYBOOK = 'true';
+        process.env.FORCE_MOCK_API = 'true';
+      }
+      if (typeof window !== 'undefined') {
+        (window as any).process = (window as any).process || {};
+        (window as any).process.env = (window as any).process.env || {};
+        (window as any).process.env.STORYBOOK = 'true';
+        (window as any).process.env.FORCE_MOCK_API = 'true';
+      }
+      return <Story />;
+    },
+  ],
   tags: ['autodocs'],
 };
 
