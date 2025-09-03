@@ -118,6 +118,17 @@ export function formatCurrencyAmount(
   }
 }
 
+/**
+ * Expense配列の金額合計を計算する
+ */
+export function calculateBasicTotalAmount(
+  expenses: Array<{ amount: number }>,
+): number {
+  return expenses.reduce((sum, expense) => sum + expense.amount, 0);
+}
+
+// ...existing code...
+
 // バリデーション関数は schemas.ts から再エクスポート
 export {
   isValidString,

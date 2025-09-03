@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { SettlementUseCase } from '@/domain/SettlementUseCase';
+import { SettlementUseCase } from '../SettlementUseCase';
 import { Participant, Expense } from '@/types';
 import { CURRENCIES } from '@/lib/constants';
+import { calculateBasicTotalAmount } from '@/lib/utils';
 
 // テスト用のSettlementUseCaseインスタンス（通貨変換なし）
 const settlementUseCase = new SettlementUseCase();
@@ -32,11 +33,11 @@ describe('SettlementUseCase', () => {
         },
       ];
 
-      expect(settlementUseCase.calculateBasicTotalAmount(expenses)).toBe(5000);
+      expect(calculateBasicTotalAmount(expenses)).toBe(5000);
     });
 
     it('should return 0 for empty expenses', () => {
-      expect(settlementUseCase.calculateBasicTotalAmount([])).toBe(0);
+      expect(calculateBasicTotalAmount([])).toBe(0);
     });
   });
 

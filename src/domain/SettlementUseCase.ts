@@ -445,11 +445,4 @@ export class SettlementUseCase {
 
     return settlements;
   }
-
-  /**
-   * 基本的な合計金額を計算する（Expense配列ベース）
-   */
-  calculateBasicTotalAmount(expenses: Expense[]): number {
-    return expenses.reduce((sum, expense) => sum + expense.amount, 0);
-  }
 }
