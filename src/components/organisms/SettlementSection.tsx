@@ -20,7 +20,7 @@ import {
 } from '@/store/useAppStore';
 import { useSettlementWithCurrency } from '@/hooks/useCurrency';
 import { MESSAGES } from '@/lib/constants';
-import { formatAmount } from '@/lib/utils';
+import { formatAmount, formatCurrencyAmount } from '@/lib/utils';
 import { CurrencySymbol } from '@/types';
 
 interface SettlementSectionProps {
@@ -140,27 +140,17 @@ export function SettlementSection({
           <div className="rounded-lg bg-blue-50 p-4">
             <div className="text-sm font-medium text-blue-600">
               合計金額
-              {settlementCurrency && settlementCurrency !== 'JPY' && (
-                <span className="ml-1 text-xs">({settlementCurrency})</span>
-              )}
             </div>
             <div className="text-2xl font-bold text-blue-900">
-              {settlementCurrency === 'JPY'
-                ? formatAmount(totalAmount)
-                : `${settlementCurrency} ${Math.round(totalAmount * 100) / 100}`}
+              {formatCurrencyAmount(totalAmount, settlementCurrency || 'JPY', { showDecimals: true })}
             </div>
           </div>
           <div className="rounded-lg bg-green-50 p-4">
             <div className="text-sm font-medium text-green-600">
               一人当たりの金額
-              {settlementCurrency && settlementCurrency !== 'JPY' && (
-                <span className="ml-1 text-xs">({settlementCurrency})</span>
-              )}
             </div>
             <div className="text-2xl font-bold text-green-900">
-              {settlementCurrency === 'JPY'
-                ? formatAmount(Math.round(perPersonAmount))
-                : `${settlementCurrency} ${Math.round(perPersonAmount * 100) / 100}`}
+              {formatCurrencyAmount(perPersonAmount, settlementCurrency || 'JPY', { showDecimals: true })}
             </div>
           </div>
         </div>
@@ -185,8 +175,8 @@ export function SettlementSection({
                         className="flex items-center justify-between rounded bg-gray-50 px-2 py-1"
                       >
                         <span>
-                          {expense.originalCurrency} {expense.originalAmount} →{' '}
-                          {expense.targetCurrency} {expense.convertedAmount}
+                          {formatCurrencyAmount(expense.originalAmount, expense.originalCurrency)} →{' '}
+                          {formatCurrencyAmount(expense.convertedAmount, expense.targetCurrency)}
                         </span>
                         <span className="text-xs text-gray-500">
                           レート: {expense.rate.toFixed(4)}
@@ -206,18 +196,11 @@ export function SettlementSection({
               {displaySettlements.map((settlement, index) => (
                 <SettlementItem
                   key={index}
-                  settlement={{
-                    ...settlement,
-                    // 通貨情報を含める（後でSettlementItemコンポーネントも更新が必要）
-                  }}
+                  settlement={settlement}
+                  currency={settlementCurrency || 'JPY'}
                 />
               ))}
             </div>
-            {settlementCurrency && settlementCurrency !== 'JPY' && (
-              <p className="mt-2 text-xs text-gray-500">
-                ※金額は {settlementCurrency} 建てで表示されています
-              </p>
-            )}
           </div>
         ) : (
           <EmptyState message={getEmptyMessage()} />

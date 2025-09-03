@@ -45,6 +45,7 @@ export interface Settlement {
   readonly from: string; // 支払う人の名前
   readonly to: string; // 受け取る人の名前
   readonly amount: number; // 金額
+  readonly currency?: string; // 通貨（オプショナル、後方互換性のため）
 }
 
 // 新しい費用を作成する際の型（IDを除く）

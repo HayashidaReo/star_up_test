@@ -9,12 +9,21 @@ export const CURRENCIES = {
   EUR: 'EUR',
 } as const;
 
-// 通貨記号のマッピング
+// 主要通貨の記号マッピング（世界的に認識度の高い通貨）
 export const CURRENCY_SYMBOLS = {
-  [CURRENCIES.JPY]: '¥',
-  [CURRENCIES.USD]: '$',
-  [CURRENCIES.EUR]: '€',
+  USD: '$',
+  EUR: '€',
+  JPY: '¥',
+  GBP: '£',
+  CAD: 'C$',
+  AUD: 'A$',
+  CHF: 'CHF',
+  CNY: '¥',
+  KRW: '₩',
 } as const;
+
+// 記号を持つ主要通貨のリスト
+export const MAJOR_CURRENCIES = new Set(Object.keys(CURRENCY_SYMBOLS));
 
 // 最小金額（精算計算での丸め誤差対策）
 export const MIN_AMOUNT_THRESHOLD = 0.01;
