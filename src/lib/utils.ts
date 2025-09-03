@@ -48,10 +48,10 @@ export function getCurrencyDisplayFormat(currency: string): {
   isMajor: boolean;
 } {
   const isMajor = isMajorCurrency(currency);
-  const symbol = isMajor 
+  const symbol = isMajor
     ? CURRENCY_SYMBOLS[currency as keyof typeof CURRENCY_SYMBOLS]
     : currency; // ISO 4217コード
-  
+
   return {
     symbol: symbol || currency,
     isMajor,
@@ -80,34 +80,41 @@ export function formatCurrencyAmount(
   options?: {
     showDecimals?: boolean;
     compact?: boolean;
-  }
+  },
 ): string {
   const { compact = false } = options || {};
   const { symbol, isMajor } = getCurrencyDisplayFormat(currency);
-  
+
   // デフォルトの小数点表示を通貨に応じて決定
   let { showDecimals } = options || {};
   if (showDecimals === undefined) {
     // JPY、KRW、CNYは通常整数表示、その他は小数点2桁
     showDecimals = !['JPY', 'KRW', 'CNY'].includes(currency);
   }
-  
+
   // 数値の処理
-  const processedAmount = showDecimals 
-    ? Math.round(amount * 100) / 100 
+  const processedAmount = showDecimals
+    ? Math.round(amount * 100) / 100
     : Math.round(amount);
-  
+
   // フォーマット
-  const formattedAmount = showDecimals 
-    ? processedAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  const formattedAmount = showDecimals
+    ? processedAmount.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
     : processedAmount.toLocaleString('en-US');
-  
+
   if (isMajor) {
     // 主要通貨: 記号 + 数値
-    return compact ? `${symbol}${formattedAmount}` : `${symbol}${formattedAmount}`;
+    return compact
+      ? `${symbol}${formattedAmount}`
+      : `${symbol}${formattedAmount}`;
   } else {
     // その他通貨: コード + 数値
-    return compact ? `${symbol}${formattedAmount}` : `${symbol} ${formattedAmount}`;
+    return compact
+      ? `${symbol}${formattedAmount}`
+      : `${symbol} ${formattedAmount}`;
   }
 }
 

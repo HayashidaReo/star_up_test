@@ -29,10 +29,10 @@ interface SettlementSectionProps {
   currenciesError: string | null;
 }
 
-export function SettlementSection({ 
-  currencies, 
-  currenciesLoading, 
-  currenciesError 
+export function SettlementSection({
+  currencies,
+  currenciesLoading,
+  currenciesError,
 }: SettlementSectionProps) {
   const participants = useAppStore(participantsSelector);
   const expenses = useAppStore(expensesSelector);
@@ -138,9 +138,7 @@ export function SettlementSection({
         {/* 概要表示 */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="rounded-lg bg-blue-50 p-4">
-            <div className="text-sm font-medium text-blue-600">
-              合計金額
-            </div>
+            <div className="text-sm font-medium text-blue-600">合計金額</div>
             <div className="text-2xl font-bold text-blue-900">
               {formatCurrencyAmount(totalAmount, settlementCurrency || 'JPY')}
             </div>
@@ -150,7 +148,10 @@ export function SettlementSection({
               一人当たりの金額
             </div>
             <div className="text-2xl font-bold text-green-900">
-              {formatCurrencyAmount(perPersonAmount, settlementCurrency || 'JPY')}
+              {formatCurrencyAmount(
+                perPersonAmount,
+                settlementCurrency || 'JPY',
+              )}
             </div>
           </div>
         </div>
@@ -175,8 +176,15 @@ export function SettlementSection({
                         className="flex items-center justify-between rounded bg-gray-50 px-2 py-1"
                       >
                         <span>
-                          {formatCurrencyAmount(expense.originalAmount, expense.originalCurrency)} →{' '}
-                          {formatCurrencyAmount(expense.convertedAmount, expense.targetCurrency)}
+                          {formatCurrencyAmount(
+                            expense.originalAmount,
+                            expense.originalCurrency,
+                          )}{' '}
+                          →{' '}
+                          {formatCurrencyAmount(
+                            expense.convertedAmount,
+                            expense.targetCurrency,
+                          )}
                         </span>
                         <span className="text-xs text-gray-500">
                           レート: {expense.rate.toFixed(4)}

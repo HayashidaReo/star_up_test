@@ -65,7 +65,7 @@ jobs:
         run: npm run test
         env:
           # テスト実行時にモック用のAPIキーを設定
-          EXCHANGERATE_API_KEY: "test_api_key_for_unit_tests"
+          EXCHANGERATE_API_KEY: 'test_api_key_for_unit_tests'
 
       # 10. storybookテストを実行
       - name: Run Storybook Tests
@@ -73,7 +73,7 @@ jobs:
         run: npm run test:storybook
         env:
           # Storybookテスト実行時にもモック用のAPIキーを設定
-          EXCHANGERATE_API_KEY: "test_api_key_for_storybook_tests"
+          EXCHANGERATE_API_KEY: 'test_api_key_for_storybook_tests'
 
       # 11. 結果のサマリーを表示
       - name: Show Test Results

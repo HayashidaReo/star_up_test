@@ -38,18 +38,16 @@ export const expenseSchema = z.object({
       { message: '金額は1,000,000以下で入力してください' },
     ),
   payerId: z.string().min(1, '支払者を選択してください'),
-  currency: z
-    .string()
-    .refine(
-      (val): val is string => {
-        // CURRENCY_SYMBOLSのキーまたは3桁の通貨コードを受け入れる
-        const majorCurrencies = Object.keys(CURRENCY_SYMBOLS);
-        return majorCurrencies.includes(val) || /^[A-Z]{3}$/.test(val);
-      },
-      {
-        message: '有効な通貨を選択してください',
-      },
-    ),
+  currency: z.string().refine(
+    (val): val is string => {
+      // CURRENCY_SYMBOLSのキーまたは3桁の通貨コードを受け入れる
+      const majorCurrencies = Object.keys(CURRENCY_SYMBOLS);
+      return majorCurrencies.includes(val) || /^[A-Z]{3}$/.test(val);
+    },
+    {
+      message: '有効な通貨を選択してください',
+    },
+  ),
 });
 
 // フォームデータの型を推論

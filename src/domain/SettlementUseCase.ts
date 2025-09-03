@@ -33,7 +33,9 @@ export class SettlementUseCase {
   }> {
     // ConvertCurrencyUseCaseが提供されていない場合はエラー
     if (!this.convertCurrencyUseCase) {
-      throw new Error('通貨変換機能が初期化されていません。ConvertCurrencyUseCaseを提供してください。');
+      throw new Error(
+        '通貨変換機能が初期化されていません。ConvertCurrencyUseCaseを提供してください。',
+      );
     }
 
     // 参加者または支出がない場合は空配列を返す
@@ -330,11 +332,11 @@ export class SettlementUseCase {
     expenses: Expense[],
   ): Settlement[] {
     // 入力検証
-    const validParticipants = participants.filter(p => 
-      new ParticipantEntity(p).isValidName()
+    const validParticipants = participants.filter((p) =>
+      new ParticipantEntity(p).isValidName(),
     );
-    const validExpenses = expenses.filter(e => 
-      new ExpenseEntity(e).isValid()
+    const validExpenses = expenses.filter((e) =>
+      new ExpenseEntity(e).isValid(),
     );
 
     // 参加者または支出がない場合は空配列を返す
@@ -385,14 +387,18 @@ export class SettlementUseCase {
       const creditor = sortedBalances[j];
 
       // 両方のバランスが0に近い場合は終了
-      if (Math.abs(debtor.balance) < MIN_AMOUNT_THRESHOLD && 
-          Math.abs(creditor.balance) < MIN_AMOUNT_THRESHOLD) {
+      if (
+        Math.abs(debtor.balance) < MIN_AMOUNT_THRESHOLD &&
+        Math.abs(creditor.balance) < MIN_AMOUNT_THRESHOLD
+      ) {
         break;
       }
 
       // 参加者IDから名前を取得
-      const debtorName = validParticipants.find((p) => p.id === debtor.id)?.name || '';
-      const creditorName = validParticipants.find((p) => p.id === creditor.id)?.name || '';
+      const debtorName =
+        validParticipants.find((p) => p.id === debtor.id)?.name || '';
+      const creditorName =
+        validParticipants.find((p) => p.id === creditor.id)?.name || '';
 
       // 精算額を決定
       const exactAmount = Math.min(-debtor.balance, creditor.balance);

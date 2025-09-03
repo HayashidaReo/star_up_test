@@ -90,7 +90,10 @@ export const useAppStore = create<AppStore>((set) => ({
       const newExpenses = state.expenses.filter((e) => e.payerId !== id);
 
       // 参加者や費用が削除されたら精算を再計算
-      const newSettlements = basicSettlementUseCase.calculateBasicSettlements(newParticipants, newExpenses);
+      const newSettlements = basicSettlementUseCase.calculateBasicSettlements(
+        newParticipants,
+        newExpenses,
+      );
 
       return {
         participants: newParticipants,

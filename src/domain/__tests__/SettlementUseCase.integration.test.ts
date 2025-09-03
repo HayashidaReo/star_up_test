@@ -30,10 +30,10 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
       base: 'USD',
       date: '2024-01-01',
       rates: {
-        JPY: 150,    // 1 USD = 150 JPY
-        EUR: 0.85,   // 1 USD = 0.85 EUR
-        KRW: 1300,   // 1 USD = 1300 KRW
-        CNY: 7.2,    // 1 USD = 7.2 CNY
+        JPY: 150, // 1 USD = 150 JPY
+        EUR: 0.85, // 1 USD = 0.85 EUR
+        KRW: 1300, // 1 USD = 1300 KRW
+        CNY: 7.2, // 1 USD = 7.2 CNY
       },
     });
   });
@@ -45,7 +45,7 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
         {
           id: '1',
           description: 'Hotel booking',
-          amount: 200,    // $200
+          amount: 200, // $200
           payerId: '1',
           currency: CURRENCIES.USD,
         },
@@ -53,7 +53,7 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
         {
           id: '2',
           description: 'Group dinner',
-          amount: 18000,  // ¥18,000
+          amount: 18000, // ¥18,000
           payerId: '2',
           currency: CURRENCIES.JPY,
         },
@@ -61,7 +61,7 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
         {
           id: '3',
           description: 'Train tickets',
-          amount: 120,    // €120
+          amount: 120, // €120
           payerId: '3',
           currency: CURRENCIES.EUR,
         },
@@ -78,7 +78,7 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
       const result = await settlementUseCase.calculateSettlementsWithCurrency(
         mockParticipants,
         expenses,
-        'JPY'
+        'JPY',
       );
 
       // 変換確認
@@ -86,28 +86,28 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
       expect(result.convertedExpenses[0]).toEqual({
         originalAmount: 200,
         originalCurrency: 'USD',
-        convertedAmount: 30000,      // 200 * 150 = 30,000 JPY
+        convertedAmount: 30000, // 200 * 150 = 30,000 JPY
         targetCurrency: 'JPY',
         rate: 150,
       });
       expect(result.convertedExpenses[1]).toEqual({
         originalAmount: 18000,
         originalCurrency: 'JPY',
-        convertedAmount: 18000,      // 変換不要
+        convertedAmount: 18000, // 変換不要
         targetCurrency: 'JPY',
         rate: 1,
       });
       expect(result.convertedExpenses[2]).toEqual({
         originalAmount: 120,
         originalCurrency: 'EUR',
-        convertedAmount: 21176.47,   // 120 * (150/0.85) = 21,176.47 JPY
+        convertedAmount: 21176.47, // 120 * (150/0.85) = 21,176.47 JPY
         targetCurrency: 'JPY',
         rate: 176.47058823529412,
       });
       expect(result.convertedExpenses[3]).toEqual({
         originalAmount: 130000,
         originalCurrency: 'KRW',
-        convertedAmount: 15000,      // 130000 * (150/1300) = 15,000 JPY
+        convertedAmount: 15000, // 130000 * (150/1300) = 15,000 JPY
         targetCurrency: 'JPY',
         rate: 0.11538461538461539,
       });
@@ -129,21 +129,21 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
         {
           id: '1',
           description: 'Restaurant',
-          amount: 33.33,  // $33.33（3で割り切れない金額）
+          amount: 33.33, // $33.33（3で割り切れない金額）
           payerId: '1',
           currency: CURRENCIES.USD,
         },
         {
           id: '2',
           description: 'Taxi',
-          amount: 2777,   // ¥2,777（素数）
+          amount: 2777, // ¥2,777（素数）
           payerId: '2',
           currency: CURRENCIES.JPY,
         },
         {
           id: '3',
           description: 'Museum',
-          amount: 47.89,  // €47.89（複雑な小数）
+          amount: 47.89, // €47.89（複雑な小数）
           payerId: '3',
           currency: CURRENCIES.EUR,
         },
@@ -152,19 +152,19 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
       const result = await settlementUseCase.calculateSettlementsWithCurrency(
         mockParticipants.slice(0, 3), // 3人のみ
         expenses,
-        'EUR'
+        'EUR',
       );
 
       expect(result.convertedExpenses).toHaveLength(3);
       expect(result.settlementCurrency).toBe('EUR');
-      
+
       // 端数処理により精算が発生することを確認
       expect(result.settlements.length).toBeGreaterThan(0);
-      
+
       // 精算額の合計が0になることを確認（精算バランス）
       const totalSettlement = result.settlements.reduce(
-        (sum, settlement) => sum + settlement.amount, 
-        0
+        (sum, settlement) => sum + settlement.amount,
+        0,
       );
       expect(Math.abs(totalSettlement)).toBeLessThan(20); // 端数誤差の許容範囲を拡大
     });
@@ -175,7 +175,7 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
         {
           id: '1',
           description: 'Luxury hotel',
-          amount: 5000,   // $5,000
+          amount: 5000, // $5,000
           payerId: '1',
           currency: CURRENCIES.USD,
         },
@@ -183,7 +183,7 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
         {
           id: '2',
           description: 'Coffee',
-          amount: 500,    // ¥500
+          amount: 500, // ¥500
           payerId: '2',
           currency: CURRENCIES.JPY,
         },
@@ -191,7 +191,7 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
         {
           id: '3',
           description: 'Lunch',
-          amount: 25,     // €25
+          amount: 25, // €25
           payerId: '3',
           currency: CURRENCIES.EUR,
         },
@@ -199,7 +199,7 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
         {
           id: '4',
           description: 'Tip',
-          amount: 1000,   // ₩1,000
+          amount: 1000, // ₩1,000
           payerId: '4',
           currency: CURRENCIES.KRW,
         },
@@ -208,23 +208,25 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
       const result = await settlementUseCase.calculateSettlementsWithCurrency(
         mockParticipants,
         expenses,
-        'CNY'
+        'CNY',
       );
 
       expect(result.settlementCurrency).toBe('CNY');
-      
+
       // 大きな金額差により複数の精算が発生することを確認
       expect(result.settlements.length).toBeGreaterThanOrEqual(2);
-      
+
       // Aliceが他の人から受け取る、または他の人がAliceに支払う精算があることを確認
-      const aliceSettlements = result.settlements.filter(s => s.to === 'アメリカ人' || s.from === 'アメリカ人');
+      const aliceSettlements = result.settlements.filter(
+        (s) => s.to === 'アメリカ人' || s.from === 'アメリカ人',
+      );
       expect(aliceSettlements.length).toBeGreaterThan(0);
     });
 
     it('5つの通貨を使用した複雑なシナリオ（KRW基準）', async () => {
       const participants = [
         ...mockParticipants,
-        { id: '5', name: 'Eve' }  // 5人目追加
+        { id: '5', name: 'Eve' }, // 5人目追加
       ];
 
       const expenses: Expense[] = [
@@ -268,28 +270,38 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
       const result = await settlementUseCase.calculateSettlementsWithCurrency(
         participants,
         expenses,
-        'KRW'
+        'KRW',
       );
 
       // 5つの通貨全てが変換されることを確認
       expect(result.convertedExpenses).toHaveLength(5);
       expect(result.settlementCurrency).toBe('KRW');
-      
+
       // 各通貨の変換を確認
-      const usdExpense = result.convertedExpenses.find(e => e.originalCurrency === 'USD');
+      const usdExpense = result.convertedExpenses.find(
+        (e) => e.originalCurrency === 'USD',
+      );
       expect(usdExpense?.convertedAmount).toBe(800 * 1300); // 1,040,000 KRW
 
-      const jpyExpense = result.convertedExpenses.find(e => e.originalCurrency === 'JPY');
-      expect(jpyExpense?.convertedAmount).toBe(45000 * (1300/150)); // 390,000 KRW
+      const jpyExpense = result.convertedExpenses.find(
+        (e) => e.originalCurrency === 'JPY',
+      );
+      expect(jpyExpense?.convertedAmount).toBe(45000 * (1300 / 150)); // 390,000 KRW
 
-      const eurExpense = result.convertedExpenses.find(e => e.originalCurrency === 'EUR');
-      expect(eurExpense?.convertedAmount).toBeCloseTo(300 * (1300/0.85), 1); // 458,823.53 KRW 近似値
+      const eurExpense = result.convertedExpenses.find(
+        (e) => e.originalCurrency === 'EUR',
+      );
+      expect(eurExpense?.convertedAmount).toBeCloseTo(300 * (1300 / 0.85), 1); // 458,823.53 KRW 近似値
 
-      const krwExpense = result.convertedExpenses.find(e => e.originalCurrency === 'KRW');
+      const krwExpense = result.convertedExpenses.find(
+        (e) => e.originalCurrency === 'KRW',
+      );
       expect(krwExpense?.convertedAmount).toBe(650000); // 変換不要
 
-      const cnyExpense = result.convertedExpenses.find(e => e.originalCurrency === 'CNY');
-      expect(cnyExpense?.convertedAmount).toBe(1800 * (1300/7.2)); // 325,000 KRW
+      const cnyExpense = result.convertedExpenses.find(
+        (e) => e.originalCurrency === 'CNY',
+      );
+      expect(cnyExpense?.convertedAmount).toBe(1800 * (1300 / 7.2)); // 325,000 KRW
     });
 
     it('同じ通貨で複数人が支払った場合の精算', async () => {
@@ -329,21 +341,25 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
       const result = await settlementUseCase.calculateSettlementsWithCurrency(
         mockParticipants,
         expenses,
-        'JPY'
+        'JPY',
       );
 
       // 変換確認
       expect(result.convertedExpenses).toHaveLength(4);
-      
+
       // USD -> JPY変換
-      const usdExpenses = result.convertedExpenses.filter(e => e.originalCurrency === 'USD');
+      const usdExpenses = result.convertedExpenses.filter(
+        (e) => e.originalCurrency === 'USD',
+      );
       expect(usdExpenses).toHaveLength(2);
-      usdExpenses.forEach(expense => {
+      usdExpenses.forEach((expense) => {
         expect(expense.convertedAmount).toBe(150 * 150); // 22,500 JPY
       });
 
       // JPY -> JPY（変換なし）
-      const jpyExpenses = result.convertedExpenses.filter(e => e.originalCurrency === 'JPY');
+      const jpyExpenses = result.convertedExpenses.filter(
+        (e) => e.originalCurrency === 'JPY',
+      );
       expect(jpyExpenses).toHaveLength(2);
       expect(jpyExpenses[0].convertedAmount).toBe(12000);
       expect(jpyExpenses[1].convertedAmount).toBe(6000);
@@ -356,7 +372,7 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
     it('為替レート取得失敗時のエラーハンドリング', async () => {
       // 為替レート取得をエラーにする
       vi.spyOn(mockRepository, 'getExchangeRates').mockRejectedValue(
-        new Error('API接続エラー')
+        new Error('API接続エラー'),
       );
 
       const expenses: Expense[] = [
@@ -373,8 +389,8 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
         settlementUseCase.calculateSettlementsWithCurrency(
           mockParticipants,
           expenses,
-          'JPY'
-        )
+          'JPY',
+        ),
       ).rejects.toThrow('API接続エラー');
     });
 
@@ -392,7 +408,7 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
       const result = await settlementUseCase.calculateSettlementsWithCurrency(
         mockParticipants,
         expenses,
-        'JPY'
+        'JPY',
       );
 
       // サポートされていない通貨でもエラーが発生せず、精算が行われることを確認
@@ -405,8 +421,13 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
     it('大量のデータでも効率的に処理される', async () => {
       // 100件の多通貨支出データを生成
       const expenses: Expense[] = [];
-      const currencies = [CURRENCIES.USD, CURRENCIES.JPY, CURRENCIES.EUR, CURRENCIES.KRW];
-      
+      const currencies = [
+        CURRENCIES.USD,
+        CURRENCIES.JPY,
+        CURRENCIES.EUR,
+        CURRENCIES.KRW,
+      ];
+
       for (let i = 0; i < 100; i++) {
         expenses.push({
           id: `expense_${i}`,
@@ -418,11 +439,11 @@ describe('SettlementUseCase 統合テスト（複雑な多通貨シナリオ）'
       }
 
       const startTime = Date.now();
-      
+
       const result = await settlementUseCase.calculateSettlementsWithCurrency(
         mockParticipants,
         expenses,
-        'JPY'
+        'JPY',
       );
 
       const endTime = Date.now();

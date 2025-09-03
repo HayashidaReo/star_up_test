@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { ParticipantEntity, ExpenseEntity, SettlementEntity } from '../entities';
+import {
+  ParticipantEntity,
+  ExpenseEntity,
+  SettlementEntity,
+} from '../entities';
 import { Participant, Expense, Settlement } from '@/types';
 import { CURRENCIES } from '@/lib/constants';
 
@@ -8,7 +12,7 @@ describe('Domain Entities', () => {
     it('should validate participant names correctly', () => {
       const validParticipant: Participant = { id: '1', name: 'Alice' };
       const entity = new ParticipantEntity(validParticipant);
-      
+
       expect(entity.isValidName()).toBe(true);
       expect(entity.id).toBe('1');
       expect(entity.name).toBe('Alice');
@@ -17,14 +21,14 @@ describe('Domain Entities', () => {
     it('should reject empty names', () => {
       const invalidParticipant: Participant = { id: '1', name: '' };
       const entity = new ParticipantEntity(invalidParticipant);
-      
+
       expect(entity.isValidName()).toBe(false);
     });
 
     it('should reject whitespace-only names', () => {
       const invalidParticipant: Participant = { id: '1', name: '   ' };
       const entity = new ParticipantEntity(invalidParticipant);
-      
+
       expect(entity.isValidName()).toBe(false);
     });
 
@@ -32,7 +36,7 @@ describe('Domain Entities', () => {
       const participant: Participant = { id: '1', name: 'Alice' };
       const entity = new ParticipantEntity(participant);
       const data = entity.toData();
-      
+
       expect(data).toEqual(participant);
       expect(data).not.toBe(participant); // 異なるオブジェクト参照
     });
@@ -48,7 +52,7 @@ describe('Domain Entities', () => {
         currency: CURRENCIES.JPY,
       };
       const entity = new ExpenseEntity(validExpense);
-      
+
       expect(entity.isValid()).toBe(true);
       expect(entity.id).toBe('1');
       expect(entity.amount).toBe(1000);
@@ -66,7 +70,7 @@ describe('Domain Entities', () => {
         currency: CURRENCIES.JPY,
       };
       const entity = new ExpenseEntity(invalidExpense);
-      
+
       expect(entity.isValid()).toBe(false);
     });
 
@@ -79,7 +83,7 @@ describe('Domain Entities', () => {
         currency: CURRENCIES.JPY,
       };
       const entity = new ExpenseEntity(invalidExpense);
-      
+
       expect(entity.isValid()).toBe(false);
     });
 
@@ -92,7 +96,7 @@ describe('Domain Entities', () => {
         currency: CURRENCIES.JPY,
       };
       const entity = new ExpenseEntity(invalidExpense);
-      
+
       expect(entity.isValid()).toBe(false);
     });
 
@@ -105,7 +109,7 @@ describe('Domain Entities', () => {
         currency: ' ' as any, // 無効な通貨として空白文字を使用
       };
       const entity = new ExpenseEntity(invalidExpense);
-      
+
       expect(entity.isValid()).toBe(false);
     });
 
@@ -119,7 +123,7 @@ describe('Domain Entities', () => {
       };
       const entity = new ExpenseEntity(expense);
       const data = entity.toData();
-      
+
       expect(data).toEqual(expense);
       expect(data).not.toBe(expense); // 異なるオブジェクト参照
     });
@@ -133,7 +137,7 @@ describe('Domain Entities', () => {
         amount: 1000,
       };
       const entity = new SettlementEntity(validSettlement);
-      
+
       expect(entity.isValid()).toBe(true);
       expect(entity.from).toBe('Alice');
       expect(entity.to).toBe('Bob');
@@ -147,7 +151,7 @@ describe('Domain Entities', () => {
         amount: 0,
       };
       const entity = new SettlementEntity(invalidSettlement);
-      
+
       expect(entity.isValid()).toBe(false);
     });
 
@@ -158,7 +162,7 @@ describe('Domain Entities', () => {
         amount: 1000,
       };
       const entity = new SettlementEntity(invalidSettlement);
-      
+
       expect(entity.isValid()).toBe(false);
     });
 
@@ -169,7 +173,7 @@ describe('Domain Entities', () => {
         amount: 1000,
       };
       const entity = new SettlementEntity(invalidSettlement);
-      
+
       expect(entity.isValid()).toBe(false);
     });
 
@@ -180,7 +184,7 @@ describe('Domain Entities', () => {
         amount: 1000,
       };
       const entity = new SettlementEntity(invalidSettlement);
-      
+
       expect(entity.isValid()).toBe(false);
     });
 
@@ -192,7 +196,7 @@ describe('Domain Entities', () => {
       };
       const entity = new SettlementEntity(settlement);
       const data = entity.toData();
-      
+
       expect(data).toEqual(settlement);
       expect(data).not.toBe(settlement); // 異なるオブジェクト参照
     });

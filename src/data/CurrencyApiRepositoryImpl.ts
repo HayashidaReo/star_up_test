@@ -23,8 +23,7 @@ interface ExchangeRatesApiResponse {
 export class CurrencyApiRepositoryImpl implements CurrencyRepository {
   private readonly timeout = 10000; // 10秒タイムアウト
 
-  constructor() {
-  }
+  constructor() {}
 
   /**
    * HTTPリクエストを実行する共通メソッド（Next.js APIルート経由）

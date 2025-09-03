@@ -51,7 +51,10 @@ describe('SettlementUseCase', () => {
     });
 
     it('should handle decimal amounts', () => {
-      expect(settlementUseCase.calculatePerPersonAmount(1000, 3)).toBeCloseTo(333.33, 2);
+      expect(settlementUseCase.calculatePerPersonAmount(1000, 3)).toBeCloseTo(
+        333.33,
+        2,
+      );
     });
   });
 
@@ -67,11 +70,15 @@ describe('SettlementUseCase', () => {
         },
       ];
 
-      expect(settlementUseCase.calculateBasicSettlements([], expenses)).toEqual([]);
+      expect(settlementUseCase.calculateBasicSettlements([], expenses)).toEqual(
+        [],
+      );
     });
 
     it('should return empty array for no expenses', () => {
-      expect(settlementUseCase.calculateBasicSettlements(mockParticipants, [])).toEqual([]);
+      expect(
+        settlementUseCase.calculateBasicSettlements(mockParticipants, []),
+      ).toEqual([]);
     });
 
     it('should calculate simple settlement correctly', () => {
@@ -85,7 +92,10 @@ describe('SettlementUseCase', () => {
         },
       ];
 
-      const settlements = settlementUseCase.calculateBasicSettlements(mockParticipants, expenses);
+      const settlements = settlementUseCase.calculateBasicSettlements(
+        mockParticipants,
+        expenses,
+      );
 
       expect(settlements).toHaveLength(2);
       expect(settlements[0]).toEqual({
@@ -125,7 +135,10 @@ describe('SettlementUseCase', () => {
         },
       ];
 
-      const settlements = settlementUseCase.calculateBasicSettlements(mockParticipants, expenses);
+      const settlements = settlementUseCase.calculateBasicSettlements(
+        mockParticipants,
+        expenses,
+      );
 
       expect(settlements).toHaveLength(2);
       // 実際の出力に合わせてテストを修正
@@ -153,7 +166,10 @@ describe('SettlementUseCase', () => {
         },
       ];
 
-      const settlements = settlementUseCase.calculateBasicSettlements(singleParticipant, expenses);
+      const settlements = settlementUseCase.calculateBasicSettlements(
+        singleParticipant,
+        expenses,
+      );
 
       expect(settlements).toEqual([]);
     });
@@ -169,7 +185,10 @@ describe('SettlementUseCase', () => {
         },
       ];
 
-      const settlements = settlementUseCase.calculateBasicSettlements(mockParticipants, expenses);
+      const settlements = settlementUseCase.calculateBasicSettlements(
+        mockParticipants,
+        expenses,
+      );
 
       expect(settlements).toHaveLength(2);
       expect(settlements[0]).toEqual({

@@ -32,7 +32,7 @@ function InteractiveSnackbar(args: any) {
     <div className="space-y-4">
       <button
         onClick={() => setIsVisible(true)}
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
       >
         スナックバーを表示
       </button>
@@ -99,7 +99,8 @@ export const Success: Story = {
 export const LongMessage: Story = {
   render: (args) => <InteractiveSnackbar {...args} />,
   args: {
-    message: 'これは非常に長いメッセージの例です。ユーザーに詳細な情報を提供する必要がある場合に使用します。',
+    message:
+      'これは非常に長いメッセージの例です。ユーザーに詳細な情報を提供する必要がある場合に使用します。',
     type: 'info',
     isVisible: false,
     onClose: () => {},

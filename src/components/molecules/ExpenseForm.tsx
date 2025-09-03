@@ -4,7 +4,12 @@ import { Input } from '@/components/atoms/input';
 import { Snackbar } from '@/components/atoms/snackbar';
 import { CurrencySelect } from '@/components/molecules/CurrencySelect';
 import { ParticipantSelect } from '@/components/molecules/ParticipantSelect';
-import { Participant, ExpenseFormData, Currency, CurrencySymbol } from '@/types';
+import {
+  Participant,
+  ExpenseFormData,
+  Currency,
+  CurrencySymbol,
+} from '@/types';
 import { PLACEHOLDERS, MESSAGES } from '@/lib/constants';
 import { validateExpenseSafe } from '@/lib/schemas';
 
@@ -51,15 +56,15 @@ export function ExpenseForm({
       // バリデーションエラーをフィールドごとに整理
       const errors: Record<string, string> = {};
       const errorMessages: string[] = [];
-      
+
       result.error.issues.forEach((issue) => {
         const field = issue.path[0] as string;
         errors[field] = issue.message;
         errorMessages.push(`${getFieldLabel(field)}: ${issue.message}`);
       });
-      
+
       setValidationErrors(errors);
-      
+
       // エラー内容をスナックバーで表示
       const message = `入力内容に問題があります: ${errorMessages.join(', ')}`;
       setSnackbar({ message, isVisible: true });
@@ -68,11 +73,16 @@ export function ExpenseForm({
 
   const getFieldLabel = (field: string): string => {
     switch (field) {
-      case 'description': return '内容';
-      case 'amount': return '支払額';
-      case 'payerId': return '支払者';
-      case 'currency': return '通貨';
-      default: return field;
+      case 'description':
+        return '内容';
+      case 'amount':
+        return '支払額';
+      case 'payerId':
+        return '支払者';
+      case 'currency':
+        return '通貨';
+      default:
+        return field;
     }
   };
 
@@ -165,8 +175,8 @@ export function ExpenseForm({
         <Button variant="outline" onClick={onClose}>
           {MESSAGES.CANCEL}
         </Button>
-        <Button 
-          onClick={handleSubmit} 
+        <Button
+          onClick={handleSubmit}
           className={!isFormValid ? 'opacity-60' : ''}
         >
           {MESSAGES.ADD_PARTICIPANT}

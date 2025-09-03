@@ -133,7 +133,14 @@ describe('ExpenseForm', () => {
       ...props,
     };
 
-    return render(<ExpenseForm currencies={[]} currenciesLoading={false} currenciesError={null} {...defaultProps} />);
+    return render(
+      <ExpenseForm
+        currencies={[]}
+        currenciesLoading={false}
+        currenciesError={null}
+        {...defaultProps}
+      />,
+    );
   };
 
   it('should render all form fields', () => {
@@ -251,7 +258,7 @@ describe('ExpenseForm', () => {
     const submitButton = screen.getByRole('button', { name: /追加/ });
     expect(submitButton).not.toBeDisabled(); // ボタンは押せる
     expect(submitButton).toHaveClass('opacity-60'); // ただし見た目は薄い
-    
+
     // ボタンを押すとバリデーションエラーが表示される
     await user.click(submitButton);
     expect(mockOnSubmit).not.toHaveBeenCalled();

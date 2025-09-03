@@ -8,7 +8,11 @@ import { useCurrency } from '../hooks/useCurrency';
 
 export default function Home() {
   // ページレベルで通貨データを取得
-  const { currencies, isLoading: currenciesLoading, error: currenciesError } = useCurrency();
+  const {
+    currencies,
+    isLoading: currenciesLoading,
+    error: currenciesError,
+  } = useCurrency();
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -29,14 +33,14 @@ export default function Home() {
           <ParticipantsSection />
 
           {/* 費用セクション */}
-          <ExpensesSection 
+          <ExpensesSection
             currencies={currencies}
             currenciesLoading={currenciesLoading}
             currenciesError={currenciesError}
           />
 
           {/* 精算結果セクション */}
-          <SettlementSection 
+          <SettlementSection
             currencies={currencies}
             currenciesLoading={currenciesLoading}
             currenciesError={currenciesError}

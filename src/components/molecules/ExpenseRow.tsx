@@ -25,7 +25,9 @@ export function ExpenseRow({
   return (
     <TableRow>
       <TableCell className="font-medium">{expense.description}</TableCell>
-      <TableCell>{formatCurrencyAmount(expense.amount, expense.currency)}</TableCell>
+      <TableCell>
+        {formatCurrencyAmount(expense.amount, expense.currency)}
+      </TableCell>
       <TableCell>{payerName}</TableCell>
       <TableCell>{expense.currency}</TableCell>
       <TableCell>

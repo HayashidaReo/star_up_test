@@ -11,10 +11,13 @@ interface SettlementItemProps {
 /**
  * 精算結果のアイテムコンポーネント
  */
-export function SettlementItem({ settlement, currency = 'JPY' }: SettlementItemProps) {
+export function SettlementItem({
+  settlement,
+  currency = 'JPY',
+}: SettlementItemProps) {
   // 精算アイテム自体の通貨情報、または親から渡された通貨を使用
   const displayCurrency = settlement.currency || currency;
-  
+
   return (
     <div className="flex items-center justify-between rounded-lg border bg-gray-50 p-3">
       <div className="flex items-center gap-3">

@@ -51,18 +51,18 @@ export function Snackbar({
   return (
     <div
       className={cn(
-        'fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50',
-        'min-w-72 max-w-md px-4 py-3 rounded-lg shadow-lg border',
+        'fixed bottom-4 left-1/2 z-50 -translate-x-1/2 transform',
+        'min-w-72 max-w-md rounded-lg border px-4 py-3 shadow-lg',
         'flex items-center justify-between gap-3',
-        'animate-in slide-in-from-bottom-2 duration-200',
-        getTypeStyles()
+        'duration-200 animate-in slide-in-from-bottom-2',
+        getTypeStyles(),
       )}
       role="alert"
     >
-      <p className="text-sm font-medium flex-1">{message}</p>
+      <p className="flex-1 text-sm font-medium">{message}</p>
       <button
         onClick={onClose}
-        className="flex-shrink-0 hover:opacity-70 transition-opacity"
+        className="flex-shrink-0 transition-opacity hover:opacity-70"
         aria-label="閉じる"
       >
         <X size={16} />

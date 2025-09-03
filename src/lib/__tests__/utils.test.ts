@@ -27,11 +27,11 @@ describe('utils', () => {
       const jpy = getCurrencyDisplayFormat(CURRENCIES.JPY);
       expect(jpy.symbol).toBe('¥');
       expect(jpy.isMajor).toBe(true);
-      
+
       const usd = getCurrencyDisplayFormat(CURRENCIES.USD);
       expect(usd.symbol).toBe('$');
       expect(usd.isMajor).toBe(true);
-      
+
       const eur = getCurrencyDisplayFormat(CURRENCIES.EUR);
       expect(eur.symbol).toBe('€');
       expect(eur.isMajor).toBe(true);
@@ -97,10 +97,18 @@ describe('utils', () => {
     });
 
     it('should support showDecimals option', () => {
-      expect(formatCurrencyAmount(1000, CURRENCIES.JPY, { showDecimals: true })).toBe('¥1,000.00');
-      expect(formatCurrencyAmount(1000, CURRENCIES.KRW, { showDecimals: true })).toBe('₩1,000.00');
-      expect(formatCurrencyAmount(1000, CURRENCIES.CNY, { showDecimals: true })).toBe('¥1,000.00');
-      expect(formatCurrencyAmount(1000, CURRENCIES.USD, { showDecimals: false })).toBe('$1,000');
+      expect(
+        formatCurrencyAmount(1000, CURRENCIES.JPY, { showDecimals: true }),
+      ).toBe('¥1,000.00');
+      expect(
+        formatCurrencyAmount(1000, CURRENCIES.KRW, { showDecimals: true }),
+      ).toBe('₩1,000.00');
+      expect(
+        formatCurrencyAmount(1000, CURRENCIES.CNY, { showDecimals: true }),
+      ).toBe('¥1,000.00');
+      expect(
+        formatCurrencyAmount(1000, CURRENCIES.USD, { showDecimals: false }),
+      ).toBe('$1,000');
     });
   });
 

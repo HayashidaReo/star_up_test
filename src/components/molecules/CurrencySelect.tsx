@@ -31,13 +31,14 @@ export function CurrencySelect({
   currenciesError = null,
 }: CurrencySelectProps) {
   // フォールバック用の通貨データ
-  const fallbackCurrencies = Object.values(CURRENCIES).map(code => ({ 
-    code, 
-    description: code 
+  const fallbackCurrencies = Object.values(CURRENCIES).map((code) => ({
+    code,
+    description: code,
   }));
 
   // 使用する通貨データを決定
-  const availableCurrencies = currencies.length > 0 ? currencies : fallbackCurrencies;
+  const availableCurrencies =
+    currencies.length > 0 ? currencies : fallbackCurrencies;
 
   // ローディング中の場合
   if (currenciesLoading && currencies.length === 0) {
@@ -47,7 +48,9 @@ export function CurrencySelect({
           <SelectValue placeholder="読み込み中..." />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="loading" disabled>読み込み中...</SelectItem>
+          <SelectItem value="loading" disabled>
+            読み込み中...
+          </SelectItem>
         </SelectContent>
       </Select>
     );
