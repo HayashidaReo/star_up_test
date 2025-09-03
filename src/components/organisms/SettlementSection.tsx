@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -18,23 +18,28 @@ import {
   expensesSelector,
   settlementsSelector,
 } from '@/store/useAppStore';
-import { useCurrency, useSettlementWithCurrency } from '@/hooks/useCurrency';
+import { useSettlementWithCurrency } from '@/hooks/useCurrency';
 import { MESSAGES } from '@/lib/constants';
 import { formatAmount } from '@/lib/utils';
+import { CurrencySymbol } from '@/types';
 
-export function SettlementSection() {
+interface SettlementSectionProps {
+  currencies: CurrencySymbol[];
+  currenciesLoading: boolean;
+  currenciesError: string | null;
+}
+
+export function SettlementSection({ 
+  currencies, 
+  currenciesLoading, 
+  currenciesError 
+}: SettlementSectionProps) {
   const participants = useAppStore(participantsSelector);
   const expenses = useAppStore(expensesSelector);
   const settlements = useAppStore(settlementsSelector);
 
-  // 通貨関連のフック
-  const {
-    currencies,
-    isLoading: isCurrenciesLoading,
-    error: currenciesError,
-    selectedCurrency,
-    setSelectedCurrency,
-  } = useCurrency();
+  // 選択された通貨の状態管理
+  const [selectedCurrency, setSelectedCurrency] = useState<string>('JPY');
 
   // 精算計算関連のフック
   const {
@@ -108,7 +113,7 @@ export function SettlementSection() {
                   value={selectedCurrency}
                   onValueChange={setSelectedCurrency}
                   currencies={currencies}
-                  isLoading={isCurrenciesLoading}
+                  isLoading={currenciesLoading}
                   error={currenciesError ?? undefined}
                 />
               </div>

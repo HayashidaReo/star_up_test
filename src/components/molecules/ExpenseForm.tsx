@@ -3,7 +3,7 @@ import { Button } from '@/components/atoms/button';
 import { Input } from '@/components/atoms/input';
 import { CurrencySelect } from '@/components/molecules/CurrencySelect';
 import { ParticipantSelect } from '@/components/molecules/ParticipantSelect';
-import { Participant, ExpenseFormData, Currency } from '@/types';
+import { Participant, ExpenseFormData, Currency, CurrencySymbol } from '@/types';
 import { PLACEHOLDERS, MESSAGES } from '@/lib/constants';
 import { validateExpenseSafe } from '@/lib/schemas';
 
@@ -13,6 +13,9 @@ interface ExpenseFormProps {
   formData: ExpenseFormData;
   onFormDataChange: (data: ExpenseFormData) => void;
   onClose: () => void;
+  currencies: CurrencySymbol[];
+  currenciesLoading: boolean;
+  currenciesError: string | null;
 }
 
 /**
@@ -24,6 +27,9 @@ export function ExpenseForm({
   formData,
   onFormDataChange,
   onClose,
+  currencies,
+  currenciesLoading,
+  currenciesError,
 }: ExpenseFormProps) {
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
@@ -122,6 +128,9 @@ export function ExpenseForm({
           onValueChange={(value: Currency) =>
             handleInputChange('currency', value)
           }
+          currencies={currencies}
+          currenciesLoading={currenciesLoading}
+          currenciesError={currenciesError}
         />
         {validationErrors.currency && (
           <p className="text-sm text-red-500">{validationErrors.currency}</p>

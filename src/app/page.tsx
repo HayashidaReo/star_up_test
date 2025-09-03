@@ -1,9 +1,15 @@
+'use client';
+
 import React from 'react';
 import { ParticipantsSection } from '../components/organisms/ParticipantsSection';
 import { ExpensesSection } from '../components/organisms/ExpensesSection';
 import { SettlementSection } from '../components/organisms/SettlementSection';
+import { useCurrency } from '../hooks/useCurrency';
 
 export default function Home() {
+  // ページレベルで通貨データを取得
+  const { currencies, isLoading: currenciesLoading, error: currenciesError } = useCurrency();
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto max-w-4xl px-4">
@@ -23,10 +29,18 @@ export default function Home() {
           <ParticipantsSection />
 
           {/* 費用セクション */}
-          <ExpensesSection />
+          <ExpensesSection 
+            currencies={currencies}
+            currenciesLoading={currenciesLoading}
+            currenciesError={currenciesError}
+          />
 
           {/* 精算結果セクション */}
-          <SettlementSection />
+          <SettlementSection 
+            currencies={currencies}
+            currenciesLoading={currenciesLoading}
+            currenciesError={currenciesError}
+          />
         </div>
       </div>
     </div>
