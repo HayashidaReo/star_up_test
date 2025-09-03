@@ -31,18 +31,13 @@ export class CurrencyApiRepositoryImpl implements CurrencyRepository {
    * @returns Promise<T> - パースされたJSONレスポンス
    */
   private async fetchWithTimeout<T>(url: string): Promise<T> {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), this.timeout);
-
     try {
       const response = await fetch(url, {
-        signal: controller.signal,
+        signal: AbortSignal.timeout(this.timeout),
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
-      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(
@@ -52,7 +47,6 @@ export class CurrencyApiRepositoryImpl implements CurrencyRepository {
 
       return await response.json();
     } catch (error) {
-      clearTimeout(timeoutId);
 
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
