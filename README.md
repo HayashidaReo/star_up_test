@@ -332,14 +332,8 @@ npm run build-storybook
 # ESLintチェック
 npm run lint
 
-# ESLint自動修正
-npm run lint:fix
-
 # Prettierフォーマット
 npm run format
-
-# 型チェック
-npm run type-check
 ```
 
 ## 📚 プロジェクト構成
