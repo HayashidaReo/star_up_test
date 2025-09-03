@@ -1,6 +1,10 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from 'eslint-plugin-storybook';
+import prettier from 'eslint-plugin-prettier';
+
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { FlatCompat } from '@eslint/eslintrc';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,15 +14,31 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends('next/core-web-vitals', 'next/typescript'),
   {
     ignores: [
-      "node_modules/**",
-      ".next/**",
-      "out/**",
-      "build/**",
-      "next-env.d.ts",
+      'node_modules/**',
+      '.next/**',
+      'out/**',
+      'build/**',
+      'next-env.d.ts',
     ],
+  },
+  ...storybook.configs['flat/recommended'],
+  // Prettierとの連携設定
+  {
+    plugins: {
+      prettier: prettier,
+    },
+    rules: {
+      'prettier/prettier': 'error', // Prettierのルールをエラーとして扱う
+      'arrow-body-style': 'off', // Prettierと競合する可能性のあるルールを無効化
+      'prefer-arrow-callback': 'off',
+      // Storybookのルールを調整
+      'storybook/no-renderer-packages': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'react/display-name': 'off',
+    },
   },
 ];
 

@@ -1,0 +1,162 @@
+# .github/workflows/pr-checks.yml
+
+name: Pull Request Checks to Develop
+
+# ワークフローが実行されるタイミングを指定
+on:
+  pull_request:
+    branches: [develop] # developブランチへのプルリクエスト時に実行
+
+# 実行する処理内容
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest # 実行環境
+
+    steps:
+      # 1. リポジトリのコードをチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Node.jsの環境をセットアップ
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.19.0'
+
+      # 3. 依存ライブラリのキャッシュを設定
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # 4. 依存ライブラリをインストール
+      - name: Install dependencies
+        run: npm ci
+
+      # 5. Playwrightのブラウザをキャッシュ
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+
+      # 6. キャッシュが存在しない場合のみPlaywrightをインストール
+      - name: Install Playwright browsers if not cached
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+
+      # 7. コードフォーマットチェックを実行
+      - name: Check Code Formatting
+        id: format-check
+        run: npm run format:check
+
+      # 8. Linterを実行
+      - name: Run Linter
+        id: lint
+        run: npm run lint
+
+      # 9. 関数のテストを実行
+      - name: Run Unit Tests
+        id: test
+        run: npm run test
+        env:
+          # テスト実行時にモック用のAPIキーを設定
+          EXCHANGERATE_API_KEY: 'test_api_key_for_unit_tests'
+
+      # 10. storybookテストを実行
+      - name: Run Storybook Tests
+        id: storybook-test
+        run: npm run test:storybook
+        env:
+          # Storybookテスト実行時にもモック用のAPIキーを設定
+          EXCHANGERATE_API_KEY: 'test_api_key_for_storybook_tests'
+
+      # 11. 結果のサマリーを表示
+      - name: Show Test Results
+        if: always()
+        run: |
+          echo "=== CI/CD Pipeline Results ==="
+          echo "Format Check: ${{ steps.format-check.outcome }}"
+          echo "Linting: ${{ steps.lint.outcome }}"
+          echo "Unit Tests: ${{ steps.test.outcome }}"
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # GitHub SecretsからAPIキーを取得してファイルに保存
+      - name: Create secrets directory and file
+        run: |
+          mkdir -p secrets
+          # テスト用のダミーAPIキーを設定（本番シークレットが無い場合の対応）
+          echo "${{ secrets.EXCHANGERATE_API_KEY || 'test_api_key_for_ci' }}" > secrets/exchangerate_api_key.txt
+          ls -la secrets/
+          echo "シークレットファイルを作成しました"
+
+      # Dockerのビルド環境をセットアップするための公式Action
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 開発用Dockerイメージをビルドしてテスト
+      - name: Build Development Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          target: development
+          push: false
+          tags: local/star_up_test:dev
+          load: true
+          secrets: |
+            exchangerate_api_key=./secrets/exchangerate_api_key.txt
+
+      # 本番用Dockerイメージもビルドしてテスト
+      - name: Build Production Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          target: production
+          push: false
+          tags: local/star_up_test:prod
+          load: true
+          secrets: |
+            exchangerate_api_key=./secrets/exchangerate_api_key.txt
+
+      # 動作確認：コンテナが正常に起動するかテスト
+      - name: Test container startup
+        run: |
+          echo "=== コンテナ起動テスト ==="
+
+          # ビルドされたイメージが存在するか確認
+          if docker images | grep local/star_up_test; then
+            echo "✅ Dockerイメージが正常にビルドされました"
+            docker images | grep local/star_up_test
+          else
+            echo "❌ Dockerイメージのビルドに失敗しました"
+            exit 1
+          fi
+
+          # 開発用コンテナのテスト（よりシンプルなテスト）
+          echo "開発用コンテナをテストします..."
+          if timeout 30s docker run --rm --name test-dev local/star_up_test:dev echo "Container started successfully"; then
+            echo "✅ 開発用コンテナが正常に起動しました"
+          else
+            echo "❌ 開発用コンテナの起動に失敗しました"
+            # エラーログを取得（存在する場合）
+            docker logs test-dev 2>/dev/null || echo "ログを取得できませんでした"
+            exit 1
+          fi
+
+      # シークレットファイルを削除（セキュリティ対策）
+      - name: Clean up secrets
+        if: always()
+        run: |
+          rm -rf secrets/
+          echo "✅ 一時的なシークレットファイルを削除しました"
