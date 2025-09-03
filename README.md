@@ -32,229 +32,346 @@ Next.js 15とTypeScriptで構築された、リアルタイム通貨換算機能
 
 ## 🚀 セットアップ手順
 
-### 1. 環境変数の設定
+### 前提条件
 
-プロジェクトルートに `.env` ファイルを作成し、以下の形式でAPIキーを設定してください：
+以下のソフトウェアがインストールされている必要があります：
 
-```bash
-# .env - 本番・開発環境
-EXCHANGERATE_API_KEY=your_api_key_here
+- **Node.js**: v18.0.0 以上 ([公式サイト](https://nodejs.org/))
+- **npm**: v8.0.0 以上（Node.jsに同梱）
+- **Docker**: 最新版（Dockerを使用する場合）
+- **Docker Compose**: v2.0 以上（Dockerを使用する場合）
+- **Git**: 最新版
 
-# オプション: モック環境を強制する場合
-FORCE_MOCK_API=true
-```
+### 🎯 クイックスタート（初めての方向け）
 
-#### 環境変数の詳細
-
-| 変数名 | 必須 | 説明 |
-|--------|------|------|
-| `EXCHANGERATE_API_KEY` | 本番・開発時 | ExchangeRate.host APIのアクセスキー |
-| `FORCE_MOCK_API` | オプション | `true`に設定するとモックデータを使用 |
-
-**APIキーの取得方法**:
-1. [ExchangeRate.host](https://exchangerate.host/) にアクセス
-2. 無料アカウントを作成
-3. APIキーを取得
-4. 上記の `your_api_key_here` を実際のAPIキーに置き換え
-
-**モック環境について**:
-- `FORCE_MOCK_API=true` を設定するとAPIキーなしで動作します
-- 開発初期やオフライン環境での作業に便利です
-- Storybookとテスト環境では自動的にモックが使用されます
-
-### 2. ローカル開発環境
-
-#### Node.js環境での実行
+プロジェクトをクローンして即座に動かすには：
 
 ```bash
-# 依存関係のインストール
+# 1. リポジトリをクローン
+git clone https://github.com/HayashidaReo/star_up_test.git
+cd star_up_test
+
+# 2. 依存関係をインストール
 npm install
 
-# 開発サーバーの起動
-npm run dev
+# 3. モック環境で即座に起動（APIキー不要）
+npm run dev:mock
 ```
 
-アプリケーションは http://localhost:3000 で起動します。
+これで http://localhost:3000 でアプリケーションが利用できます。
 
-#### Docker環境での実行
+### 📋 詳細セットアップ
+
+#### Step 1: プロジェクトのクローン
 
 ```bash
-# 開発用コンテナの起動
+git clone https://github.com/HayashidaReo/star_up_test.git
+cd star_up_test
+```
+
+#### Step 2: 依存関係のインストール
+
+```bash
+npm install
+```
+
+#### Step 3: 環境設定（2つの方法）
+
+##### 🎭 方法A: モック環境（推奨・初回セットアップ時）
+
+APIキーを取得する前に、まずモック環境でアプリケーションを試すことができます：
+
+```bash
+# モック環境で開発サーバーを起動
+npm run dev:mock
+```
+
+**モック環境の特徴:**
+- ✅ APIキー不要
+- ✅ 即座に動作確認可能
+- ✅ 14種類の主要通貨のテストデータ
+- ✅ ネットワーク接続不要
+
+##### 🌐 方法B: 実際のAPI環境
+
+実際の為替レートデータを使用する場合：
+
+**1. APIキーを取得**
+1. [ExchangeRate.host](https://exchangerate.host/) にアクセス
+2. 無料アカウントを作成
+3. APIキーをコピー
+
+**2. 環境ファイルを設定**
+
+**Option 1: .envファイル（推奨）**
+```bash
+# プロジェクトルートに .env ファイルを作成
+echo "EXCHANGERATE_API_KEY=your_actual_api_key_here" > .env
+```
+
+**2. Docker Secrets（Docker使用時）**
+```bash
+# secretsディレクトリにAPIキーファイルを作成
+echo "your_actual_api_key_here" > secrets/exchangerate_api_key.txt
+```
+
+#### Step 4: アプリケーションの起動
+
+##### 🖥️ ローカル開発（Node.js）
+
+```bash
+# 通常の開発モード（.envのAPIキーを使用）
+npm run dev
+
+# モック環境（APIキー不要）
+npm run dev:mock
+
+# 環境変数を直接指定
+FORCE_MOCK_API=true npm run dev
+```
+
+##### 🐳 Docker環境
+
+```bash
+# 開発環境（Docker Secrets使用）
+npm run docker:dev
+# または
 docker compose up dev
 
-# または、デタッチモードで起動
+# 本番環境
+docker compose up prod
+
+# バックグラウンド実行
 docker compose up -d dev
 ```
 
-アプリケーションは http://localhost:3000 で起動します。
+#### Step 5: 動作確認
 
-### 3. モック環境での実行
+ブラウザで http://localhost:3000 にアクセスして、以下を確認：
 
-APIキーを設定せずに、モックデータを使用してアプリケーションを動作させることができます。
+1. ✅ 参加者を追加できる
+2. ✅ 費用を登録できる
+3. ✅ 通貨選択ドロップダウンが表示される
+4. ✅ 精算結果が計算される
 
-#### モック環境での起動方法
+### 🔧 環境設定の詳細
 
-**方法1: 専用スクリプトを使用（最も簡単）**
+#### 環境変数一覧
+
+| 変数名                 | 必須         | デフォルト    | 説明                                            |
+| ---------------------- | ------------ | ------------- | ----------------------------------------------- |
+| `EXCHANGERATE_API_KEY` | 本番・開発時 | なし          | ExchangeRate.host APIのアクセスキー             |
+| `FORCE_MOCK_API`       | オプション   | `false`       | `true`に設定するとモックデータを使用            |
+| `NODE_ENV`             | オプション   | `development` | 実行環境（`development`, `production`, `test`） |
+
+#### 設定ファイルの優先順位
+
+1. **コマンドライン環境変数** （最優先）
+   ```bash
+   FORCE_MOCK_API=true npm run dev
+   ```
+
+2. **.env** （プロジェクトルート、gitignoreされる）
+   ```bash
+   EXCHANGERATE_API_KEY=your_key_here
+   FORCE_MOCK_API=false
+   ```
+
+3. **.env** （共有用、gitで管理される）
+   ```bash
+   EXCHANGERATE_API_KEY=your_key_here
+   ```
+
+4. **Docker Secrets** （Docker環境用）
+   ```
+   secrets/exchangerate_api_key.txt
+   ```
+
+#### トラブルシューティング
+
+**問題: 通貨データが取得できない**
 ```bash
-# モック環境専用のスクリプトを実行
+# 環境変数を確認
+echo $EXCHANGERATE_API_KEY
+
+# モック環境で動作確認
 npm run dev:mock
+
+# ログを確認（Network タブで API レスポンスを確認）
 ```
 
-**方法2: コマンドラインで環境変数を指定**
+**問題: Dockerコンテナが起動しない**
 ```bash
-# 環境変数でモックを強制指定
-FORCE_MOCK_API=true npm run dev
-```
-**方法3: .envファイルで設定**
-プロジェクトルートの`.env`ファイルに以下を追加：
-```bash
-# .env
-FORCE_MOCK_API=true
-```
+# secretsファイルの存在確認
+ls -la secrets/
 
-**方法4: .env.localファイルで設定（推奨）**
+# ファイル内容を確認（開発環境でのみ）
+cat secrets/exchangerate_api_key.txt
 
-**方法3: .env.localファイルで設定（推奨）**
-プロジェクトルートに`.env.local`ファイルを作成：
-```bash
-# .env.local（gitignoreされるため安全）
-FORCE_MOCK_API=true
+# Docker Composeログを確認
+docker compose logs dev
 ```
 
-**注意**: 
-- コマンドライン指定（方法1）が最も確実です
-- `.env.local`ファイルは`.env`ファイルより優先されます
-- 環境変数が反映されない場合は、開発サーバーを再起動してください
-
-#### モック環境の特徴
-
-- **APIキー不要**: ExchangeRate.host APIを使用せず、モックデータを返します
-- **開発効率**: ネットワーク遅延なしで即座にレスポンスを取得
-- **オフライン開発**: インターネット接続なしでも動作
-- **テストデータ**: 14種類の主要通貨のモックデータを提供
-
-#### 利用可能なモック通貨
-
-- JPY (日本円)
-- USD (米ドル)
-- EUR (ユーロ)
-- GBP (英ポンド)
-- AUD (豪ドル)
-- CAD (加ドル)
-- CHF (スイスフラン)
-- CNY (中国元)
-- KRW (韓国ウォン)
-- SGD (シンガポールドル)
-- HKD (香港ドル)
-- INR (インドルピー)
-- THB (タイバーツ)
-- MXN (メキシコペソ)
-
-### 4. 本番環境
-
+**問題: 環境変数が反映されない**
 ```bash
-# 本番用ビルドとコンテナ起動
-docker compose up prod
+# 開発サーバーを完全に再起動
+# Ctrl+C で停止後、再度起動
 
-# または、デタッチモードで起動
-docker compose up -d prod
-```
+# Next.jsのキャッシュをクリア
+rm -rf .next
 
-## 📝 利用可能なスクリプト
-
-```bash
-# 開発サーバー起動
+# 再起動
 npm run dev
+```
 
-# モック環境での開発サーバー起動
-npm run dev:mock
+## 📋 よくある質問（FAQ）
 
-# または環境変数で指定
-FORCE_MOCK_API=true npm run dev
+### Q: APIキーを取得せずにアプリケーションを試したい
+**A:** `npm run dev:mock` を実行してください。モック環境でAPIキーなしで動作します。
 
-# 本番ビルド
-npm run build
+### Q: Docker環境と通常環境の違いは？
+**A:** 
+- **通常環境**: `.env`ファイルのAPIキーを使用
+- **Docker環境**: `secrets/exchangerate_api_key.txt`ファイルのAPIキーを使用（よりセキュア）
 
-# 本番サーバー起動
-npm start
+### Q: 環境変数が正しく読み込まれているか確認したい
+**A:** ブラウザの開発者ツール > Network タブでAPIリクエストを確認してください。
 
-# テスト実行
-npm test
+### Q: 本番環境でもモックデータを使用したい
+**A:** `FORCE_MOCK_API=true`を環境変数に設定してください。
 
-# テスト（ウォッチモード）
+### Q: テストが失敗する場合は？
+**A:** 
+1. 依存関係を再インストール: `npm ci`
+2. キャッシュをクリア: `npm run test -- --clearCache`
+3. Node.jsバージョンを確認: Node.js 18以上が必要
+
+## 🔧 トラブルシューティング
+
+### 一般的な問題と解決方法
+
+#### 1. 環境変数が読み込まれない
+```bash
+# 開発サーバーを完全に停止
+Ctrl+C
+
+# プロセスが残っている場合は強制終了
+pkill -f "next"
+
+# 再起動
+npm run dev
+```
+
+#### 2. APIリクエストが失敗する
+- APIキーが正しく設定されているか確認
+- ExchangeRate.host のAPIキークォータを確認
+- ネットワーク接続を確認
+- モック環境での動作確認: `npm run dev:mock`
+
+#### 3. Docker関連の問題
+```bash
+# Dockerコンテナとイメージを完全にクリーンアップ
+docker compose down --rmi all --volumes --remove-orphans
+
+# 再ビルド
+docker compose build
+
+# 再起動
+docker compose up dev
+```
+
+#### 4. パッケージのインストール問題
+```bash
+# node_modulesとpackage-lock.jsonを削除
+rm -rf node_modules package-lock.json
+
+# 依存関係を再インストール
+npm install
+```
+
+#### 5. ポート3000が使用中の場合
+```bash
+# ポートを使用中のプロセスを確認
+lsof -ti:3000
+
+# プロセスを停止（PIDを取得後）
+kill -9 <PID>
+
+# または、別のポートで起動
+PORT=3001 npm run dev
+```
+
+## 📊 開発・テスト・品質管理
+
+### テスト実行
+
+```bash
+# 全テスト実行
+npm run test
+
+# ウォッチモードでテスト実行
 npm run test:watch
 
-# Storybook起動
+# カバレッジレポート生成
+npm run test:coverage
+```
+
+### Storybook
+
+```bash
+# Storybook起動（開発用）
 npm run storybook
 
 # Storybookビルド
 npm run build-storybook
+```
 
-# リンター実行
+### リンティング・フォーマット
+
+```bash
+# ESLintチェック
 npm run lint
 
-# コードフォーマット
+# ESLint自動修正
+npm run lint:fix
+
+# Prettierフォーマット
 npm run format
 
 # 型チェック
 npm run type-check
 ```
 
-## 🐳 Docker コマンド
-
-```bash
-# 開発環境
-docker compose up dev          # フォアグラウンド実行
-docker compose up -d dev       # バックグラウンド実行
-
-# 本番環境
-docker compose up prod         # フォアグラウンド実行
-docker compose up -d prod      # バックグラウンド実行
-
-# コンテナ停止
-docker compose down
-
-# イメージ再ビルド
-docker compose build dev       # 開発用
-docker compose build prod      # 本番用
-```
-
-## 📁 プロジェクト構造
+## 📚 プロジェクト構成
 
 ```
 src/
-├── app/                      # Next.js App Router
-│   ├── api/                  # APIルート
-│   ├── globals.css           # グローバルスタイル
-│   ├── layout.tsx           # ルートレイアウト
-│   └── page.tsx             # ホームページ
-├── components/              # UIコンポーネント
-│   ├── atoms/               # 基本コンポーネント
-│   ├── molecules/           # 複合コンポーネント
-│   ├── organisms/           # 複雑なコンポーネント
-│   └── templates/           # ページテンプレート
-├── domain/                  # ビジネスロジック
-├── repository/              # データアクセス抽象化
-├── data/                    # API実装
-├── hooks/                   # カスタムフック
-├── lib/                     # ユーティリティ
-├── store/                   # 状態管理
-├── types/                   # 型定義
-└── stories/                 # Storybook
+├── app/           # Next.js App Routerページ
+├── components/    # UIコンポーネント（Atomic Design）
+├── domain/        # ビジネスロジック層
+├── repository/    # データアクセス層
+├── data/          # データソース実装
+├── hooks/         # カスタムReactフック
+├── lib/           # ユーティリティ関数
+├── store/         # 状態管理（Zustand）
+├── types/         # TypeScript型定義
+└── stories/       # Storybookストーリー
 ```
 
-## 🧪 テスト
+### Docker本番環境
 
 ```bash
-# 全テスト実行
-npm test
+# 本番用イメージビルド
+docker compose -f docker-compose.yml build prod
 
-# 特定ファイルのテスト
-npm test -- ConvertCurrencyUseCase
-
-# カバレッジ付きテスト
-npm run test:coverage
+# 本番環境起動
+docker compose -f docker-compose.yml up -d prod
 ```
+
+## 📧 サポート
+
+質問やバグ報告は、GitHubのIssuesをご利用ください。
+
 
 ## 📖 API仕様
 
