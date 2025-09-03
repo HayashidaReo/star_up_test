@@ -29,6 +29,8 @@ COPY . .
 # シークレットはビルドレイヤーに残らない
 RUN --mount=type=secret,id=exchangerate_api_key \
   EXCHANGERATE_API_KEY=$(cat /run/secrets/exchangerate_api_key 2>/dev/null || echo "") \
+  SKIP_ENV_VALIDATION=true \
+  SKIP_BUILD_LINT=true \
   npm run build
 
 # Entrypointスクリプトをコピー

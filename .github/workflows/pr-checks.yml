@@ -63,11 +63,17 @@ jobs:
       - name: Run Unit Tests
         id: test
         run: npm run test
+        env:
+          # テスト実行時にモック用のAPIキーを設定
+          EXCHANGERATE_API_KEY: "test_api_key_for_unit_tests"
 
       # 10. storybookテストを実行
       - name: Run Storybook Tests
         id: storybook-test
         run: npm run test:storybook
+        env:
+          # Storybookテスト実行時にもモック用のAPIキーを設定
+          EXCHANGERATE_API_KEY: "test_api_key_for_storybook_tests"
 
       # 11. 結果のサマリーを表示
       - name: Show Test Results
@@ -84,16 +90,61 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # GitHub SecretsからAPIキーを取得してファイルに保存
+      - name: Create secrets directory and file
+        run: |
+          mkdir -p secrets
+          echo "${{ secrets.EXCHANGERATE_API_KEY }}" > secrets/exchangerate_api_key.txt
+        env:
+          EXCHANGERATE_API_KEY: ${{ secrets.EXCHANGERATE_API_KEY }}
+
       # Dockerのビルド環境をセットアップするための公式Action
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Dockerイメージをビルドする公式Action
-      - name: Build Docker image
+      # 開発用Dockerイメージをビルドしてテスト
+      - name: Build Development Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
-          # push: false にすることで、ビルドのみ実行し、どこにもプッシュしない
+          target: development
           push: false
-          tags: local/star_up_test:latest
+          tags: local/star_up_test:dev
+          secrets: |
+            exchangerate_api_key=secrets/exchangerate_api_key.txt
+
+      # 本番用Dockerイメージもビルドしてテスト
+      - name: Build Production Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          target: production
+          push: false
+          tags: local/star_up_test:prod
+          secrets: |
+            exchangerate_api_key=secrets/exchangerate_api_key.txt
+
+      # 動作確認：コンテナが正常に起動するかテスト
+      - name: Test container startup
+        run: |
+          echo "=== コンテナ起動テスト ==="
+          # 開発用コンテナのテスト
+          docker run --rm -d --name test-dev local/star_up_test:dev &
+          sleep 5
+          if docker ps | grep test-dev; then
+            echo "✅ 開発用コンテナが正常に起動しました"
+            docker stop test-dev
+          else
+            echo "❌ 開発用コンテナの起動に失敗しました"
+            docker logs test-dev || true
+            exit 1
+          fi
+
+      # シークレットファイルを削除（セキュリティ対策）
+      - name: Clean up secrets
+        if: always()
+        run: |
+          rm -rf secrets/
+          echo "✅ 一時的なシークレットファイルを削除しました"
