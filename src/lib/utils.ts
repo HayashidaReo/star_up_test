@@ -106,12 +106,10 @@ export function formatCurrencyAmount(
     : processedAmount.toLocaleString('en-US');
 
   if (isMajor) {
-    // 主要通貨: 記号 + 数値
-    return compact
-      ? `${symbol}${formattedAmount}`
-      : `${symbol} ${formattedAmount}`;
+    // 主要通貨: 記号 + 数値（常にスペースなし）
+    return `${symbol}${formattedAmount}`;
   } else {
-    // その他通貨: コード + 数値
+    // その他通貨: コード + 数値（compactに応じてスペース調整）
     return compact
       ? `${symbol}${formattedAmount}`
       : `${symbol} ${formattedAmount}`;
