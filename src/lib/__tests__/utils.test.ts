@@ -144,7 +144,9 @@ describe('utils', () => {
   describe('formatCurrencyOption', () => {
     it('should format currency code and description correctly', () => {
       expect(formatCurrencyOption('USD', 'US Dollar')).toBe('USD - US Dollar');
-      expect(formatCurrencyOption('JPY', 'Japanese Yen')).toBe('JPY - Japanese Yen');
+      expect(formatCurrencyOption('JPY', 'Japanese Yen')).toBe(
+        'JPY - Japanese Yen',
+      );
       expect(formatCurrencyOption('EUR', 'Euro')).toBe('EUR - Euro');
     });
 
@@ -153,7 +155,9 @@ describe('utils', () => {
     });
 
     it('should handle special characters in description', () => {
-      expect(formatCurrencyOption('USD', 'United States Dollar (USD)')).toBe('USD - United States Dollar (USD)');
+      expect(formatCurrencyOption('USD', 'United States Dollar (USD)')).toBe(
+        'USD - United States Dollar (USD)',
+      );
     });
   });
 });

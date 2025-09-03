@@ -128,6 +128,9 @@ export function calculateBasicTotalAmount(
 /**
  * 通貨選択肢の表示フォーマットを生成する関数
  */
-export function formatCurrencyOption(code: string, description: string): string {
+export function formatCurrencyOption(
+  code: string,
+  description: string,
+): string {
   return `${code} - ${description}`;
 }

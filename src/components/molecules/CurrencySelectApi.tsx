@@ -56,7 +56,10 @@ export function CurrencySelectApi({
       </SelectTrigger>
       <SelectContent>
         {currencies.map((currency) => {
-          const displayText = formatCurrencyOption(currency.code, currency.description);
+          const displayText = formatCurrencyOption(
+            currency.code,
+            currency.description,
+          );
           return (
             <SelectItem
               key={currency.code}
