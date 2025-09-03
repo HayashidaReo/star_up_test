@@ -2,11 +2,17 @@
  * アプリケーション全体で使用する定数
  */
 
-// 通貨の種類
+// 通貨の種類（CURRENCY_SYMBOLSと同期）
 export const CURRENCIES = {
-  JPY: 'JPY',
   USD: 'USD',
   EUR: 'EUR',
+  JPY: 'JPY',
+  GBP: 'GBP',
+  CAD: 'CAD',
+  AUD: 'AUD',
+  CHF: 'CHF',
+  CNY: 'CNY',
+  KRW: 'KRW',
 } as const;
 
 // 主要通貨の記号マッピング（世界的に認識度の高い通貨）

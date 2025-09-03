@@ -36,17 +36,6 @@ export function generateId(): string {
 }
 
 /**
- * 通貨記号を取得する関数
- * @deprecated use formatCurrencyAmount instead
- */
-export function getCurrencySymbol(currency: string): string {
-  return (
-    CURRENCY_SYMBOLS[currency as keyof typeof CURRENCY_SYMBOLS] ||
-    CURRENCY_SYMBOLS[CURRENCIES.JPY]
-  );
-}
-
-/**
  * 通貨が主要通貨かどうかを判定する関数
  */
 export function isMajorCurrency(currency: string): boolean {
@@ -85,27 +74,6 @@ export function getInitials(name: string): string {
 }
 
 /**
- * 金額をフォーマットする関数
- * 主要通貨は記号、その他はISO 4217コードで表示
- */
-export function formatAmount(
-  amount: number,
-  currency: string = CURRENCIES.JPY,
-): string {
-  const { symbol, isMajor } = getCurrencyDisplayFormat(currency);
-  const roundedAmount = Math.round(amount);
-  const formattedNumber = roundedAmount.toLocaleString();
-  
-  if (isMajor) {
-    // 主要通貨: 記号 + 数値 (例: $1,000, ¥1,000)
-    return `${symbol}${formattedNumber}`;
-  } else {
-    // その他通貨: コード + 数値 (例: ZMW 1,000, TZS 1,000)
-    return `${symbol} ${formattedNumber}`;
-  }
-}
-
-/**
  * 通貨表示用のフォーマット関数（より柔軟）
  * 精算結果や詳細表示で使用
  */
@@ -117,16 +85,25 @@ export function formatCurrencyAmount(
     compact?: boolean;
   }
 ): string {
-  const { showDecimals = false, compact = false } = options || {};
+  const { compact = false } = options || {};
   const { symbol, isMajor } = getCurrencyDisplayFormat(currency);
   
-  let formattedAmount: number | string = showDecimals 
+  // デフォルトの小数点表示を通貨に応じて決定
+  let { showDecimals } = options || {};
+  if (showDecimals === undefined) {
+    // JPYとKRWは通常整数表示、その他は小数点2桁
+    showDecimals = !['JPY', 'KRW'].includes(currency);
+  }
+  
+  // 数値の処理
+  const processedAmount = showDecimals 
     ? Math.round(amount * 100) / 100 
     : Math.round(amount);
-    
-  if (typeof formattedAmount === 'number') {
-    formattedAmount = formattedAmount.toLocaleString();
-  }
+  
+  // フォーマット
+  const formattedAmount = showDecimals 
+    ? processedAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    : processedAmount.toLocaleString('en-US');
   
   if (isMajor) {
     // 主要通貨: 記号 + 数値

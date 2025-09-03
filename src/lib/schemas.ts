@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CURRENCIES } from './constants';
+import { CURRENCY_SYMBOLS } from './constants';
 
 // 参加者スキーマ
 export const participantSchema = z.object({
@@ -41,8 +41,11 @@ export const expenseSchema = z.object({
   currency: z
     .string()
     .refine(
-      (val): val is string =>
-        (Object.values(CURRENCIES) as string[]).includes(val),
+      (val): val is string => {
+        // CURRENCY_SYMBOLSのキーまたは3桁の通貨コードを受け入れる
+        const majorCurrencies = Object.keys(CURRENCY_SYMBOLS);
+        return majorCurrencies.includes(val) || /^[A-Z]{3}$/.test(val);
+      },
       {
         message: '有効な通貨を選択してください',
       },

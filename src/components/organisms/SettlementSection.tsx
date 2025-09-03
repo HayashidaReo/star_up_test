@@ -20,7 +20,7 @@ import {
 } from '@/store/useAppStore';
 import { useSettlementWithCurrency } from '@/hooks/useCurrency';
 import { MESSAGES } from '@/lib/constants';
-import { formatAmount, formatCurrencyAmount } from '@/lib/utils';
+import { formatCurrencyAmount } from '@/lib/utils';
 import { CurrencySymbol } from '@/types';
 
 interface SettlementSectionProps {
