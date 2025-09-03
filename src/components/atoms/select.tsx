@@ -129,7 +129,7 @@ const SelectItem = React.forwardRef<
       </SelectPrimitive.ItemIndicator>
     </span>
     <SelectPrimitive.ItemText asChild>
-      <span className="block overflow-hidden truncate text-ellipsis whitespace-nowrap pr-2">
+      <span className="block truncate pr-2">
         {children}
       </span>
     </SelectPrimitive.ItemText>
