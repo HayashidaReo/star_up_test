@@ -26,12 +26,16 @@ export function ParticipantSelect({
 }: ParticipantSelectProps) {
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger>
+      <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
         {participants.map((participant) => (
-          <SelectItem key={participant.id} value={participant.id}>
+          <SelectItem
+            key={participant.id}
+            value={participant.id}
+            title={participant.name}
+          >
             {participant.name}
           </SelectItem>
         ))}

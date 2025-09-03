@@ -4,9 +4,9 @@ import {
   getInitials,
   formatCurrencyAmount,
   getCurrencyDisplayFormat,
-  isValidString,
-  isValidNumber,
+  formatCurrencyOption,
 } from '../utils';
+import { isValidString, isValidNumberIncludingZero } from '../schemas';
 import { CURRENCIES } from '../constants';
 
 describe('utils', () => {
@@ -125,19 +125,39 @@ describe('utils', () => {
     });
   });
 
-  describe('isValidNumber', () => {
+  describe('isValidNumberIncludingZero', () => {
     it('should return true for valid numbers', () => {
-      expect(isValidNumber(100)).toBe(true);
-      expect(isValidNumber(0)).toBe(true);
-      expect(isValidNumber('100')).toBe(true);
-      expect(isValidNumber('0')).toBe(true);
+      expect(isValidNumberIncludingZero(100)).toBe(true);
+      expect(isValidNumberIncludingZero(0)).toBe(true);
+      expect(isValidNumberIncludingZero('100')).toBe(true);
+      expect(isValidNumberIncludingZero('0')).toBe(true);
     });
 
     it('should return false for invalid numbers', () => {
-      expect(isValidNumber(-1)).toBe(false);
-      expect(isValidNumber('')).toBe(false);
-      expect(isValidNumber('abc')).toBe(false);
-      expect(isValidNumber(NaN)).toBe(false);
+      expect(isValidNumberIncludingZero(-1)).toBe(false);
+      expect(isValidNumberIncludingZero('')).toBe(false);
+      expect(isValidNumberIncludingZero('abc')).toBe(false);
+      expect(isValidNumberIncludingZero(NaN)).toBe(false);
+    });
+  });
+
+  describe('formatCurrencyOption', () => {
+    it('should format currency code and description correctly', () => {
+      expect(formatCurrencyOption('USD', 'US Dollar')).toBe('USD - US Dollar');
+      expect(formatCurrencyOption('JPY', 'Japanese Yen')).toBe(
+        'JPY - Japanese Yen',
+      );
+      expect(formatCurrencyOption('EUR', 'Euro')).toBe('EUR - Euro');
+    });
+
+    it('should handle empty description', () => {
+      expect(formatCurrencyOption('USD', '')).toBe('USD - ');
+    });
+
+    it('should handle special characters in description', () => {
+      expect(formatCurrencyOption('USD', 'United States Dollar (USD)')).toBe(
+        'USD - United States Dollar (USD)',
+      );
     });
   });
 });

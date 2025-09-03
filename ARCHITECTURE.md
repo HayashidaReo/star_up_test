@@ -1,6 +1,3 @@
-# 指示
-あなたは、GitHub Copilotのエキスパートです。これから開発する新機能について、タスクをステップごとに分割し、具体的な実装をサポートしてください。
-
 # コンテキスト
 現在、「旅行費用割り勘精算アプリケーション」を開発しています。
 **目的:** アプリケーション内で通貨換算機能を追加し、ユーザーが複数の通貨で支払った費用を任意の通貨で精算できるようにすること。
@@ -14,8 +11,8 @@
 以下のAPIを利用して、通貨に関する機能を実装してください。
 **APIドキュメント:** https://exchangerate.host/documentation
 **エンドポイント:**
-- 通貨リストの取得: `https://api.exchangerate.host/symbols`
-- 為替レートの取得: `https://api.exchangerate.host/latest`
+- 通貨リストの取得: `https://api.exchangerate.host/list`
+- 為替レートの取得: `https://api.exchangerate.host/live`
 
 # タスク詳細
 1. **アーキテクチャの定義:**

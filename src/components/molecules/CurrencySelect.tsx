@@ -7,6 +7,7 @@ import {
   SelectValue,
 } from '../atoms/select';
 import { CURRENCIES } from '@/lib/constants';
+import { formatCurrencyOption } from '@/lib/utils';
 import { Currency, CurrencySymbol } from '@/types';
 
 interface CurrencySelectProps {
@@ -58,15 +59,25 @@ export function CurrencySelect({
 
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger>
+      <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
-        {availableCurrencies.map((currency) => (
-          <SelectItem key={currency.code} value={currency.code}>
-            {currency.code} - {currency.description}
-          </SelectItem>
-        ))}
+        {availableCurrencies.map((currency) => {
+          const displayText = formatCurrencyOption(
+            currency.code,
+            currency.description,
+          );
+          return (
+            <SelectItem
+              key={currency.code}
+              value={currency.code}
+              title={displayText}
+            >
+              {displayText}
+            </SelectItem>
+          );
+        })}
       </SelectContent>
     </Select>
   );
