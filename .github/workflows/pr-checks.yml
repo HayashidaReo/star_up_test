@@ -133,7 +133,7 @@ jobs:
       - name: Test container startup
         run: |
           echo "=== コンテナ起動テスト ==="
-          
+
           # ビルドされたイメージが存在するか確認
           if docker images | grep local/star_up_test; then
             echo "✅ Dockerイメージが正常にビルドされました"
@@ -142,7 +142,7 @@ jobs:
             echo "❌ Dockerイメージのビルドに失敗しました"
             exit 1
           fi
-          
+
           # 開発用コンテナのテスト（よりシンプルなテスト）
           echo "開発用コンテナをテストします..."
           if timeout 30s docker run --rm --name test-dev local/star_up_test:dev echo "Container started successfully"; then
