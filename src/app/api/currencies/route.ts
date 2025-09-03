@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const API_KEY = '1cd90337a4ba5725353fe3d4cf0a6afd';
+const API_KEY = process.env.EXCHANGERATE_API_KEY;
 const BASE_URL = 'https://api.exchangerate.host';
 
 /**
@@ -9,6 +9,10 @@ const BASE_URL = 'https://api.exchangerate.host';
  */
 export async function GET() {
   try {
+    if (!API_KEY) {
+      throw new Error('API Key が設定されていません');
+    }
+
     const response = await fetch(`${BASE_URL}/list?access_key=${API_KEY}`, {
       headers: {
         'Content-Type': 'application/json',
